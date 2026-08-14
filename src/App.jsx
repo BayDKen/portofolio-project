@@ -12,9 +12,10 @@ const OP_ZORO = "/logpose.jpg"; // Generated 3D Log Pose
 
 const SectionHeader = ({ num, title }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 20 }}
+    initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ type: "spring", stiffness: 100, damping: 20 }}
     style={{ display: 'flex', alignItems: 'baseline', gap: '16px', marginBottom: '48px' }}
   >
     <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.05em' }}>{num}</span>
@@ -57,6 +58,19 @@ export default function App() {
 
   return (
     <div className="container">
+      {/* Floating Glassmorphic Navbar */}
+      <motion.nav 
+        className="glass-nav"
+        initial={{ y: -100, x: '-50%', opacity: 0 }}
+        animate={{ y: 0, x: '-50%', opacity: 1 }}
+        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.5 }}
+      >
+        <a href="#home">Home</a>
+        <a href="#case-studies">Log Pose</a>
+        <a href="#side-projects">Bounties</a>
+        <a href="#about">About</a>
+      </motion.nav>
+
       {/* Hero Section */}
       <section style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', paddingTop: 0, position: 'relative' }}>
         <div className="glow-orb"></div>
@@ -144,11 +158,11 @@ export default function App() {
           
           <motion.a 
             href="https://imagify-tools.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20 }}
             onMouseEnter={() => setHoveredProject('imagify')}
             onMouseLeave={() => setHoveredProject(null)}
-            style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '12px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ y: -5, borderColor: 'var(--accent)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column' }}
+            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
           >
             <h3>Imagify Tools</h3>
             <p style={{ flexGrow: 1, margin: '16px 0' }}>A web-based image manipulation and optimization tool, designed for seamless user interaction.</p>
@@ -157,11 +171,11 @@ export default function App() {
 
           <motion.a 
             href="https://claymorphisme.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
             onMouseEnter={() => setHoveredProject('clay')}
             onMouseLeave={() => setHoveredProject(null)}
-            style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '12px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ y: -5, borderColor: 'var(--accent)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column' }}
+            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
           >
             <h3>Claymorphism UI</h3>
             <p style={{ flexGrow: 1, margin: '16px 0' }}>An exploration of the claymorphism design trend, featuring soft, 3D UI components.</p>
