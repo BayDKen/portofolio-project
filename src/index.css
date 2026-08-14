@@ -6,6 +6,7 @@
   --accent: #F59E0B;
   --card-bg: #0F172A;
   --border-color: #1E293B;
+  --grid-line: rgba(255, 255, 255, 0.03);
 }
 
 * {
@@ -26,52 +27,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-}
-
-/* Glassmorphic Navbar */
-.glass-nav {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 12px 24px;
-  border-radius: 100px;
-  z-index: 100;
-  display: flex;
-  gap: 24px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-.glass-nav a {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color 0.3s ease;
-}
-
-.glass-nav a:hover {
-  color: var(--text-main);
+  /* Faint grid background similar to Dewa Kayika's */
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center top;
 }
 
 /* Container */
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 40px;
 }
 
 /* Typography */
 h1, h2, h3 {
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: var(--text-main); }
+h1 { font-size: clamp(3rem, 7vw, 5.5rem); margin-bottom: 1.5rem; color: var(--text-main); }
 h2 { font-size: 2rem; margin-bottom: 2rem; color: var(--text-main); }
 h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main); }
 
@@ -94,23 +71,104 @@ section {
 }
 section:last-child { border-bottom: none; }
 
-/* Glowing Elements */
-.glow-text {
-  text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+/* Top Navbar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 0;
+  margin-bottom: 40px;
 }
 
-.glow-orb {
+.nav-brand {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--text-main);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-links a {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Hero Section Layout */
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  min-height: 70vh;
+}
+
+.hero-left {
+  flex: 1;
+  max-width: 800px;
+}
+
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 200px;
+  position: relative;
+}
+
+.greeting {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.hero-quote {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  line-height: 1.7;
+}
+
+.hero-quote strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.hero-quote span.author {
+  display: block;
+  margin-top: 12px;
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Profile Badge */
+.profile-badge-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.circular-text {
   position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(11,17,32,0) 70%);
+  top: -20px;
+  left: -20px;
+  width: 190px;
+  height: 190px;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  filter: blur(40px);
+  object-fit: cover;
+  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
 /* Button Links */
@@ -169,3 +227,18 @@ section:last-child { border-bottom: none; }
   cursor: pointer;
 }
 .modal-close:hover { color: var(--text-main); }
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-right {
+    margin-top: 40px;
+  }
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
