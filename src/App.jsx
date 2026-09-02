@@ -467,17 +467,17 @@ export default function App() {
             
             <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Magnetic>
-                <a href="mailto:hello@example.com" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '600', color: 'var(--bg-color)', background: 'var(--accent)', border: 'none', cursor: 'none' }}>
+                <a href="mailto:niskenaditrisnab@gmail.com" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '600', color: 'var(--bg-color)', background: 'var(--accent)', border: 'none', cursor: 'none' }}>
                   Send an Email
                 </a>
               </Magnetic>
               <Magnetic>
-                <a href="#" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
+                <a href="https://www.linkedin.com/in/niskenaditrisnabayu97/" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
                   LinkedIn
                 </a>
               </Magnetic>
               <Magnetic>
-                <a href="#" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
+                <a href="https://dribbble.com/niskenadi" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
                   Dribbble
                 </a>
               </Magnetic>
