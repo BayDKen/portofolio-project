@@ -256,28 +256,60 @@ section:last-child { border-bottom: none; }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 20px;
+    padding: 0 24px;
   }
+  
+  /* Nav Cleanup */
+  .top-nav {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 24px 0;
+    margin-bottom: 24px;
+  }
+  .glass-nav {
+    display: none !important;
+  }
+  
+  /* Hero Layout */
   .hero-content {
     flex-direction: column;
     align-items: flex-start;
+    gap: 32px;
   }
   .hero-right {
-    margin-top: 40px;
+    margin-top: 16px;
+    align-self: center; /* Center the profile badge */
   }
-  .top-nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  
+  h1 {
+    font-size: 2.8rem;
+    gap: 0 8px !important;
   }
+  
+  .carousel-arrow {
+    display: none !important;
+  }
+  
+  .horizontal-scroll {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
   .hero-quote span.author {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
   .hero-quote span.author span {
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
   }
+  
+  /* Footer Buttons */
+  #contact .premium-card {
+    width: 100%;
+    text-align: center;
+  }
+  
   /* Hide custom cursor on mobile */
   .custom-cursor, .ambient-glow {
     display: none !important;
