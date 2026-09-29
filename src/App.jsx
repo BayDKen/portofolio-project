@@ -4,7 +4,7 @@ import './index.css';
 
 // --- Placeholder Images ---
 const PROFILE_PIC = '/profile.png'; 
-const IMG_HRKITA = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80';
+const IMG_HRKITA = '/assets/hrkita_thumb.png';
 const IMG_IMAGIFY = 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=800&q=80';
 const IMG_CLAY = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';
 const IMG_PACKMOCKUP = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80'; // 3D box packaging
