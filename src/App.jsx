@@ -1,505 +1,555 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import './index.css';
 
-// --- Placeholder Images ---
-const PROFILE_PIC = '/profile.png'; 
+// --- Assets & Media ---
+const PROFILE_PIC = '/profile.png';
 const IMG_HRKITA = '/assets/hrkita_thumb.png';
-const IMG_IMAGIFY = 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=800&q=80';
-const IMG_CLAY = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';
-const IMG_PACKMOCKUP = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80'; // 3D box packaging
-const IMG_SERADIA = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80'; // Wedding aesthetic
-const IMG_LUMUTIJO = 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80'; // Deep green nature
+const ONE_PIECE_LOGO = '/assets/one_piece_logo.svg';
 
-// --- Components ---
+const PROJECTS = [
+  {
+    id: 'imagify',
+    title: 'Imagify Tools',
+    category: 'Web Application',
+    tag: 'Image Engine',
+    description: 'Client-side image manipulation and format optimization built for instant workflows.',
+    image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=900&q=80',
+    link: 'https://imagify-tools.vercel.app/',
+    span: 'bento-col-7',
+    tech: ['Next.js', 'Canvas API', 'UI System']
+  },
+  {
+    id: 'clay',
+    title: 'Claymorphism UI',
+    category: 'Design System',
+    tag: '3D Aesthetic',
+    description: 'A study in tactile dimensional design, featuring soft shadows and playful depth.',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=700&q=80',
+    link: 'https://claymorphisme.vercel.app/',
+    span: 'bento-col-5',
+    tech: ['Figma Tokens', 'CSS 3D', 'Micro-interactions']
+  },
+  {
+    id: 'packmockup',
+    title: 'Pack Mockup',
+    category: 'Interactive 3D',
+    tag: 'Packaging Studio',
+    description: 'In-browser 3D box visualizer enabling real-time packaging texture application.',
+    image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=700&q=80',
+    link: 'https://packmockup.vercel.app/',
+    span: 'bento-col-4',
+    tech: ['Three.js', 'React', 'Product Design']
+  },
+  {
+    id: 'seradia',
+    title: 'Seradia',
+    category: 'Luxury Digital',
+    tag: 'Event Platform',
+    description: 'Bespoke digital coordination platform crafted with editorial wedding aesthetics.',
+    image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=700&q=80',
+    link: 'https://seradia.vercel.app/',
+    span: 'bento-col-4',
+    tech: ['Editorial UI', 'UX Research', 'Booking Flow']
+  },
+  {
+    id: 'lumutijo',
+    title: 'Lumut Ijo',
+    category: 'Environmental',
+    tag: 'Conservation Web',
+    description: 'A serene nature-centric portal dedicated to ecosystem restoration initiatives.',
+    image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=700&q=80',
+    link: 'https://lumutijo.vercel.app/',
+    span: 'bento-col-4',
+    tech: ['Visual Storytelling', 'Accessibility', 'Interaction']
+  }
+];
 
-const CinematicBackground = () => (
-  <div style={{ position: 'fixed', inset: 0, zIndex: -10, overflow: 'hidden', pointerEvents: 'none' }}>
-    <motion.div
-      animate={{ x: [0, 100, -50, 0], y: [0, -100, 50, 0], scale: [1, 1.2, 0.8, 1] }}
-      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-      style={{
-        position: 'absolute', top: '10%', left: '20%', width: '40vw', height: '40vw',
-        background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%)',
-        borderRadius: '50%', filter: 'blur(60px)'
-      }}
-    />
-    <motion.div
-      animate={{ x: [0, -150, 50, 0], y: [0, 100, -100, 0], scale: [1, 1.5, 0.9, 1] }}
-      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      style={{
-        position: 'absolute', bottom: '10%', right: '20%', width: '50vw', height: '50vw',
-        background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%)',
-        borderRadius: '50%', filter: 'blur(80px)'
-      }}
-    />
-    {/* Grid Overlay */}
-    <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
-  </div>
-);
-
-const SectionHeader = ({ num, title }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '64px' }}
-  >
-    <span style={{ fontSize: '1.25rem', color: 'var(--accent)', fontWeight: '600' }}>{num}</span>
-    <h2 style={{ margin: 0 }}>{title}</h2>
-    <div style={{ height: '1px', background: 'var(--border-color)', flex: 1 }}></div>
-  </motion.div>
-);
-
-const CustomCursor = ({ hovering }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  
-  React.useEffect(() => {
-    const onMouseMove = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, []);
-
-  return (
-    <>
-      <div 
-        className={`custom-cursor ${hovering ? 'hovering' : ''}`}
-        style={{ left: `${position.x}px`, top: `${position.y}px` }}
-      />
-      <div 
-        className="ambient-glow"
-        style={{ left: `${position.x}px`, top: `${position.y}px` }}
-      />
-    </>
-  );
+// GPU-friendly scroll reveal configuration
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
+  }
 };
 
-const Marquee = () => {
-  return (
-    <div style={{ overflow: 'hidden', display: 'flex', width: '100vw', background: 'var(--accent)', color: 'var(--bg-color)', padding: '24px 0', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', transform: 'rotate(-2deg) scale(1.05)', marginTop: '60px', marginBottom: '80px', zIndex: 10 }}>
-      <motion.div
-        animate={{ x: [0, -1000] }}
-        transition={{ ease: "linear", duration: 15, repeat: Infinity }}
-        style={{ display: 'flex', gap: '24px', whiteSpace: 'nowrap', fontWeight: 'bold', fontSize: '1.25rem', textTransform: 'uppercase', fontFamily: "'Instrument Serif', serif", letterSpacing: '0.05em' }}
-      >
-        {Array(10).fill("UI/UX DESIGN ✦ PROTOTYPING ✦ FIGMA ✦ DESIGN SYSTEMS ✦ USER RESEARCH ✦").map((text, i) => (
-          <span key={i} style={{ display: 'inline-block' }}>{text}</span>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
-
-const Magnetic = ({ children }) => {
-  const ref = useRef(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
-
-  const handleMouse = (e) => {
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    x.set(middleX * 0.4);
-    y.set(middleY * 0.4);
-  };
-
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
-      style={{ x: springX, y: springY, display: 'inline-block' }}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-const Preloader = ({ setLoading }) => {
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-
-  return (
-    <motion.div
-      initial={{ y: 0 }}
-      exit={{ y: "-100vh", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
-      style={{ position: 'fixed', inset: 0, zIndex: 99999, background: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)', flexDirection: 'column' }}
-    >
-      <motion.h1 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        style={{ fontFamily: "'Instrument Serif', serif", letterSpacing: '0.05em' }}
-      >
-        Setting sail to the Grand Line...
-      </motion.h1>
-      <motion.div 
-        initial={{ width: 0 }}
-        animate={{ width: 200 }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
-        style={{ height: '2px', background: 'var(--text-muted)', marginTop: '20px' }}
-      />
-    </motion.div>
-  );
-};
-
-const CircularText = () => (
-  <motion.div 
-    animate={{ rotate: 360 }} 
-    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-    className="circular-text"
-  >
-    <svg viewBox="0 0 100 100" width="100%" height="100%">
-      <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
-      <text fill="var(--accent)" style={{ fontSize: '12px', letterSpacing: '3px', fontWeight: '600', textTransform: 'uppercase' }}>
-        <textPath href="#circlePath">✦ UI/UX Designer ✦ Niskenadi Trisna ✦ Portfolio</textPath>
-      </text>
-    </svg>
-  </motion.div>
-);
-
-const Modal = ({ isOpen, onClose, title, content, image }) => {
-  if (!isOpen) return null;
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <motion.div 
-        className="modal-content"
-        initial={{ opacity: 0, y: 50, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        onClick={e => e.stopPropagation()}
-      >
-        <button className="modal-close" onClick={onClose}>×</button>
-        <img src={image} alt={title} style={{ width: '100%', borderRadius: '12px', marginBottom: '24px', aspectRatio: '16/9', objectFit: 'cover' }} />
-        <h2 style={{ marginBottom: '16px' }}>{title}</h2>
-        <p style={{ color: 'var(--text-main)', lineHeight: '1.8' }}>{content}</p>
-      </motion.div>
-    </div>
-  );
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
 };
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [hoveredProject, setHoveredProject] = useState(null);
-  const [cursorHovering, setCursorHovering] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const scrollRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -350 : 350;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
+  // Hairline Scroll Progress Bar (Pure GPU via Framer Motion transforms)
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Handle ESC key for modal and mobile menu
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <>
-      <CinematicBackground />
-      <AnimatePresence mode="wait">
-        {loading && <Preloader key="preloader" setLoading={setLoading} />}
-      </AnimatePresence>
-      <CustomCursor hovering={cursorHovering} />
-      
-      {/* Floating Glassmorphic Navbar */}
-      <motion.nav 
-        className="glass-nav" onMouseEnter={() => setCursorHovering(true)} onMouseLeave={() => setCursorHovering(false)}
-        initial={{ y: -100, x: '-50%', opacity: 0 }}
-        animate={{ y: 0, x: '-50%', opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.2 }}
-      >
-        <Magnetic><a href="#home">Home</a></Magnetic>
-        <Magnetic><a href="#case-studies">Log Pose</a></Magnetic>
-        <Magnetic><a href="#side-projects">Bounties</a></Magnetic>
-        <Magnetic><a href="#about">About</a></Magnetic>
-      </motion.nav>
+      {/* 1. Hairline Scroll Indicator */}
+      <motion.div className="scroll-progress-line" style={{ scaleX }} />
 
-      {/* Top Navbar */}
-      <div className="container">
-        <motion.nav 
-          className="top-nav"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2 }}
-        >
-          <div className="nav-brand">Niskenadi Trisna</div>
-          <div className="nav-links">
-            <Magnetic><a href="#case-studies">Portfolio</a></Magnetic>
-            <Magnetic><a href="#about">About</a></Magnetic>
-          </div>
-        </motion.nav>
+      {/* 2. Responsive Floating Pill Navigation */}
+      <div className="header-wrapper">
+        <header className="floating-nav">
+          <a href="#hero" className="nav-brand-badge" onClick={() => setMobileMenuOpen(false)}>
+            <span className="nav-brand-dot" aria-hidden="true" />
+            <span>Niskenadi</span>
+          </a>
+
+          {/* Desktop / Tablet Wide Menu */}
+          <nav className="desktop-nav">
+            <ul className="nav-menu">
+              <li><a href="#case-studies" className="nav-link">Log Pose</a></li>
+              <li><a href="#bounties" className="nav-link">Bounties</a></li>
+              <li><a href="#about" className="nav-link">Crew</a></li>
+              <li><a href="#contact" className="nav-cta-btn">Set Sail ↗</a></li>
+            </ul>
+          </nav>
+
+          {/* Mobile Menu Hamburger / Close Toggle */}
+          <button 
+            type="button"
+            className="mobile-nav-toggle" 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span>{mobileMenuOpen ? '✕' : '☰'}</span>
+          </button>
+        </header>
+
+        {/* Mobile Dropdown Overlay Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              className="mobile-nav-dropdown"
+              initial={{ opacity: 0, y: -10, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.97 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <a href="#case-studies" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+                <span className="item-num">01</span>
+                <span>The Log Pose</span>
+              </a>
+              <a href="#bounties" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+                <span className="item-num">02</span>
+                <span>Digital Bounties</span>
+              </a>
+              <a href="#about" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+                <span className="item-num">03</span>
+                <span>The Crewmate</span>
+              </a>
+              <a href="#contact" className="mobile-nav-cta" onClick={() => setMobileMenuOpen(false)}>
+                <span>Set Sail (Contact)</span>
+                <span>↗</span>
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Hero Section */}
-      <section style={{ paddingTop: '40px', borderBottom: 'none' }}>
-        <div className="container">
-          <div className="hero-content">
-            <motion.div 
-              className="hero-left"
-              initial="hidden" animate="visible" variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 2.3 } }
-              }}
-            >
-              <motion.p className="greeting" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}>Hallo, I'm Niskenadi Trisna 👋 A UI/UX Designer.</motion.p>
-              
-              <h1 style={{ display: 'flex', flexWrap: 'wrap', gap: '0 12px' }}>
-                {"I navigate complex problems & design seamless experiences.".split(" ").map((word, i) => (
-                  <motion.span key={i} variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] } } }}>
-                    {word === "&" ? <span style={{ width: '100%', display: 'block', height: 0 }}></span> : null}
-                    <span style={{ color: word === "design" || word === "seamless" || word === "experiences." ? 'var(--text-muted)' : 'inherit' }}>{word}</span>
-                  </motion.span>
-                ))}
-              </h1>
-              
-              <motion.p className="hero-quote" variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 1.5, delay: 3 } } }}>
-                "I don't want to conquer anything. I just think the designer with the most freedom in this ocean <strong>creates the best experiences.</strong>"
-                <span className="author" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '24px' }}>
-                  <span style={{ width: '40px', height: '1px', background: 'var(--text-muted)' }}></span>
-                  <img src="/assets/one_piece_logo.svg" alt="One Piece" style={{ height: '28px', filter: 'invert(1)', opacity: 0.9 }} />
-                  <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: '1.8rem', letterSpacing: '0.02em', color: 'var(--accent)' }}>
-                    The Grand Line Philosophy
-                  </span>
-                </span>
-              </motion.p>
-            </motion.div>
+      <main>
+        {/* 3. Hero Section */}
+        <section id="hero">
+          <div className="container">
+            <div className="hero-layout">
+              <motion.div 
+                className="hero-main"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+              >
+                <div className="hero-title-box">
+                  <motion.div variants={fadeInUp} className="hero-eyebrow">
+                    <span className="pill-badge active-status">
+                      <span className="nav-brand-dot" /> Available for Design Projects
+                    </span>
+                    <span className="pill-badge">Surabaya, ID • WIB</span>
+                  </motion.div>
+
+                  <motion.h1 variants={fadeInUp} className="hero-statement">
+                    Designing intuitive digital tools with <span className="dim">navigational clarity.</span>
+                  </motion.h1>
+                </div>
+
+                {/* Minimalist Micro-Data Chips (Replaces wordy paragraphs) */}
+                <motion.div variants={fadeInUp} className="hero-pills-row">
+                  <span className="pill-badge">✦ 3+ Years Experience</span>
+                  <span className="pill-badge">✦ Enterprise HCIS & SaaS</span>
+                  <span className="pill-badge">✦ Design Systems & Tokens</span>
+                  <span className="pill-badge">✦ Interactive 3D Web</span>
+                </motion.div>
+
+                {/* The Grand Line Philosophy Card */}
+                <motion.div variants={fadeInUp} className="hero-quote-card">
+                  <p className="hero-quote-text">
+                    "I don't seek to conquer anything. The designer with the most freedom in this ocean creates the greatest experiences."
+                  </p>
+                  <div className="hero-quote-author">
+                    <img src={ONE_PIECE_LOGO} alt="Grand Line insignia" style={{ height: '18px', filter: 'invert(1)', opacity: 0.8 }} />
+                    <span>The Grand Line Philosophy</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Profile Orb with Rotating Compass Orbit */}
+              <motion.div 
+                className="hero-avatar-pane"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <div className="avatar-badge-wrap">
+                  <svg className="circular-orbit-text" viewBox="0 0 100 100">
+                    <path id="orbitCircle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+                    <text fill="#A1A1AA" style={{ fontSize: '10.5px', letterSpacing: '3px', fontWeight: '600', textTransform: 'uppercase' }}>
+                      <textPath href="#orbitCircle">✦ UI/UX DESIGNER ✦ NISKENADI TRISNA ✦</textPath>
+                    </text>
+                  </svg>
+                  <img 
+                    src={PROFILE_PIC} 
+                    alt="Niskenadi Trisna portrait" 
+                    className="avatar-core-img"
+                    loading="eager"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. Flagship Case Study (The Log Pose) */}
+        <section id="case-studies">
+          <div className="container">
+            <div className="section-header-bar">
+              <div className="section-label-group">
+                <span className="section-tag">01 / Flagship Mission</span>
+                <h2>The Log Pose</h2>
+              </div>
+              <span className="section-meta-sub">Enterprise Platform & Payroll Architecture</span>
+            </div>
 
             <motion.div 
-              className="hero-right"
-              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 2.8 }}
+              className="flagship-card"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeInUp}
             >
-              <div className="profile-badge-container">
-                <CircularText />
-                <img src={PROFILE_PIC} alt="Profile" className="profile-pic" />
+              <div className="flagship-visual">
+                <img 
+                  src={IMG_HRKITA} 
+                  alt="HRKita HCIS Platform interface" 
+                  className="flagship-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div className="flagship-details">
+                <div className="flagship-meta-top">
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <span className="pill-badge">Case Study</span>
+                    <span className="pill-badge">Enterprise HCIS</span>
+                  </div>
+                  <h3>HRKita Platform</h3>
+                  <p>
+                    End-to-end design for an enterprise Human Capital Information System and executive payroll dashboard. Engineered scalable design tokens to reduce data fatigue across high-density workflows.
+                  </p>
+
+                  <div className="flagship-chip-grid">
+                    <div className="meta-metric-item">
+                      <span className="meta-metric-label">Role</span>
+                      <span className="meta-metric-val">Lead Product Designer</span>
+                    </div>
+                    <div className="meta-metric-item">
+                      <span className="meta-metric-label">Core Deliverable</span>
+                      <span className="meta-metric-val">Design System & Tokens</span>
+                    </div>
+                    <div className="meta-metric-item">
+                      <span className="meta-metric-label">Module Scope</span>
+                      <span className="meta-metric-val">Payroll, HCIS, Analytics</span>
+                    </div>
+                    <div className="meta-metric-item">
+                      <span className="meta-metric-label">UX Metric</span>
+                      <span className="meta-metric-val">-40% Approval Time</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button 
+                    type="button"
+                    className="footer-btn-primary" 
+                    style={{ width: '100%', padding: '12px 24px', cursor: 'pointer' }}
+                    onClick={() => setModalOpen(true)}
+                  >
+                    View System Case Study Details ↗
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Marquee />
-
-      {/* Case Studies */}
-      <section id="case-studies">
-        <div className="container">
-          <SectionHeader num="01" title="The Log Pose" />
-          
-          <motion.div 
-            style={{ display: 'flex', gap: '48px', alignItems: 'center', flexWrap: 'wrap' }}
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}
-          >
-            <div className="premium-card" style={{ flex: '1 1 400px', borderRadius: '16px', overflow: 'hidden', position: 'relative' }}>
-               <img src={IMG_HRKITA} alt="HRKita" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover' }} />
+        {/* 5. Bounties (Bento Grid) */}
+        <section id="bounties">
+          <div className="container">
+            <div className="section-header-bar">
+              <div className="section-label-group">
+                <span className="section-tag">02 / Digital Bounties</span>
+                <h2>Crafted Experiments & Live Tools</h2>
+              </div>
+              <span className="section-meta-sub">5 Live Web Applications & Systems</span>
             </div>
-            <div style={{ flex: '1 1 300px' }}>
-              <h3>HRKita (HCIS Platform)</h3>
-              <p>Spearheaded the end-to-end design for the Human Capital Information System and a specialized executive-level payroll application. Delivered high-fidelity screens and interactive prototypes to streamline complex data visualization.</p>
-              <button className="btn-link" style={{ marginTop: '24px' }} onClick={() => setModalOpen(true)}>
-                View Case Study Details
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Side Projects with Hover Effect */}
-      <section id="side-projects" style={{ position: 'relative' }}>
-        
-        {/* Dynamic Background Image for Hover */}
-        <AnimatePresence>
-          {hoveredProject && (
             <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 0.15 }} 
-              exit={{ opacity: 0 }}
-              style={{
-                position: 'absolute', inset: -50, zIndex: -1,
-                backgroundImage: `url(${
-                  hoveredProject === 'imagify' ? IMG_IMAGIFY : 
-                  hoveredProject === 'clay' ? IMG_CLAY :
-                  hoveredProject === 'packmockup' ? IMG_PACKMOCKUP :
-                  hoveredProject === 'seradia' ? IMG_SERADIA :
-                  hoveredProject === 'lumutijo' ? IMG_LUMUTIJO : ''
-                })`,
-                backgroundSize: 'cover', backgroundPosition: 'center',
-                filter: 'blur(20px)', borderRadius: '24px'
-              }}
-            />
-          )}
-        </AnimatePresence>
+              className="bento-grid-container"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+            >
+              {PROJECTS.map((project) => (
+                <motion.a
+                  key={project.id}
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`bento-card ${project.span}`}
+                  variants={fadeInUp}
+                >
+                  <div className="bento-card-media">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      loading="lazy" 
+                      decoding="async" 
+                    />
+                  </div>
 
-        <div className="container">
-          <SectionHeader num="02" title="Bounties" />
-        </div>
-        
-        <div style={{ position: 'relative' }}>
-          {/* Left Arrow */}
-          <button 
-            className="carousel-arrow"
-            onClick={() => scroll('left')}
-            style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'var(--card-bg)', border: '1px solid var(--border-color)', color: 'var(--text-main)', width: '40px', height: '40px', borderRadius: '50%', cursor: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}
-          >
-            ←
-          </button>
+                  <div className="bento-card-header">
+                    <div className="bento-card-title-group">
+                      <div style={{ display: 'flex', gap: '8px', marginBottom: '6px' }}>
+                        <span className="pill-badge">{project.tag}</span>
+                      </div>
+                      <h3>{project.title}</h3>
+                      <p style={{ marginTop: '4px' }}>{project.description}</p>
+                    </div>
+                  </div>
 
-          <div className="horizontal-scroll" ref={scrollRef} style={{ paddingLeft: 'max(40px, calc((100vw - 1120px) / 2))', paddingRight: '40px' }}>
-          
-          <motion.a 
-            href="https://imagify-tools.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            onMouseEnter={() => { setHoveredProject('imagify'); setCursorHovering(true); }}
-            onMouseLeave={() => { setHoveredProject(null); setCursorHovering(false); }}
-            className="premium-card"
-            style={{ flex: '0 0 320px', padding: '32px', borderRadius: '16px', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          >
-            <h3>Imagify Tools</h3>
-            <p style={{ flexGrow: 1, margin: '16px 0' }}>A web-based image manipulation and optimization tool, designed for seamless user interaction.</p>
-            <span className="btn-link">Visit Website</span>
-          </motion.a>
-
-          <motion.a 
-            href="https://claymorphisme.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            onMouseEnter={() => { setHoveredProject('clay'); setCursorHovering(true); }}
-            onMouseLeave={() => { setHoveredProject(null); setCursorHovering(false); }}
-            className="premium-card"
-            style={{ flex: '0 0 320px', padding: '32px', borderRadius: '16px', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          >
-            <h3>Claymorphism UI</h3>
-            <p style={{ flexGrow: 1, margin: '16px 0' }}>An exploration of the claymorphism design trend, featuring soft, 3D UI components.</p>
-            <span className="btn-link">Visit Website</span>
-          </motion.a>
-
-          <motion.a 
-            href="https://packmockup.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
-            onMouseEnter={() => { setHoveredProject('packmockup'); setCursorHovering(true); }}
-            onMouseLeave={() => { setHoveredProject(null); setCursorHovering(false); }}
-            className="premium-card"
-            style={{ flex: '0 0 320px', padding: '32px', borderRadius: '16px', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          >
-            <h3>Pack Mockup</h3>
-            <p style={{ flexGrow: 1, margin: '16px 0' }}>A free packaging mockup generator. Rotate 3D boxes and apply beautiful designs to all sides directly in your browser.</p>
-            <span className="btn-link">Visit Website</span>
-          </motion.a>
-
-          <motion.a 
-            href="https://seradia.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
-            onMouseEnter={() => { setHoveredProject('seradia'); setCursorHovering(true); }}
-            onMouseLeave={() => { setHoveredProject(null); setCursorHovering(false); }}
-            className="premium-card"
-            style={{ flex: '0 0 320px', padding: '32px', borderRadius: '16px', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          >
-            <h3>Seradia</h3>
-            <p style={{ flexGrow: 1, margin: '16px 0' }}>An elegant digital platform for wedding planning, offering bespoke organizational tools and a premium booking experience.</p>
-            <span className="btn-link">Visit Website</span>
-          </motion.a>
-
-          <motion.a 
-            href="https://lumutijo.vercel.app/" target="_blank"
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.4 }}
-            onMouseEnter={() => { setHoveredProject('lumutijo'); setCursorHovering(true); }}
-            onMouseLeave={() => { setHoveredProject(null); setCursorHovering(false); }}
-            className="premium-card"
-            style={{ flex: '0 0 320px', padding: '32px', borderRadius: '16px', display: 'flex', flexDirection: 'column' }}
-            whileHover={{ scale: 1.02, y: -5, borderColor: 'var(--accent)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          >
-            <h3>Lumut Ijo</h3>
-            <p style={{ flexGrow: 1, margin: '16px 0' }}>Step into the living world. A nature-focused platform dedicated to restoring wild places through patient design.</p>
-            <span className="btn-link">Visit Website</span>
-          </motion.a>
+                  <div className="bento-card-footer">
+                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                      {project.tech.map((t, idx) => (
+                        <span key={idx} style={{ fontSize: '0.725rem', color: 'var(--text-faint)' }}>
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="arrow-icon-btn" aria-label="Visit website">↗</span>
+                  </div>
+                </motion.a>
+              ))}
+            </motion.div>
           </div>
+        </section>
 
-          {/* Right Arrow */}
-          <button 
-            className="carousel-arrow"
-            onClick={() => scroll('right')}
-            style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'var(--card-bg)', border: '1px solid var(--border-color)', color: 'var(--text-main)', width: '40px', height: '40px', borderRadius: '50%', cursor: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}
-          >
-            →
-          </button>
-        </div>
-      </section>
+        {/* 6. The Crewmate (About) - Minimalist 3-Pillar Matrix */}
+        <section id="about">
+          <div className="container">
+            <div className="section-header-bar">
+              <div className="section-label-group">
+                <span className="section-tag">03 / The Crewmate</span>
+                <h2>Background & Capabilities</h2>
+              </div>
+              <span className="section-meta-sub">Crafting products since 2021</span>
+            </div>
 
-      {/* About */}
-      <section id="about">
-        <div className="container">
-          <SectionHeader num="03" title="The Crewmate" />
-          <div style={{ maxWidth: '800px' }}>
-            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: "-50px" }} style={{ marginBottom: '24px' }}>
-              I am a UI/UX Designer with more than three years of experience developing digital products across manufacturing and technology.
-            </motion.p>
-            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: "-50px" }} style={{ marginBottom: '24px' }}>
-              Dedicated to tailoring designs to user needs while following trusted design system principles. I combine user-centered design expertise with hands-on front-end development knowledge.
-            </motion.p>
-            
+            <motion.div 
+              className="crewmate-matrix"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+            >
+              <motion.div className="crewmate-pillar" variants={fadeInUp}>
+                <span className="pillar-index">[ 01 / PHILOSOPHY ]</span>
+                <h3>Navigation & Freedom</h3>
+                <p>
+                  Believing that the cleanest interfaces disappear when in use. Inspired by the Grand Line mindset: navigating complex problem spaces with agile curiosity rather than rigid dogma.
+                </p>
+              </motion.div>
+
+              <motion.div className="crewmate-pillar" variants={fadeInUp}>
+                <span className="pillar-index">[ 02 / ARSENAL ]</span>
+                <h3>Design & Front-End Stack</h3>
+                <p>Bridging design vision with code reality for zero communication gap.</p>
+                <div className="pillar-skills-wrap">
+                  <span className="pill-badge">Figma</span>
+                  <span className="pill-badge">Design Systems</span>
+                  <span className="pill-badge">User Research</span>
+                  <span className="pill-badge">Prototyping</span>
+                  <span className="pill-badge">React & Next.js</span>
+                  <span className="pill-badge">CSS Animations</span>
+                  <span className="pill-badge">Three.js Basics</span>
+                </div>
+              </motion.div>
+
+              <motion.div className="crewmate-pillar" variants={fadeInUp}>
+                <span className="pillar-index">[ 03 / TRAJECTORY ]</span>
+                <h3>Proven Track Record</h3>
+                <p>
+                  3+ years delivering digital applications across enterprise human resources, manufacturing systems, and creator-oriented web tooling.
+                </p>
+                <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                  <span className="pill-badge active-status">🟢 Open to Full-time & Select Contracts</span>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Modal for HRKita */}
-      {/* Epic Footer & Contact */}
-      <section id="contact" style={{ paddingTop: '150px', paddingBottom: '100px', borderTop: '1px solid var(--border-color)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div className="container">
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1 }}
-          >
-            <h2 style={{ fontSize: 'clamp(4rem, 10vw, 8rem)', letterSpacing: '-0.02em', margin: '0 0 24px 0', color: 'var(--text-main)', textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>LET'S SET SAIL.</h2>
-            <p style={{ fontSize: '1.5rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 64px auto' }}>Ready to conquer the next big challenge in the Grand Line? Let's build something extraordinary together.</p>
-            
-            <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Magnetic>
-                <a href="mailto:niskenaditrisnab@gmail.com" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '600', color: 'var(--bg-color)', background: 'var(--accent)', border: 'none', cursor: 'none' }}>
-                  Send an Email
+        {/* 7. Final Port / Outro */}
+        <section id="contact" className="footer-section">
+          <div className="container">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeInUp}
+            >
+              <h2 className="footer-hero-text">LET'S SET SAIL.</h2>
+              <p className="footer-sub">
+                Ready to conquer the next design challenge together? Reach out for collaboration, product design roles, or inquiries.
+              </p>
+
+              <div className="footer-actions">
+                <a 
+                  href="mailto:niskenaditrisnab@gmail.com" 
+                  className="footer-btn-primary"
+                >
+                  Send an Email ↗
                 </a>
-              </Magnetic>
-              <Magnetic>
-                <a href="https://www.linkedin.com/in/niskenaditrisnabayu97/" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
+                <a 
+                  href="https://www.linkedin.com/in/niskenaditrisnabayu97/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer-btn-ghost"
+                >
                   LinkedIn
                 </a>
-              </Magnetic>
-              <Magnetic>
-                <a href="https://dribbble.com/niskenadi" target="_blank" rel="noopener noreferrer" className="premium-card" style={{ padding: '16px 40px', borderRadius: '40px', fontSize: '1.125rem', fontWeight: '500', color: 'var(--text-main)', background: 'var(--card-bg)', cursor: 'none' }}>
+                <a 
+                  href="https://dribbble.com/niskenadi" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer-btn-ghost"
+                >
                   Dribbble
                 </a>
-              </Magnetic>
-            </div>
-            
-            <div style={{ marginTop: '120px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--grid-line)', paddingTop: '40px', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-              <span>© {new Date().getFullYear()} Niskenadi Trisna. All rights reserved.</span>
-              <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: '1.5rem', fontStyle: 'italic' }}>The Grand Line</span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              </div>
 
-      <Modal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)}
-        title="HRKita (HCIS Platform)"
-        image={IMG_HRKITA}
-        content="Designed a comprehensive Human Capital Information System from the ground up. The platform includes advanced modules for payroll, performance review, and executive dashboards. Focused on reducing friction in daily HR tasks by conducting user research and iterating on wireframes before delivering a high-fidelity design system."
-      />
+              <div className="footer-bottom-bar">
+                <span>© {new Date().getFullYear()} Niskenadi Trisna. All rights reserved.</span>
+                <span className="serif-font" style={{ fontSize: '1.25rem', fontStyle: 'italic', color: 'var(--text-main)' }}>
+                  Grand Line Edition
+                </span>
+                <span>Crafted with React & Modern Web Standards</span>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+
+      {/* 8. Accessible Clean Modal for HRKita Case Study */}
+      <AnimatePresence>
+        {modalOpen && (
+          <div 
+            className="modal-overlay" 
+            onClick={() => setModalOpen(false)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <motion.div 
+              className="modal-card"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                type="button"
+                className="modal-close-btn" 
+                onClick={() => setModalOpen(false)}
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+
+              <img 
+                src={IMG_HRKITA} 
+                alt="HRKita Full Overview" 
+                style={{ width: '100%', borderRadius: '14px', aspectRatio: '16/9', objectFit: 'cover', marginBottom: '24px', border: '1px solid var(--border-subtle)' }} 
+              />
+
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                <span className="pill-badge">Enterprise Case Study</span>
+                <span className="pill-badge">HCIS & Payroll</span>
+              </div>
+
+              <h2 style={{ fontSize: '2rem', marginBottom: '16px' }}>HRKita (Human Capital System)</h2>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+                <p>
+                  <strong style={{ color: 'var(--text-main)' }}>The Challenge:</strong> Enterprise payroll and human capital information workflows suffered from fragmented spreadsheets, repetitive data entry, and slow approval cycles.
+                </p>
+                <p>
+                  <strong style={{ color: 'var(--text-main)' }}>The Solution:</strong> Built a unified high-fidelity component system and responsive executive portal. Streamlined complex tax calculations and employee status changes into step-by-step modular workflows.
+                </p>
+                <p>
+                  <strong style={{ color: 'var(--text-main)' }}>Impact:</strong> Reduced time-to-completion for monthly payroll runs by approximately 40% while standardizing UI tokens for engineering handoff.
+                </p>
+              </div>
+
+              <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
+                <button 
+                  type="button"
+                  className="footer-btn-primary" 
+                  onClick={() => setModalOpen(false)}
+                  style={{ padding: '10px 24px', fontSize: '0.875rem' }}
+                >
+                  Close Case Study
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
