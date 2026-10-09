@@ -237,7 +237,7 @@ export default function App() {
                 <div className="avatar-badge-wrap">
                   <svg className="circular-orbit-text" viewBox="0 0 100 100">
                     <path id="orbitCircle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
-                    <text fill="#A1A1AA" style={{ fontSize: '10.5px', letterSpacing: '3px', fontWeight: '600', textTransform: 'uppercase' }}>
+                    <text fill="#A1A1AA" style={{ fontSize: '9.5px', fontFamily: "'Space Mono', monospace", letterSpacing: '2.5px', fontWeight: '700', textTransform: 'uppercase' }}>
                       <textPath href="#orbitCircle">✦ UI/UX DESIGNER ✦ NISKENADI TRISNA ✦</textPath>
                     </text>
                   </svg>
