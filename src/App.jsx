@@ -455,7 +455,7 @@ export default function App() {
               {/* Interactive TechText Finale */}
               <div className="footer-techtext-wrapper">
                 <TechText
-                  text="SET SAIL"
+                  text="LET'S SET SAIL"
                   fontFamily="Syne"
                   fontWeight={800}
                   fontSize={160}
