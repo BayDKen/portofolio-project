@@ -222,33 +222,22 @@ export default function App() {
                 <div className="hero-title-box">
                   <motion.div variants={fadeInUp} className="hero-eyebrow">
                     <span className="pill-badge active-status">
-                      <span className="nav-brand-dot" /> Available for Design Projects
+                      <span className="nav-brand-dot" /> Available for Design Projects • Surabaya, ID
                     </span>
-                    <span className="pill-badge">Surabaya, ID • WIB</span>
                   </motion.div>
 
-                  <motion.h1 variants={fadeInUp} className="hero-statement">
-                    Designing intuitive digital tools with <span className="dim">navigational clarity.</span>
-                  </motion.h1>
+                  <motion.p variants={fadeInUp} className="hero-subline">
+                    Product & UI/UX Designer navigating complex enterprise platforms, scalable design systems, and interactive digital tools.
+                  </motion.p>
                 </div>
 
-                {/* Minimalist Micro-Data Chips (Replaces wordy paragraphs) */}
-                <motion.div variants={fadeInUp} className="hero-pills-row">
-                  <span className="pill-badge">✦ 3+ Years Experience</span>
-                  <span className="pill-badge">✦ Enterprise HCIS & SaaS</span>
-                  <span className="pill-badge">✦ Design Systems & Tokens</span>
-                  <span className="pill-badge">✦ Interactive 3D Web</span>
-                </motion.div>
-
-                {/* The Grand Line Philosophy Card */}
-                <motion.div variants={fadeInUp} className="hero-quote-card">
-                  <p className="hero-quote-text">
-                    "I don't seek to conquer anything. The designer with the most freedom in this ocean creates the greatest experiences."
-                  </p>
-                  <div className="hero-quote-author">
-                    <img src={ONE_PIECE_LOGO} alt="Grand Line insignia" style={{ height: '18px', filter: 'invert(1)', opacity: 0.8 }} />
-                    <span>The Grand Line Philosophy</span>
-                  </div>
+                <motion.div variants={fadeInUp} className="hero-cta-row">
+                  <a href="#case-studies" className="btn-hero-primary">
+                    Explore Flagship Case Study ↓
+                  </a>
+                  <a href="#contact" className="btn-hero-secondary">
+                    Get in Touch
+                  </a>
                 </motion.div>
               </motion.div>
 
@@ -438,6 +427,15 @@ export default function App() {
                 <p>
                   Believing that the cleanest interfaces disappear when in use. Inspired by the Grand Line mindset: navigating complex problem spaces with agile curiosity rather than rigid dogma.
                 </p>
+                <div className="hero-quote-card" style={{ marginTop: 'auto', background: 'rgba(255, 255, 255, 0.02)', padding: '16px' }}>
+                  <p className="hero-quote-text" style={{ fontSize: '1.15rem', lineHeight: '1.4' }}>
+                    "I don't seek to conquer anything. The designer with the most freedom in this ocean creates the greatest experiences."
+                  </p>
+                  <div className="hero-quote-author" style={{ marginTop: '8px' }}>
+                    <img src={ONE_PIECE_LOGO} alt="Grand Line insignia" style={{ height: '16px', filter: 'invert(1)', opacity: 0.8 }} />
+                    <span>The Grand Line Philosophy</span>
+                  </div>
+                </div>
               </motion.div>
 
               <motion.div className="crewmate-pillar" variants={fadeInUp}>

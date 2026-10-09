@@ -402,7 +402,7 @@ section {
 .hero-main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .hero-title-box {
@@ -416,6 +416,58 @@ section {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.hero-subline {
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.5;
+  color: #D1D1D6;
+  max-width: 620px;
+  font-weight: 400;
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--text-main);
+  color: #070709 !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+}
+
+.btn-hero-secondary {
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-subtle);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-hero-secondary:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  color: var(--text-main) !important;
 }
 
 .hero-statement {
@@ -988,22 +1040,22 @@ section {
     height: 105px;
   }
 
-  .hero-statement {
-    font-size: clamp(2.1rem, 7.5vw, 3rem);
-    line-height: 1.15;
+  .hero-subline {
+    font-size: 1.1rem;
+    line-height: 1.5;
   }
 
-  .hero-eyebrow {
-    gap: 8px;
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
   }
 
-  .hero-pills-row {
-    gap: 6px;
-  }
-
-  .hero-pills-row .pill-badge {
-    font-size: 0.725rem;
-    padding: 4px 10px;
+  .btn-hero-primary, .btn-hero-secondary {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
   }
 
   .hero-quote-card {
