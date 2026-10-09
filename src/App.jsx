@@ -188,30 +188,6 @@ export default function App() {
         {/* 3. Hero Section */}
         <section id="hero">
           <div className="container">
-            {/* Top Interactive Tech Wordmark */}
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="tech-text-hero-wrapper"
-            >
-              <TechText
-                text="NISKENADI"
-                fontFamily="Syne"
-                fontWeight={800}
-                fontSize={150}
-                letterSpacing={-0.03}
-                color="#F5F5F7"
-                accentColor="#34D399"
-                reveal="letter"
-                dashLength={4}
-                dashGap={2}
-                specks={15}
-                draggable={true}
-                sweep={true}
-              />
-            </motion.div>
-
             <div className="hero-layout">
               <motion.div 
                 className="hero-main"
@@ -222,22 +198,22 @@ export default function App() {
                 <div className="hero-title-box">
                   <motion.div variants={fadeInUp} className="hero-eyebrow">
                     <span className="pill-badge active-status">
-                      <span className="nav-brand-dot" /> Available for Design Projects • Surabaya, ID
+                      <span className="nav-brand-dot" /> Available for Design Projects
                     </span>
+                    <span className="pill-badge">Surabaya, ID • WIB</span>
                   </motion.div>
 
-                  <motion.p variants={fadeInUp} className="hero-subline">
-                    Product & UI/UX Designer navigating complex enterprise platforms, scalable design systems, and interactive digital tools.
-                  </motion.p>
+                  <motion.h1 variants={fadeInUp} className="hero-statement">
+                    Designing intuitive digital tools with <span className="dim">navigational clarity.</span>
+                  </motion.h1>
                 </div>
 
-                <motion.div variants={fadeInUp} className="hero-cta-row">
-                  <a href="#case-studies" className="btn-hero-primary">
-                    Explore Flagship Case Study ↓
-                  </a>
-                  <a href="#contact" className="btn-hero-secondary">
-                    Get in Touch
-                  </a>
+                {/* Minimalist Micro-Data Chips */}
+                <motion.div variants={fadeInUp} className="hero-pills-row">
+                  <span className="pill-badge">✦ 3+ Years Experience</span>
+                  <span className="pill-badge">✦ Enterprise HCIS & SaaS</span>
+                  <span className="pill-badge">✦ Design Systems & Tokens</span>
+                  <span className="pill-badge">✦ Interactive 3D Web</span>
                 </motion.div>
               </motion.div>
 
@@ -476,7 +452,24 @@ export default function App() {
               viewport={{ once: true, margin: "-60px" }}
               variants={fadeInUp}
             >
-              <h2 className="footer-hero-text">LET'S SET SAIL.</h2>
+              {/* Interactive TechText Finale */}
+              <div className="footer-techtext-wrapper">
+                <TechText
+                  text="SET SAIL"
+                  fontFamily="Syne"
+                  fontWeight={800}
+                  fontSize={160}
+                  letterSpacing={-0.03}
+                  color="#F5F5F7"
+                  accentColor="#34D399"
+                  reveal="letter"
+                  dashLength={4}
+                  dashGap={2}
+                  specks={15}
+                  draggable={true}
+                  sweep={true}
+                />
+              </div>
               <p className="footer-sub">
                 Ready to conquer the next design challenge together? Reach out for collaboration, product design roles, or inquiries.
               </p>

@@ -134,16 +134,17 @@ section {
   content-visibility: visible;
 }
 
-.tech-text-hero-wrapper {
+.footer-techtext-wrapper {
   width: 100%;
-  height: 140px;
+  height: 160px;
   position: relative;
-  margin-bottom: 32px;
+  margin: 0 auto 24px auto;
+  max-width: 900px;
 }
 
 @media (max-width: 768px) {
-  .tech-text-hero-wrapper {
-    height: 80px;
+  .footer-techtext-wrapper {
+    height: 90px;
     margin-bottom: 16px;
   }
 }
