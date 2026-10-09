@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import SplashCursor from './components/SplashCursor';
+import TechText from './components/TechText';
 import './index.css';
 
 // --- Assets & Media ---
@@ -187,6 +188,30 @@ export default function App() {
         {/* 3. Hero Section */}
         <section id="hero">
           <div className="container">
+            {/* Top Interactive Tech Wordmark */}
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="tech-text-hero-wrapper"
+            >
+              <TechText
+                text="NISKENADI"
+                fontFamily="Syne"
+                fontWeight={800}
+                fontSize={150}
+                letterSpacing={-0.03}
+                color="#F5F5F7"
+                accentColor="#34D399"
+                reveal="letter"
+                dashLength={4}
+                dashGap={2}
+                specks={15}
+                draggable={true}
+                sweep={true}
+              />
+            </motion.div>
+
             <div className="hero-layout">
               <motion.div 
                 className="hero-main"
