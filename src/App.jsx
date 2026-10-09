@@ -7,6 +7,12 @@ const PROFILE_PIC = '/profile.png';
 const IMG_HRKITA = '/assets/hrkita_thumb.png';
 const ONE_PIECE_LOGO = '/assets/one_piece_logo.svg';
 
+const IMG_IMAGIFY = '/assets/thumb_imagify.png';
+const IMG_CLAY = '/assets/thumb_clay.png';
+const IMG_PACKMOCKUP = '/assets/thumb_packmockup.png';
+const IMG_SERADIA = '/assets/thumb_seradia.png';
+const IMG_LUMUTIJO = '/assets/thumb_lumutijo.png';
+
 const PROJECTS = [
   {
     id: 'imagify',
@@ -14,7 +20,7 @@ const PROJECTS = [
     category: 'Web Application',
     tag: 'Image Engine',
     description: 'Client-side image manipulation and format optimization built for instant workflows.',
-    image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=900&q=80',
+    image: IMG_IMAGIFY,
     link: 'https://imagify-tools.vercel.app/',
     span: 'bento-col-7',
     tech: ['Next.js', 'Canvas API', 'UI System']
@@ -25,7 +31,7 @@ const PROJECTS = [
     category: 'Design System',
     tag: '3D Aesthetic',
     description: 'A study in tactile dimensional design, featuring soft shadows and playful depth.',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=700&q=80',
+    image: IMG_CLAY,
     link: 'https://claymorphisme.vercel.app/',
     span: 'bento-col-5',
     tech: ['Figma Tokens', 'CSS 3D', 'Micro-interactions']
@@ -36,7 +42,7 @@ const PROJECTS = [
     category: 'Interactive 3D',
     tag: 'Packaging Studio',
     description: 'In-browser 3D box visualizer enabling real-time packaging texture application.',
-    image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=700&q=80',
+    image: IMG_PACKMOCKUP,
     link: 'https://packmockup.vercel.app/',
     span: 'bento-col-4',
     tech: ['Three.js', 'React', 'Product Design']
@@ -47,7 +53,7 @@ const PROJECTS = [
     category: 'Luxury Digital',
     tag: 'Event Platform',
     description: 'Bespoke digital coordination platform crafted with editorial wedding aesthetics.',
-    image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=700&q=80',
+    image: IMG_SERADIA,
     link: 'https://seradia.vercel.app/',
     span: 'bento-col-4',
     tech: ['Editorial UI', 'UX Research', 'Booking Flow']
@@ -58,7 +64,7 @@ const PROJECTS = [
     category: 'Environmental',
     tag: 'Conservation Web',
     description: 'A serene nature-centric portal dedicated to ecosystem restoration initiatives.',
-    image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=700&q=80',
+    image: IMG_LUMUTIJO,
     link: 'https://lumutijo.vercel.app/',
     span: 'bento-col-4',
     tech: ['Visual Storytelling', 'Accessibility', 'Interaction']
