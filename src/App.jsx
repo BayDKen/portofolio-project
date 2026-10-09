@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
+import SplashCursor from './components/SplashCursor';
 import './index.css';
 
 // --- Assets & Media ---
@@ -115,6 +116,9 @@ export default function App() {
 
   return (
     <>
+      {/* Fluid Splash Cursor Simulation */}
+      <SplashCursor />
+
       {/* 1. Hairline Scroll Indicator */}
       <motion.div className="scroll-progress-line" style={{ scaleX }} />
 
