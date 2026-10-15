@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import SplashCursor from './components/SplashCursor';
 import TechText from './components/TechText';
+import NiskenadiLogo from './components/NiskenadiLogo';
 import './index.css';
 
 // --- Assets & Media ---
@@ -126,8 +127,8 @@ export default function App() {
       {/* 2. Responsive Floating Pill Navigation */}
       <div className="header-wrapper">
         <header className="floating-nav">
-          <a href="#hero" className="nav-brand-badge" onClick={() => setMobileMenuOpen(false)}>
-            <span className="nav-brand-dot" aria-hidden="true" />
+          <a href="#hero" className="nav-brand-badge" onClick={() => setMobileMenuOpen(false)} aria-label="Niskenadi Home">
+            <NiskenadiLogo size={22} className="nav-brand-logo" />
             <span>Niskenadi</span>
           </a>
 

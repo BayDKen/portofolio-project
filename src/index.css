@@ -185,12 +185,25 @@ section {
 .nav-brand-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   color: var(--text-main);
   white-space: nowrap;
+}
+
+.nav-brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+.nav-brand-badge:hover .nav-brand-logo {
+  transform: rotate(20deg) scale(1.12);
+  filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.6));
 }
 
 .nav-brand-dot {
