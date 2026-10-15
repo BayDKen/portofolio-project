@@ -6,7 +6,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['Semua', 'Bikin Konten', 'Desain Produk'];
+  const categories = ['Semua', 'Workflow & AI', 'Desain Produk'];
 
   const filteredArticles = ARTICLES.filter(art => {
     const matchesCategory = selectedCategory === 'Semua' || art.category === selectedCategory;
@@ -26,10 +26,10 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
             type="button" 
             onClick={onBackToHome} 
             className="btn-return-home"
-            aria-label="Kembali ke Portofolio Utama"
+            aria-label="Kembali ke Halaman Utama"
           >
             <span>←</span>
-            <span>Kembali ke Beranda Portofolio</span>
+            <span>Kembali ke Halaman Utama</span>
           </button>
 
           <span className="domain-indicator font-mono">
@@ -46,14 +46,14 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
         >
           <div className="eyebrow-pill">
             <span className="nav-brand-dot" />
-            <span>THE LOGBOOK • STORIES & FIELD NOTES</span>
+            <span>THE LOGBOOK • WRITINGS & DOCUMENTATIONS</span>
           </div>
 
           <h1 className="articles-main-title">
-            Cerita, Eksperimen & <span className="dim">Catatan Lapangan.</span>
+            Publikasi, Panduan & <span className="dim">Dokumentasi Metode.</span>
           </h1>
           <p className="articles-main-sub">
-            Tempat gue mendokumentasikan proses kreatif—mulai dari lika-liku bikin klip Shorts gaming, bedah UI/UX, sampai trik workflow yang bikin hidup lebih gampang. Ditulis dengan bahasa santai dan apa adanya.
+            Kumpulan artikel teknis dan panduan alur kerja praktis—mulai dari otomasi pembuatan klip video menggunakan AI hingga metodologi perancangan antarmuka sistem informasi enterprise.
           </p>
 
           {/* Search & Filter Toolbar */}
@@ -75,7 +75,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
               <span className="search-icon">🔍</span>
               <input
                 type="text"
-                placeholder="Cari topik cerita (misal: shorts, layout, figma)..."
+                placeholder="Cari judul artikel atau topik pembahasan..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="article-search-input"
@@ -122,7 +122,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
                 <div className="article-card-footer">
                   <span className="card-date font-mono">{art.date}</span>
                   <span className="card-read-btn">
-                    <span>Baca Cerita</span>
+                    <span>Baca Artikel</span>
                     <span className="arrow">↗</span>
                   </span>
                 </div>
@@ -130,7 +130,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
             ))
           ) : (
             <div className="articles-empty-state">
-              <p>Belum nemu cerita dengan kata kunci "{searchQuery}". Coba cari topik lain yuk.</p>
+              <p>Tidak ditemukan artikel yang sesuai dengan kata kunci "{searchQuery}".</p>
               <button 
                 type="button" 
                 onClick={() => { setSearchQuery(''); setSelectedCategory('Semua'); }}
