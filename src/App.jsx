@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import SplashCursor from './components/SplashCursor';
 import TechText from './components/TechText';
 import NiskenadiLogo from './components/NiskenadiLogo';
@@ -807,6 +808,7 @@ export default function App() {
           </div>
         )}
       </AnimatePresence>
+      <Analytics />
     </>
   );
 }
