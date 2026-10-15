@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ARTICLES } from '../data/articles';
+import InteractiveStepGuide, { STEP_DATA } from './InteractiveStepGuide';
 
 export default function ArticleDetail({ article, onBack, onSelectArticle }) {
   const [copied, setCopied] = useState(false);
+  const [lightboxImg, setLightboxImg] = useState(null);
 
   if (!article) return null;
 
@@ -18,6 +20,39 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
       });
     }
   };
+
+  const handleOpenLightbox = (src, title, caption, stepNumber) => {
+    setLightboxImg({ src, title, caption, stepNumber });
+  };
+
+  const handleLightboxNav = (direction) => {
+    if (!lightboxImg) return;
+    const currentIdx = STEP_DATA.findIndex(
+      s => s.image === lightboxImg.src || s.step === lightboxImg.stepNumber
+    );
+    if (currentIdx === -1) return;
+    let nextIdx = currentIdx + direction;
+    if (nextIdx < 0) nextIdx = STEP_DATA.length - 1;
+    if (nextIdx >= STEP_DATA.length) nextIdx = 0;
+    const nextStep = STEP_DATA[nextIdx];
+    setLightboxImg({
+      src: nextStep.image,
+      title: nextStep.title,
+      caption: nextStep.summary,
+      stepNumber: nextStep.step
+    });
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!lightboxImg) return;
+      if (e.key === 'Escape') setLightboxImg(null);
+      if (e.key === 'ArrowRight') handleLightboxNav(1);
+      if (e.key === 'ArrowLeft') handleLightboxNav(-1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImg]);
 
   return (
     <article className="article-reader-container">
@@ -78,58 +113,109 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="article-body"
       >
-        {article.content.map((block, idx) => {
-          if (block.type === 'intro') {
-            return (
-              <p key={idx} className="article-intro-text">
-                {block.text}
-              </p>
-            );
-          }
-          if (block.type === 'paragraph') {
-            return (
-              <p key={idx} className="article-paragraph">
-                {block.text}
-              </p>
-            );
-          }
-          if (block.type === 'heading') {
-            return (
-              <h2 key={idx} className="article-heading-2">
-                {block.title}
-              </h2>
-            );
-          }
-          if (block.type === 'list') {
-            return (
-              <ul key={idx} className="article-list">
-                {block.items.map((item, itemIdx) => (
-                  <li key={itemIdx} className="article-list-item">
-                    <span className="list-bullet">✦</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            );
-          }
-          if (block.type === 'callout') {
-            return (
-              <div key={idx} className="article-callout-box">
-                <h4 className="callout-title">{block.title}</h4>
-                <p className="callout-text">{block.text}</p>
-              </div>
-            );
-          }
-          if (block.type === 'conclusion') {
-            return (
-              <div key={idx} className="article-conclusion-box">
-                <span className="conclusion-badge">Poin Kunci</span>
-                <p className="conclusion-text">{block.text}</p>
-              </div>
-            );
-          }
-          return null;
-        })}
+        {/* Intro text */}
+        {article.content
+          .filter(b => b.type === 'intro' || b.type === 'paragraph')
+          .slice(0, 2)
+          .map((b, i) => (
+            <p key={i} className={b.type === 'intro' ? 'article-intro-text' : 'article-paragraph'}>
+              {b.text}
+            </p>
+          ))}
+
+        {/* Interactive Step Guide Component (if available) */}
+        {article.hasInteractiveGuide && (
+          <InteractiveStepGuide onOpenLightbox={handleOpenLightbox} />
+        )}
+
+        {/* Detailed Section Content */}
+        {article.content
+          .filter((b, i) => {
+            // Skip the first 2 intro/paragraph blocks because they were rendered above the interactive guide
+            if (article.hasInteractiveGuide && (b.type === 'intro' || (b.type === 'paragraph' && i === 1))) {
+              return false;
+            }
+            return true;
+          })
+          .map((block, idx) => {
+            if (block.type === 'paragraph') {
+              return (
+                <p key={idx} className="article-paragraph">
+                  {block.text}
+                </p>
+              );
+            }
+            if (block.type === 'heading') {
+              return (
+                <h2 key={idx} className="article-heading-2">
+                  {block.title}
+                </h2>
+              );
+            }
+            if (block.type === 'image') {
+              return (
+                <figure key={idx} className="article-doc-figure">
+                  <div 
+                    className="article-doc-image-wrapper"
+                    onClick={() => handleOpenLightbox(block.src, block.title, block.caption, parseInt(block.stepNumber, 10))}
+                  >
+                    <img 
+                      src={block.src} 
+                      alt={block.alt} 
+                      className="article-doc-img"
+                      loading="lazy" 
+                    />
+                    <div className="doc-image-zoom-overlay">
+                      <span className="doc-zoom-pill">🔍 Perbesar Tampilan Resolusi Tinggi</span>
+                    </div>
+                    {block.tag && (
+                      <span className="doc-tag-badge">{block.tag}</span>
+                    )}
+                  </div>
+                  <figcaption className="article-doc-caption">
+                    <div className="doc-caption-title">{block.title}</div>
+                    <p className="doc-caption-desc">{block.caption}</p>
+                    {block.specs && block.specs.length > 0 && (
+                      <div className="doc-specs-list">
+                        {block.specs.map((sp, sIdx) => (
+                          <span key={sIdx} className="doc-spec-item">{sp}</span>
+                        ))}
+                      </div>
+                    )}
+                  </figcaption>
+                </figure>
+              );
+            }
+            if (block.type === 'list') {
+              return (
+                <ul key={idx} className="article-list">
+                  {block.items.map((item, itemIdx) => (
+                    <li key={itemIdx} className="article-list-item">
+                      <span className="list-bullet">✦</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              );
+            }
+            if (block.type === 'callout') {
+              return (
+                <div key={idx} className="article-callout-box">
+                  <h4 className="callout-title">{block.title}</h4>
+                  <p className="callout-text">{block.text}</p>
+                </div>
+              );
+            }
+            if (block.type === 'conclusion') {
+              return (
+                <div key={idx} className="article-conclusion-box">
+                  <span className="conclusion-badge">Poin Kunci</span>
+                  <p className="conclusion-text">{block.text}</p>
+                </div>
+              );
+            }
+            return null;
+          })}
 
         {/* Tags Row */}
         <div className="article-tags-row">
@@ -190,6 +276,82 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
           </div>
         </div>
       )}
+
+      {/* Full-Screen Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxImg && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="article-lightbox-backdrop"
+            onClick={() => setLightboxImg(null)}
+          >
+            <div 
+              className="article-lightbox-modal"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Lightbox Topbar */}
+              <div className="lightbox-topbar">
+                <div className="lightbox-title-box">
+                  <span className="lightbox-step-badge">
+                    Dokumentasi Visual {lightboxImg.stepNumber ? `0${lightboxImg.stepNumber}` : ''}
+                  </span>
+                  <h3 className="lightbox-title">{lightboxImg.title}</h3>
+                </div>
+
+                <div className="lightbox-controls">
+                  <span className="lightbox-key-hint">Tekan ESC untuk tutup</span>
+                  <button 
+                    type="button"
+                    onClick={() => setLightboxImg(null)}
+                    className="lightbox-btn-close"
+                    aria-label="Tutup pratinjau gambar"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Lightbox Image Preview with Nav Arrows */}
+              <div className="lightbox-image-stage">
+                <button
+                  type="button"
+                  onClick={() => handleLightboxNav(-1)}
+                  className="lightbox-nav-arrow left"
+                  aria-label="Dokumentasi sebelumnya"
+                >
+                  ‹
+                </button>
+
+                <img 
+                  src={lightboxImg.src} 
+                  alt={lightboxImg.title} 
+                  className="lightbox-main-img" 
+                />
+
+                <button
+                  type="button"
+                  onClick={() => handleLightboxNav(1)}
+                  className="lightbox-nav-arrow right"
+                  aria-label="Dokumentasi berikutnya"
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* Lightbox Footer Caption */}
+              <div className="lightbox-footer">
+                <p className="lightbox-caption-text">{lightboxImg.caption}</p>
+                <div className="lightbox-counter">
+                  Langkah {lightboxImg.stepNumber} dari 5
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </article>
   );
 }

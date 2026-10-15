@@ -17,10 +17,10 @@ export default function ArticlesSection({ onSelectArticle, onViewAllArticles }) 
               <span>04 • THE LOGBOOK</span>
             </div>
             <h2 className="section-title">
-              Articles & <span className="dim">Publications.</span>
+              Behind the Scenes & <span className="dim">Writings.</span>
             </h2>
             <p className="section-subtitle">
-              Dokumentasi metode kerja, pemanfaatan kecerdasan buatan dalam kreasi konten, serta prinsip perancangan antarmuka produk digital.
+              Catatan eksperimen langsung, rahasia alur kerja AI, dan studi kasus desain produk yang dirangkum santai untuk langsung kamu contek.
             </p>
           </div>
 

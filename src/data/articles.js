@@ -13,6 +13,7 @@ export const ARTICLES = [
     },
     excerpt: 'Panduan praktis mengubah rekaman live stream berdurasi jam-jaman menjadi puluhan klip YouTube Shorts vertikal (9:16) berkualitas tinggi secara otomatis dengan Google Antigravity—mulai dari kurasi momen lucu, penataan layout, hingga sinkronisasi subtitle.',
     tags: ['YouTube Shorts', 'Google Antigravity', 'AI Video Editing', 'Workflow Automation', 'Content Strategy'],
+    hasInteractiveGuide: true,
     content: [
       {
         type: 'intro',
@@ -29,6 +30,16 @@ export const ARTICLES = [
       {
         type: 'paragraph',
         text: 'Alih-alih memutar ulang seluruh rekaman video dari awal yang memakan waktu berjam-jam, sistem AI dapat dimanfaatkan untuk memindai berkas audio dan transkrip siaran secara otomatis:'
+      },
+      {
+        type: 'image',
+        src: '/assets/article-step1-waveform.jpg',
+        alt: 'Visualisasi Analisis Waveform Audio dan Deteksi Momen Puncak',
+        stepNumber: '01',
+        tag: 'Dokumentasi Visual 01',
+        title: 'Spektrogram Lonjakan Amplitudo Audio & Deteksi The Hook',
+        caption: 'Gambar 1.1: Pemindaian otomatis lonjakan gelombang suara (waveform spike > -6 dB) dan transkripsi suara untuk menentukan momen reaksi puncak (tawa/kaget), serta mengisolasi detik 0.00 – 0.03 sebagai hook pembuka.',
+        specs: ['Frekuensi Audio: 48 kHz Stereo', 'Amplitudo Spike: > -6 dB', 'Engine: Whisper AI + Voice Activity Detection']
       },
       {
         type: 'list',
@@ -52,6 +63,16 @@ export const ARTICLES = [
         text: 'Sumber rekaman siaran langsung umumnya berorientasi horizontal (16:9). Untuk menyajikannya secara proporsional di layar ponsel pintar tanpa distorsi gambar, diterapkan metode tata letak bertingkat (stacked layout):'
       },
       {
+        type: 'image',
+        src: '/assets/article-step2-layout.jpg',
+        alt: 'Blueprint Arsitektur Tata Letak Vertikal 9:16 (Stacked Layout)',
+        stepNumber: '02',
+        tag: 'Dokumentasi Visual 02',
+        title: 'Komposisi Stacked Layout 9:16 (65% Gameplay + 35% Facecam)',
+        caption: 'Gambar 2.1: Dekomposisi rekaman horizontal 16:9 menjadi format vertikal smartphone 9:16. Membagi porsi 65% area atas untuk gameplay aksi dan 35% area bawah untuk webcam tanpa celah hitam (zero margin) serta bebas distorsi gepeng.',
+        specs: ['Kanvas Output: 1080 x 1920 px (9:16)', 'Porsi Gameplay: 65% (1248 px)', 'Porsi Facecam: 35% (672 px)']
+      },
+      {
         type: 'list',
         items: [
           'Area Atas (65% Layar): Didedikasikan untuk rekaman permainan (gameplay). Bidang pandang diperbesar dan difokuskan pada pergerakan karakter utama.',
@@ -66,6 +87,16 @@ export const ARTICLES = [
       {
         type: 'paragraph',
         text: 'Pemotongan dan pembesaran bidang visual dari rasio horizontal ke vertikal secara alami dapat mengurangi kerapatan piksel. Untuk menjaga agar teks antarmuka gim dan detail wajah tetap jernih, digunakan rantai pemrosesan grafis:'
+      },
+      {
+        type: 'image',
+        src: '/assets/article-step3-sharpening.jpg',
+        alt: 'Komparasi Kualitas Gambar: Bilinear Crop vs Lanczos + FidelityFX CAS',
+        stepNumber: '03',
+        tag: 'Dokumentasi Visual 03',
+        title: 'Restorasi Ketajaman Gambar Pasca-Crop (Lanczos & FidelityFX CAS)',
+        caption: 'Gambar 3.1: Komparasi visual pembesaran gambar. Sisi kiri memperlihatkan pembesaran standar bilinear yang buram, sedangkan sisi kanan telah direstorasi dengan filter Lanczos 8-tap dan Contrast Adaptive Sharpening (CAS) pada bitrate 15.2 Mbps.',
+        specs: ['Filter Rekonstruksi: Lanczos 8-Tap', 'Filter Adaptif: AMD FidelityFX CAS', 'Bitrate Ekspor: 14 – 16 Mbps VBR']
       },
       {
         type: 'list',
@@ -83,6 +114,16 @@ export const ARTICLES = [
         text: 'Sebagian besar pengguna mengonsumsi video pendek di tempat umum dengan tingkat volume suara rendah. Keberadaan subtitle yang akurat menjadi penentu apakah pesan video tersampaikan dengan baik:'
       },
       {
+        type: 'image',
+        src: '/assets/article-step4-subtitles.jpg',
+        alt: 'Penyelarasan Subtitle Dinamis dan Zonasi Safe Area YouTube Shorts',
+        stepNumber: '04',
+        tag: 'Dokumentasi Visual 04',
+        title: 'Subtitle Dinamis Milidetik & Kepatuhan Safe Area Shorts',
+        caption: 'Gambar 4.1: Penempatan teks kinetik di zona aman (safe area) YouTube Shorts agar tidak tertutup tombol interaksi di sebelah kanan (Like, Komentar, Bagikan) serta judul audio di bawah. Dilengkapi diferensiasi warna pembicara (Hijau untuk Host, Kuning untuk Tamu).',
+        specs: ['Presisi Sinkronisasi: ±20 ms Speech Boundary', 'Safe Margin Bawah: 140 px', 'Safe Margin Kanan: 90 px']
+      },
+      {
         type: 'list',
         items: [
           'Sinkronisasi Suara Presisi (Speech Boundary Detection): Menggunakan model pengenalan ucapan AI untuk mencocokkan kemunculan teks tepat pada milidetik ketika kata diucapkan.',
@@ -97,6 +138,16 @@ export const ARTICLES = [
       {
         type: 'paragraph',
         text: 'Keunggulan utama pemanfaatan lingkungan agen AI seperti Google Antigravity adalah kemampuannya dalam mereplikasi konfigurasi kerja secara berulang. Setelah parameter tata letak, penajaman, dan pengaturan teks pada klip pertama terverifikasi dengan baik, formula tersebut dapat langsung diinstruksikan untuk memproses 9 hingga 10 klip lainnya secara otomatis.'
+      },
+      {
+        type: 'image',
+        src: '/assets/article-step5-pipeline.jpg',
+        alt: 'Alur Kerja Otomasi Batch Processing Google Antigravity Agent',
+        stepNumber: '05',
+        tag: 'Dokumentasi Visual 05',
+        title: 'Konsol Orkestrasi Pipeline Batch Google Antigravity Agent',
+        caption: 'Gambar 5.1: Pipeline otomasi mandiri Google Antigravity. Satu perintah CLI memicu pemrosesan 10 klip Shorts secara paralel dengan pipeline FFmpeg berakselerasi GPU NVENC, mereduksi waktu eksekusi manual dari 4 jam menjadi hanya 4 menit.',
+        specs: ['Orkestrasi: Google Antigravity Agent', 'Throughput: 10 Shorts / ~4 Menit', 'Hardware Engine: GPU NVENC H.264/HEVC']
       },
       {
         type: 'conclusion',

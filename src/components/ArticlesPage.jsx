@@ -46,14 +46,14 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
         >
           <div className="eyebrow-pill">
             <span className="nav-brand-dot" />
-            <span>THE LOGBOOK • WRITINGS & DOCUMENTATIONS</span>
+            <span>WELCOME TO MY ARTICLES</span>
           </div>
 
           <h1 className="articles-main-title">
-            Publikasi, Panduan & <span className="dim">Dokumentasi Metode.</span>
+            Welcome to <span className="dim">My Logbook.</span>
           </h1>
           <p className="articles-main-sub">
-            Kumpulan artikel teknis dan panduan alur kerja praktis—mulai dari otomasi pembuatan klip video menggunakan AI hingga metodologi perancangan antarmuka sistem informasi enterprise.
+            Catatan santai seputar eksperimen AI, alur kerja konten, dan studi kasus desain produk.
           </p>
 
           {/* Search & Filter Toolbar */}
