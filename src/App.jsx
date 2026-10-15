@@ -3,6 +3,10 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import SplashCursor from './components/SplashCursor';
 import TechText from './components/TechText';
 import NiskenadiLogo from './components/NiskenadiLogo';
+import ArticlesSection from './components/ArticlesSection';
+import ArticlesPage from './components/ArticlesPage';
+import ArticleDetail from './components/ArticleDetail';
+import { getArticleBySlug } from './data/articles';
 import './index.css';
 
 // --- Assets & Media ---
@@ -96,6 +100,10 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Routing & Sub-page State: 'home' | 'articles' | 'article-detail'
+  const [currentView, setCurrentView] = useState('home');
+  const [activeArticle, setActiveArticle] = useState(null);
+
   // Hairline Scroll Progress Bar (Pure GPU via Framer Motion transforms)
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -103,6 +111,88 @@ export default function App() {
     damping: 30,
     restDelta: 0.001
   });
+
+  // Sync route with URL path / hash / query
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      const params = new URLSearchParams(window.location.search);
+      const articleParam = params.get('article');
+
+      if (path.startsWith('/articles/') || hash.startsWith('#/articles/')) {
+        const slug = path.startsWith('/articles/') 
+          ? path.replace('/articles/', '') 
+          : hash.replace('#/articles/', '');
+        const found = getArticleBySlug(slug);
+        if (found) {
+          setActiveArticle(found);
+          setCurrentView('article-detail');
+          window.scrollTo(0, 0);
+          return;
+        }
+      }
+
+      if (articleParam) {
+        const found = getArticleBySlug(articleParam);
+        if (found) {
+          setActiveArticle(found);
+          setCurrentView('article-detail');
+          window.scrollTo(0, 0);
+          return;
+        }
+      }
+
+      if (path === '/articles' || hash === '#articles-page' || hash === '#/articles') {
+        setCurrentView('articles');
+        setActiveArticle(null);
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      setCurrentView('home');
+      setActiveArticle(null);
+    };
+
+    handleLocationChange();
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  const navigateToHome = (targetAnchor = null) => {
+    setCurrentView('home');
+    setActiveArticle(null);
+    setMobileMenuOpen(false);
+    window.history.pushState(null, '', '/');
+    if (targetAnchor) {
+      setTimeout(() => {
+        const el = document.querySelector(targetAnchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const navigateToArticles = () => {
+    setCurrentView('articles');
+    setActiveArticle(null);
+    setMobileMenuOpen(false);
+    window.history.pushState(null, '', '/articles');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToArticleDetail = (article) => {
+    setActiveArticle(article);
+    setCurrentView('article-detail');
+    setMobileMenuOpen(false);
+    window.history.pushState(null, '', `/articles/${article.slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Handle ESC key for modal and mobile menu
   useEffect(() => {
@@ -127,7 +217,12 @@ export default function App() {
       {/* 2. Responsive Floating Pill Navigation */}
       <div className="header-wrapper">
         <header className="floating-nav">
-          <a href="#hero" className="nav-brand-badge" onClick={() => setMobileMenuOpen(false)} aria-label="Niskenadi Home">
+          <a 
+            href="#hero" 
+            className="nav-brand-badge" 
+            onClick={(e) => { e.preventDefault(); navigateToHome('#hero'); }} 
+            aria-label="Niskenadi Home"
+          >
             <NiskenadiLogo size={22} className="nav-brand-logo" />
             <span>Niskenadi</span>
           </a>
@@ -135,10 +230,71 @@ export default function App() {
           {/* Desktop / Tablet Wide Menu */}
           <nav className="desktop-nav">
             <ul className="nav-menu">
-              <li><a href="#case-studies" className="nav-link">Log Pose</a></li>
-              <li><a href="#bounties" className="nav-link">Bounties</a></li>
-              <li><a href="#about" className="nav-link">Crew</a></li>
-              <li><a href="#contact" className="nav-cta-btn">Set Sail ↗</a></li>
+              <li>
+                <a 
+                  href="#case-studies" 
+                  className="nav-link" 
+                  onClick={(e) => { 
+                    if (currentView !== 'home') { 
+                      e.preventDefault(); 
+                      navigateToHome('#case-studies'); 
+                    } 
+                  }}
+                >
+                  Log Pose
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#bounties" 
+                  className="nav-link" 
+                  onClick={(e) => { 
+                    if (currentView !== 'home') { 
+                      e.preventDefault(); 
+                      navigateToHome('#bounties'); 
+                    } 
+                  }}
+                >
+                  Bounties
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#about" 
+                  className="nav-link" 
+                  onClick={(e) => { 
+                    if (currentView !== 'home') { 
+                      e.preventDefault(); 
+                      navigateToHome('#about'); 
+                    } 
+                  }}
+                >
+                  Crew
+                </a>
+              </li>
+              <li>
+                <button 
+                  type="button" 
+                  className={`nav-link-btn ${currentView === 'articles' || currentView === 'article-detail' ? 'active' : ''}`}
+                  onClick={navigateToArticles}
+                >
+                  Articles
+                </button>
+              </li>
+              <li>
+                <a 
+                  href="#contact" 
+                  className="nav-cta-btn" 
+                  onClick={(e) => { 
+                    if (currentView !== 'home') { 
+                      e.preventDefault(); 
+                      navigateToHome('#contact'); 
+                    } 
+                  }}
+                >
+                  Set Sail ↗
+                </a>
+              </li>
             </ul>
           </nav>
 
@@ -164,19 +320,72 @@ export default function App() {
               exit={{ opacity: 0, y: -10, scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <a href="#case-studies" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+              <a 
+                href="#case-studies" 
+                className="mobile-nav-item" 
+                onClick={(e) => { 
+                  if (currentView !== 'home') { 
+                    e.preventDefault(); 
+                    navigateToHome('#case-studies'); 
+                  } else { 
+                    setMobileMenuOpen(false); 
+                  } 
+                }}
+              >
                 <span className="item-num">01</span>
                 <span>The Log Pose</span>
               </a>
-              <a href="#bounties" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+              <a 
+                href="#bounties" 
+                className="mobile-nav-item" 
+                onClick={(e) => { 
+                  if (currentView !== 'home') { 
+                    e.preventDefault(); 
+                    navigateToHome('#bounties'); 
+                  } else { 
+                    setMobileMenuOpen(false); 
+                  } 
+                }}
+              >
                 <span className="item-num">02</span>
                 <span>Digital Bounties</span>
               </a>
-              <a href="#about" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+              <a 
+                href="#about" 
+                className="mobile-nav-item" 
+                onClick={(e) => { 
+                  if (currentView !== 'home') { 
+                    e.preventDefault(); 
+                    navigateToHome('#about'); 
+                  } else { 
+                    setMobileMenuOpen(false); 
+                  } 
+                }}
+              >
                 <span className="item-num">03</span>
                 <span>The Crewmate</span>
               </a>
-              <a href="#contact" className="mobile-nav-cta" onClick={() => setMobileMenuOpen(false)}>
+              <button 
+                type="button" 
+                className="mobile-nav-item" 
+                style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                onClick={navigateToArticles}
+              >
+                <span className="item-num">04</span>
+                <span>The Logbook (Articles)</span>
+              </button>
+              <a 
+                href="#contact" 
+                className="mobile-nav-cta" 
+                onClick={(e) => { 
+                  if (currentView !== 'home') { 
+                    e.preventDefault(); 
+                    navigateToHome('#contact'); 
+                  } else { 
+                    setMobileMenuOpen(false); 
+                  } 
+                }}
+              >
                 <span>Set Sail (Contact)</span>
                 <span>↗</span>
               </a>
@@ -186,8 +395,21 @@ export default function App() {
       </div>
 
       <main>
-        {/* 3. Hero Section */}
-        <section id="hero">
+        {currentView === 'article-detail' ? (
+          <ArticleDetail 
+            article={activeArticle} 
+            onBack={navigateToArticles} 
+            onSelectArticle={navigateToArticleDetail} 
+          />
+        ) : currentView === 'articles' ? (
+          <ArticlesPage 
+            onSelectArticle={navigateToArticleDetail} 
+            onBackToHome={() => navigateToHome()} 
+          />
+        ) : (
+          <>
+            {/* 3. Hero Section */}
+            <section id="hero">
           <div className="container">
             <div className="hero-layout">
               <motion.div 
@@ -444,7 +666,13 @@ export default function App() {
           </div>
         </section>
 
-        {/* 7. Final Port / Outro */}
+        {/* 4. The Logbook (Articles Section) */}
+        <ArticlesSection 
+          onSelectArticle={navigateToArticleDetail}
+          onViewAllArticles={navigateToArticles}
+        />
+
+        {/* 5. Final Port / Outro */}
         <section id="contact" className="footer-section">
           <div className="container">
             <motion.div
@@ -510,6 +738,8 @@ export default function App() {
             </motion.div>
           </div>
         </section>
+        </>
+      )}
       </main>
 
       {/* 8. Accessible Clean Modal for HRKita Case Study */}
