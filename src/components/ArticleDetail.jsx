@@ -27,7 +27,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
           type="button"
           onClick={onBack} 
           className="btn-article-back"
-          aria-label="Kembali ke daftar artikel"
+          aria-label="Kembali ke daftar cerita"
         >
           <span>←</span>
           <span>Kembali ke Logbook</span>
@@ -37,9 +37,9 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
           type="button"
           onClick={handleShare} 
           className="btn-article-share"
-          aria-label="Bagikan artikel"
+          aria-label="Bagikan cerita"
         >
-          <span>{copied ? '✓ Link Tersalin!' : '🔗 Bagikan'}</span>
+          <span>{copied ? '✓ Link Berhasil Disalin!' : '🔗 Bagikan Cerita'}</span>
         </button>
       </div>
 
@@ -123,7 +123,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
           if (block.type === 'conclusion') {
             return (
               <div key={idx} className="article-conclusion-box">
-                <span className="conclusion-badge">Ringkasan Inti</span>
+                <span className="conclusion-badge">Catatan Inti</span>
                 <p className="conclusion-text">{block.text}</p>
               </div>
             );
@@ -147,14 +147,14 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
           onClick={onBack} 
           className="btn-back-primary"
         >
-          ← Kembali ke Semua Artikel
+          ← Kembali ke Semua Cerita
         </button>
         <button 
           type="button"
           onClick={handleShare} 
           className="btn-share-secondary"
         >
-          {copied ? 'Tautan Berhasil Disalin!' : 'Bagikan Artikel Ini ↗'}
+          {copied ? '✓ Link Berhasil Disalin!' : 'Bagikan Cerita Ini ↗'}
         </button>
       </div>
 
@@ -162,7 +162,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
       {otherArticles.length > 0 && (
         <div style={{ marginTop: '56px', paddingTop: '36px', borderTop: '1px solid var(--border-subtle)' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#34D399', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Rekomendasi Catatan Lainnya
+            Cerita Menarik Lainnya
           </span>
           <div style={{ marginTop: '16px' }}>
             {otherArticles.map(other => (
@@ -181,7 +181,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
                 <div className="article-home-footer">
                   <span className="font-mono text-xs text-neutral-500">{other.date}</span>
                   <span className="btn-read-link">
-                    <span>Baca Catatan Ini</span>
+                    <span>Baca Cerita Ini</span>
                     <span>↗</span>
                   </span>
                 </div>

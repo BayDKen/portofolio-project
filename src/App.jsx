@@ -278,7 +278,7 @@ export default function App() {
                   className={`nav-link-btn ${currentView === 'articles' || currentView === 'article-detail' ? 'active' : ''}`}
                   onClick={navigateToArticles}
                 >
-                  Articles
+                  Logbook
                 </button>
               </li>
               <li>

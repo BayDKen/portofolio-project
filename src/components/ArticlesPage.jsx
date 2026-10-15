@@ -6,7 +6,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['Semua', 'Content & Workflow', 'Product Design'];
+  const categories = ['Semua', 'Bikin Konten', 'Desain Produk'];
 
   const filteredArticles = ARTICLES.filter(art => {
     const matchesCategory = selectedCategory === 'Semua' || art.category === selectedCategory;
@@ -29,7 +29,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
             aria-label="Kembali ke Portofolio Utama"
           >
             <span>←</span>
-            <span>Kembali ke Portofolio Utama</span>
+            <span>Kembali ke Beranda Portofolio</span>
           </button>
 
           <span className="domain-indicator font-mono">
@@ -46,14 +46,14 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
         >
           <div className="eyebrow-pill">
             <span className="nav-brand-dot" />
-            <span>THE LOGBOOK • WRITINGS & EXPERIMENTS</span>
+            <span>THE LOGBOOK • STORIES & FIELD NOTES</span>
           </div>
 
           <h1 className="articles-main-title">
-            Catatan, Panduan & <span className="dim">Metode Nyata.</span>
+            Cerita, Eksperimen & <span className="dim">Catatan Lapangan.</span>
           </h1>
           <p className="articles-main-sub">
-            Kumpulan panduan praktis dan pemikiran seputar pembuatan konten digital, workflow video editing, dan desain produk — ditulis dengan gaya kasual, to-the-point, dan langsung bisa kamu praktekkan.
+            Tempat gue mendokumentasikan proses kreatif—mulai dari lika-liku bikin klip Shorts gaming, bedah UI/UX, sampai trik workflow yang bikin hidup lebih gampang. Ditulis dengan bahasa santai dan apa adanya.
           </p>
 
           {/* Search & Filter Toolbar */}
@@ -75,7 +75,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
               <span className="search-icon">🔍</span>
               <input
                 type="text"
-                placeholder="Cari topik atau artikel..."
+                placeholder="Cari topik cerita (misal: shorts, layout, figma)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="article-search-input"
@@ -122,7 +122,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
                 <div className="article-card-footer">
                   <span className="card-date font-mono">{art.date}</span>
                   <span className="card-read-btn">
-                    <span>Baca Catatan</span>
+                    <span>Baca Cerita</span>
                     <span className="arrow">↗</span>
                   </span>
                 </div>
@@ -130,7 +130,7 @@ export default function ArticlesPage({ onSelectArticle, onBackToHome }) {
             ))
           ) : (
             <div className="articles-empty-state">
-              <p>Tidak ditemukan artikel dengan kata kunci "{searchQuery}".</p>
+              <p>Belum nemu cerita dengan kata kunci "{searchQuery}". Coba cari topik lain yuk.</p>
               <button 
                 type="button" 
                 onClick={() => { setSearchQuery(''); setSelectedCategory('Semua'); }}

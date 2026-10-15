@@ -17,10 +17,10 @@ export default function ArticlesSection({ onSelectArticle, onViewAllArticles }) 
               <span>04 • THE LOGBOOK</span>
             </div>
             <h2 className="section-title">
-              Articles & <span className="dim">Methods.</span>
+              Stories & <span className="dim">Behind The Scenes.</span>
             </h2>
             <p className="section-subtitle">
-              Catatan praktis, metode pembuatan konten video, dan workflow desain digital yang to-the-point tanpa basa-basi.
+              Kumpulan cerita santai, eksperimen bikin konten, dan catatan lapangan seputar desain produk yang gue pelajari langsung dari praktek nyata.
             </p>
           </div>
 
@@ -29,7 +29,7 @@ export default function ArticlesSection({ onSelectArticle, onViewAllArticles }) 
             onClick={onViewAllArticles}
             className="btn-view-all-articles"
           >
-            <span>Semua Catatan (Logbook)</span>
+            <span>Buka Logbook Lengkap</span>
             <span>↗</span>
           </button>
         </div>
@@ -57,7 +57,7 @@ export default function ArticlesSection({ onSelectArticle, onViewAllArticles }) 
               <div className="article-home-footer">
                 <span className="font-mono text-xs text-neutral-500">{art.date}</span>
                 <span className="btn-read-link">
-                  <span>Baca Selengkapnya</span>
+                  <span>Baca Cerita Ini</span>
                   <span>↗</span>
                 </span>
               </div>
