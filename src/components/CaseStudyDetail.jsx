@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { getCaseStudyById } from '../data/caseStudies';
 
 export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }) {
-  const [isPlaying, setIsPlaying] = useState(true);
   const [copied, setCopied] = useState(false);
-  const videoRef = React.useRef(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsPlaying(true);
   }, [caseStudy?.id]);
 
   if (!caseStudy) return null;
@@ -16,17 +13,6 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
   const nextProject = caseStudy.nextProjectId 
     ? getCaseStudyById(caseStudy.nextProjectId)
     : null;
-
-  const toggleVideoPlay = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
 
   const handleShare = () => {
     const url = `${window.location.origin}/#case-studies/${caseStudy.slug}`;
@@ -114,36 +100,22 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
         </div>
       </div>
 
-      {/* 3. Cinematic Video Showcase Player */}
+      {/* 3. High-Definition System Interface Showcase */}
       <section className="case-study-media-stage">
         <div className="case-study-player-wrap">
-          <video 
-            ref={videoRef}
-            src={caseStudy.videoUrl}
-            poster={caseStudy.posterUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="case-study-video-elem"
-            onClick={toggleVideoPlay}
+          <img 
+            src={caseStudy.posterUrl}
+            alt={caseStudy.title}
+            className="case-study-showcase-img"
+            loading="eager"
           />
           <div className="player-overlay-bar">
             <div className="player-badge-group">
               <span className="video-live-pill">
-                <span className="live-pulse" /> High Definition Walkthrough (Looping Preview)
+                <span className="live-pulse" /> High Definition Interface Overview
               </span>
             </div>
             <div className="player-controls-group">
-              <button 
-                type="button" 
-                className="player-ctrl-btn" 
-                onClick={toggleVideoPlay}
-                aria-label={isPlaying ? "Pause video" : "Play video"}
-              >
-                {isPlaying ? "❚❚ Pause" : "▶ Play"}
-              </button>
               <button 
                 type="button" 
                 className="player-ctrl-btn" 
