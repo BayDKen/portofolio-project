@@ -233,7 +233,8 @@ export default function App() {
           </a>
 
           {/* Desktop / Tablet Wide Menu */}
-          <nav className="desktop-nav">
+          <nav className="desktop-nav" aria-label="Main Navigation">
+            <span className="nav-divider" aria-hidden="true" />
             <ul className="nav-menu">
               <li>
                 <a 
@@ -295,21 +296,21 @@ export default function App() {
                   Streams
                 </button>
               </li>
-              <li>
-                <a 
-                  href="#contact" 
-                  className="nav-cta-btn" 
-                  onClick={(e) => { 
-                    if (currentView !== 'home') { 
-                      e.preventDefault(); 
-                      navigateToHome('#contact'); 
-                    } 
-                  }}
-                >
-                  Set Sail ↗
-                </a>
-              </li>
             </ul>
+            <span className="nav-divider" aria-hidden="true" />
+            <a 
+              href="#contact" 
+              className="nav-cta-btn" 
+              onClick={(e) => { 
+                if (currentView !== 'home') { 
+                  e.preventDefault(); 
+                  navigateToHome('#contact'); 
+                } 
+              }}
+            >
+              <span>Set Sail</span>
+              <span className="nav-cta-arrow">↗</span>
+            </a>
           </nav>
 
           {/* Mobile Menu Hamburger / Close Toggle */}

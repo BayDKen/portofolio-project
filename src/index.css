@@ -166,31 +166,32 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 28px;
-  padding: 8px 22px;
-  background: rgba(14, 14, 18, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
+  gap: 14px;
+  padding: 6px 6px 6px 18px;
+  background: rgba(14, 14, 18, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-pill);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.25s ease;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
   white-space: nowrap;
 }
 
 .floating-nav:hover {
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .nav-brand-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  font-size: 0.925rem;
+  letter-spacing: 0.01em;
   color: var(--text-main);
   white-space: nowrap;
+  padding: 4px 2px;
 }
 
 .nav-brand-logo {
@@ -224,44 +225,93 @@ section {
 .desktop-nav {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 4px;
   list-style: none;
   white-space: nowrap;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-link {
-  font-size: 0.875rem;
+.nav-menu li {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link,
+.nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
   font-weight: 500;
+  line-height: 1;
   color: var(--text-muted);
-  transition: color 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
+  text-decoration: none;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link-btn:hover {
   color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-link.active,
+.nav-link-btn.active {
+  color: #34D399;
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.28);
 }
 
 .nav-cta-btn {
-  font-size: 0.8125rem;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
   font-weight: 600;
+  line-height: 1;
   color: #0B0B0E;
   background: var(--text-main);
-  padding: 7px 16px;
+  padding: 9px 16px;
   border-radius: var(--radius-pill);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
+  gap: 5px;
+}
+
+.nav-cta-arrow {
+  font-size: 0.78rem;
+  transition: transform 0.2s ease;
 }
 
 .nav-cta-btn:hover {
   transform: translateY(-1px);
   background: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+.nav-cta-btn:hover .nav-cta-arrow {
+  transform: translate(1.5px, -1.5px);
 }
 
 /* Mobile Nav Toggle & Dropdown */
@@ -961,12 +1011,22 @@ section {
   }
 
   .floating-nav {
-    gap: 16px;
-    padding: 8px 18px;
+    gap: 10px;
+    padding: 5px 5px 5px 14px;
+  }
+
+  .desktop-nav {
+    gap: 8px;
   }
 
   .nav-menu {
-    gap: 14px;
+    gap: 2px;
+  }
+
+  .nav-link,
+  .nav-link-btn {
+    padding: 7px 11px;
+    font-size: 0.8rem;
   }
 
   .hero-layout {
@@ -1224,31 +1284,6 @@ section {
 /* ==========================================================================
    Articles & Logbook Section / Sub-Page Styles
    ========================================================================== */
-
-/* Navbar Button Variant */
-.nav-link-btn {
-  background: none;
-  border: none;
-  padding: 6px 12px;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-}
-
-.nav-link-btn:hover,
-.nav-link-btn.active {
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.nav-link-btn.active {
-  color: #34D399;
-  border: 1px solid rgba(52, 211, 153, 0.25);
-}
 
 /* Home Section 04: Articles */
 .articles-section {
