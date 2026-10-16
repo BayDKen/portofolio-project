@@ -6,6 +6,7 @@ import NiskenadiLogo from './components/NiskenadiLogo';
 import ArticlesSection from './components/ArticlesSection';
 import ArticlesPage from './components/ArticlesPage';
 import ArticleDetail from './components/ArticleDetail';
+import YoutubePage from './components/YoutubePage';
 import { getArticleBySlug } from './data/articles';
 import './index.css';
 
@@ -51,19 +52,8 @@ const PROJECTS = [
     description: 'In-browser 3D box visualizer enabling real-time packaging texture application.',
     image: IMG_PACKMOCKUP,
     link: 'https://packmockup.vercel.app/',
-    span: 'bento-col-4',
+    span: 'bento-col-6',
     tech: ['Three.js', 'React', 'Product Design']
-  },
-  {
-    id: 'seradia',
-    title: 'Seradia',
-    category: 'Luxury Digital',
-    tag: 'Event Platform',
-    description: 'Bespoke digital coordination platform crafted with editorial wedding aesthetics.',
-    image: IMG_SERADIA,
-    link: 'https://seradia.vercel.app/',
-    span: 'bento-col-4',
-    tech: ['Editorial UI', 'UX Research', 'Booking Flow']
   },
   {
     id: 'lumutijo',
@@ -73,7 +63,7 @@ const PROJECTS = [
     description: 'A serene nature-centric portal dedicated to ecosystem restoration initiatives.',
     image: IMG_LUMUTIJO,
     link: 'https://lumutijo.vercel.app/',
-    span: 'bento-col-4',
+    span: 'bento-col-6',
     tech: ['Visual Storytelling', 'Accessibility', 'Interaction']
   }
 ];
@@ -150,6 +140,13 @@ export default function App() {
         return;
       }
 
+      if (path === '/streams' || path === '/youtube' || hash === '#streams' || hash === '#/streams' || hash === '#youtube') {
+        setCurrentView('streams');
+        setActiveArticle(null);
+        window.scrollTo(0, 0);
+        return;
+      }
+
       setCurrentView('home');
       setActiveArticle(null);
     };
@@ -183,6 +180,14 @@ export default function App() {
     setActiveArticle(null);
     setMobileMenuOpen(false);
     window.history.pushState(null, '', '/articles');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToStreams = () => {
+    setCurrentView('streams');
+    setActiveArticle(null);
+    setMobileMenuOpen(false);
+    window.history.pushState(null, '', '/streams');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -282,6 +287,15 @@ export default function App() {
                 </button>
               </li>
               <li>
+                <button 
+                  type="button" 
+                  className={`nav-link-btn ${currentView === 'streams' ? 'active' : ''}`}
+                  onClick={navigateToStreams}
+                >
+                  Streams
+                </button>
+              </li>
+              <li>
                 <a 
                   href="#contact" 
                   className="nav-cta-btn" 
@@ -374,6 +388,15 @@ export default function App() {
                 <span className="item-num">04</span>
                 <span>The Logbook (Articles)</span>
               </button>
+              <button 
+                type="button" 
+                className="mobile-nav-item" 
+                style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                onClick={navigateToStreams}
+              >
+                <span className="item-num">05</span>
+                <span>The Den Den Mushi (Streams)</span>
+              </button>
               <a 
                 href="#contact" 
                 className="mobile-nav-cta" 
@@ -404,6 +427,10 @@ export default function App() {
         ) : currentView === 'articles' ? (
           <ArticlesPage 
             onSelectArticle={navigateToArticleDetail} 
+            onBackToHome={() => navigateToHome()} 
+          />
+        ) : currentView === 'streams' ? (
+          <YoutubePage 
             onBackToHome={() => navigateToHome()} 
           />
         ) : (
@@ -466,77 +493,153 @@ export default function App() {
           </div>
         </section>
 
-        {/* 4. Flagship Case Study (The Log Pose) */}
+        {/* 4. Flagship Case Studies (The Log Pose) */}
         <section id="case-studies">
           <div className="container">
             <div className="section-header-bar">
               <div className="section-label-group">
-                <span className="section-tag">01 / Flagship Mission</span>
+                <span className="section-tag">01 / Flagship Missions</span>
                 <h2>The Log Pose</h2>
               </div>
-              <span className="section-meta-sub">Enterprise Platform & Payroll Architecture</span>
+              <span className="section-meta-sub">Enterprise Systems & Bespoke Digital Platforms</span>
             </div>
 
-            <motion.div 
-              className="flagship-card"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={fadeInUp}
-            >
-              <div className="flagship-visual">
-                <img 
-                  src={IMG_HRKITA} 
-                  alt="HRKita HCIS Platform interface" 
-                  className="flagship-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div className="flagship-details">
-                <div className="flagship-meta-top">
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <span className="pill-badge">Case Study</span>
-                    <span className="pill-badge">Enterprise HCIS</span>
-                  </div>
-                  <h3>HRKita Platform</h3>
-                  <p>
-                    End-to-end design for an enterprise Human Capital Information System and executive payroll dashboard. Engineered scalable design tokens to reduce data fatigue across high-density workflows.
-                  </p>
-
-                  <div className="flagship-chip-grid">
-                    <div className="meta-metric-item">
-                      <span className="meta-metric-label">Role</span>
-                      <span className="meta-metric-val">Lead Product Designer</span>
-                    </div>
-                    <div className="meta-metric-item">
-                      <span className="meta-metric-label">Core Deliverable</span>
-                      <span className="meta-metric-val">Design System & Tokens</span>
-                    </div>
-                    <div className="meta-metric-item">
-                      <span className="meta-metric-label">Module Scope</span>
-                      <span className="meta-metric-val">Payroll, HCIS, Analytics</span>
-                    </div>
-                    <div className="meta-metric-item">
-                      <span className="meta-metric-label">UX Metric</span>
-                      <span className="meta-metric-val">-40% Approval Time</span>
-                    </div>
-                  </div>
+            <div className="flagship-stack">
+              {/* Mission 01: HRKita */}
+              <motion.div 
+                className="flagship-card"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeInUp}
+              >
+                <div className="flagship-visual">
+                  <img 
+                    src={IMG_HRKITA} 
+                    alt="HRKita HCIS Platform interface" 
+                    className="flagship-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
 
-                <div>
-                  <button 
-                    type="button"
-                    className="footer-btn-primary" 
-                    style={{ width: '100%', padding: '12px 24px', cursor: 'pointer' }}
-                    onClick={() => setModalOpen(true)}
-                  >
-                    View System Case Study Details ↗
-                  </button>
+                <div className="flagship-details">
+                  <div className="flagship-meta-top">
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <span className="pill-badge">Case Study</span>
+                      <span className="pill-badge">Enterprise HCIS</span>
+                    </div>
+                    <h3>HRKita Platform</h3>
+                    <p>
+                      End-to-end design for an enterprise Human Capital Information System and executive payroll dashboard. Engineered scalable design tokens to reduce data fatigue across high-density workflows.
+                    </p>
+
+                    <div className="flagship-chip-grid">
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Role</span>
+                        <span className="meta-metric-val">Lead Product Designer</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Core Deliverable</span>
+                        <span className="meta-metric-val">Design System & Tokens</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Module Scope</span>
+                        <span className="meta-metric-val">Payroll, HCIS, Analytics</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">UX Metric</span>
+                        <span className="meta-metric-val">-40% Approval Time</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button 
+                      type="button"
+                      className="footer-btn-primary" 
+                      style={{ width: '100%', padding: '12px 24px', cursor: 'pointer' }}
+                      onClick={() => setModalOpen(true)}
+                    >
+                      View System Case Study Details ↗
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+
+              {/* Mission 02: Seradia */}
+              <motion.div 
+                className="flagship-card"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeInUp}
+              >
+                <div className="flagship-visual">
+                  <img 
+                    src={IMG_SERADIA} 
+                    alt="Seradia Wedding Management Platform interface" 
+                    className="flagship-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
+                <div className="flagship-details">
+                  <div className="flagship-meta-top">
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <span className="pill-badge">Flagship Platform</span>
+                      <span className="pill-badge">Wedding Management</span>
+                      <span className="pill-badge active-status"><span className="nav-brand-dot" /> Live Production</span>
+                    </div>
+                    <h3>Seradia — Wedding Management Platform</h3>
+                    <p>
+                      Platform manajemen pernikahan all-in-one yang dirancang untuk mempermudah calon pengantin dan wedding planner dalam merencanakan setiap detail pernikahan tanpa stres. Mengintegrasikan 5 modul esensial: kalkulator anggaran cerdas (Smart Budgeting), manajemen daftar tamu & konfirmasi kehadiran (Guest List & RSVP), direktori kolaborasi vendor terverifikasi, wedding checklist & timeline terstruktur, serta undangan digital interaktif bernuansa editorial luxury.
+                    </p>
+
+                    <div className="flagship-chip-grid">
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Role</span>
+                        <span className="meta-metric-val">Lead Product & UI/UX Designer</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Core Deliverable</span>
+                        <span className="meta-metric-val">End-to-End UX & Design System</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Key Modules</span>
+                        <span className="meta-metric-val">Budget, RSVP, Checklist, Vendor</span>
+                      </div>
+                      <div className="meta-metric-item">
+                        <span className="meta-metric-label">Design Aesthetic</span>
+                        <span className="meta-metric-val">Editorial Luxury & Warm Minimalism</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <a 
+                      href="https://seradia.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-btn-primary" 
+                      style={{ 
+                        width: '100%', 
+                        padding: '12px 24px', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        gap: '8px',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <span>Kunjungi Website Seradia (seradia.vercel.app)</span>
+                      <span>↗</span>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -548,7 +651,7 @@ export default function App() {
                 <span className="section-tag">02 / Digital Bounties</span>
                 <h2>Crafted Experiments & Live Tools</h2>
               </div>
-              <span className="section-meta-sub">5 Live Web Applications & Systems</span>
+              <span className="section-meta-sub">4 Live Web Applications & Systems</span>
             </div>
 
             <motion.div 
@@ -725,6 +828,14 @@ export default function App() {
                   className="footer-btn-ghost"
                 >
                   Dribbble
+                </a>
+                <a 
+                  href="https://www.youtube.com/@1kikend" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer-btn-ghost"
+                >
+                  YouTube ↗
                 </a>
               </div>
 

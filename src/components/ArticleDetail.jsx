@@ -7,11 +7,8 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
   const [copied, setCopied] = useState(false);
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  if (!article) return null;
-
-  const otherArticles = ARTICLES.filter(a => a.id !== article.id);
-
   const handleShare = () => {
+    if (!article) return;
     const url = `${window.location.origin}/articles/${article.slug}`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(() => {
@@ -25,7 +22,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
     setLightboxImg({ src, title, caption, stepNumber });
   };
 
-  const handleLightboxNav = (direction) => {
+  const handleLightboxNav = React.useCallback((direction) => {
     if (!lightboxImg) return;
     const currentIdx = STEP_DATA.findIndex(
       s => s.image === lightboxImg.src || s.step === lightboxImg.stepNumber
@@ -41,7 +38,7 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
       caption: nextStep.summary,
       stepNumber: nextStep.step
     });
-  };
+  }, [lightboxImg]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -52,7 +49,11 @@ export default function ArticleDetail({ article, onBack, onSelectArticle }) {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightboxImg]);
+  }, [lightboxImg, handleLightboxNav]);
+
+  if (!article) return null;
+
+  const otherArticles = ARTICLES.filter(a => a.id !== article.id);
 
   return (
     <article className="article-reader-container">
