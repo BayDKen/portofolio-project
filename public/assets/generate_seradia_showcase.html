@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Seradia Showcase Graphic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 2560px;
+      height: 1440px;
+      background: #0B0E15;
+      font-family: 'Inter', -apple-system, sans-serif;
+      overflow: hidden;
+      position: relative;
+      color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient luxury glow backdrop matching HRKita aesthetic */
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 40% 42%, rgba(212, 175, 55, 0.18) 0%, rgba(184, 134, 11, 0.05) 35%, transparent 60%),
+        radial-gradient(circle at 70% 50%, rgba(52, 211, 153, 0.10) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, #121824 0%, #07090E 100%);
+      z-index: 0;
+    }
+
+    .bg-grid-mesh {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+      background-size: 56px 56px;
+      opacity: 0.75;
+      z-index: 1;
+    }
+
+    /* Top Branding Pill Badge (Positioned at x=600px) */
+    .top-badge {
+      position: absolute;
+      top: 75px;
+      left: 600px;
+      height: 125px;
+      width: 730px;
+      background: rgba(22, 25, 34, 0.96);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 65px;
+      padding: 12px 20px 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.12);
+      z-index: 10;
+      backdrop-filter: blur(24px);
+    }
+
+    .badge-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .badge-icon-box {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2D2319 0%, #141315 100%);
+      border: 2px solid rgba(212, 175, 55, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(212, 175, 55, 0.28);
+    }
+
+    .badge-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .badge-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+
+    .badge-brand-sub {
+      font-size: 14.5px;
+      color: #BDB0A0;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-pill-tag {
+      background: #FFFFFF;
+      color: #0E0F14;
+      font-size: 19px;
+      font-weight: 800;
+      padding: 13px 26px;
+      border-radius: 36px;
+      letter-spacing: -0.01em;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      white-space: nowrap;
+    }
+
+    /* PRIMARY LEFT MOCKUP (Browser Window showing Hero Landing Page) */
+    .mockup-left {
+      position: absolute;
+      left: 600px;
+      top: 245px;
+      width: 730px;
+      height: 1195px;
+      background: #FBF8F3;
+      border-radius: 26px 26px 0 0;
+      border: 2px solid rgba(255, 255, 255, 0.16);
+      border-bottom: none;
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.85),
+        0 0 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* macOS Window Bar */
+    .browser-bar {
+      height: 56px;
+      background: #171820;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .window-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F56; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #27C93F; }
+
+    .browser-nav-icons {
+      display: flex;
+      gap: 12px;
+      color: #717684;
+      font-size: 16px;
+    }
+
+    .browser-address {
+      flex: 1;
+      height: 34px;
+      background: #0E0F14;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #E2D9CC;
+      font-size: 13px;
+      font-family: 'Space Grotesk', monospace;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .browser-address span.protocol {
+      color: #6B7280;
+    }
+
+    /* Left Browser Web Content */
+    .web-content {
+      flex: 1;
+      background: #FBF8F3;
+      color: #241D17;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Seradia Top Nav */
+    .seradia-nav {
+      height: 62px;
+      padding: 0 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      background: rgba(251, 248, 243, 0.92);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #261E19;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-brand-subtitle {
+      font-size: 8px;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.12em;
+      color: #8C7862;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #594D42;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-login {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #261E19;
+    }
+
+    .btn-cta-nav {
+      font-family: 'Montserrat', sans-serif;
+      background: #241B16;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 18px;
+    }
+
+    /* Seradia Hero Section inside Left Mockup */
+    .hero-view {
+      padding: 38px 32px 20px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-badge-pill {
+      background: #EFE8DC;
+      border: 1px solid #DFD5C3;
+      color: #927339;
+      font-size: 11px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      padding: 6px 16px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 47px;
+      line-height: 1.15;
+      font-weight: 700;
+      color: #211914;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-headline .italic-gold {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #C19946;
+      font-weight: 600;
+    }
+
+    .hero-lead {
+      max-width: 570px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #63574A;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      margin-bottom: 26px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .btn-hero-primary {
+      background: #231913;
+      color: #FFFFFF;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 10px;
+      box-shadow: 0 8px 18px rgba(35, 25, 19, 0.22);
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1.5px solid #D8CFC2;
+      color: #382D24;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 10px;
+    }
+
+    /* Embedded miniature dashboard teaser in left screen */
+    .mini-dashboard-teaser {
+      width: 100%;
+      background: #FFFFFF;
+      border-radius: 16px 16px 0 0;
+      border: 1px solid #EBE3D7;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .teaser-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #F0E9DF;
+      padding-bottom: 10px;
+    }
+
+    .teaser-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #211914;
+    }
+
+    .teaser-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .teaser-card {
+      background: #FBF9F6;
+      border: 1px solid #EFEAE2;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .teaser-card-label {
+      font-size: 10px;
+      color: #8C7C6D;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .teaser-card-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #241A14;
+      margin-top: 2px;
+    }
+
+    /* SECONDARY RIGHT SCREEN (Dashboard & Operations Platform) */
+    .mockup-right {
+      position: absolute;
+      left: 1360px;
+      top: 190px;
+      width: 760px;
+      height: 1250px;
+      background: #15161E;
+      border-radius: 26px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(212, 175, 55, 0.08);
+      overflow: hidden;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right-header-bar {
+      height: 56px;
+      background: #111218;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .right-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1E202B;
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Space Grotesk', monospace;
+      font-size: 13px;
+      color: #E2D9CC;
+    }
+
+    .right-live-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #34D399;
+      background: rgba(52, 211, 153, 0.12);
+      padding: 5px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34D399;
+      box-shadow: 0 0 8px #34D399;
+    }
+
+    /* Right Main Layout (Sidebar + Content) */
+    .dashboard-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      background: #14151C;
+    }
+
+    /* Sidebar */
+    .dashboard-sidebar {
+      background: #0E0F14;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 22px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .side-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .side-brand-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.05em;
+    }
+
+    .side-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .side-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #8C92A4;
+    }
+
+    .side-item.active {
+      background: rgba(212, 175, 55, 0.14);
+      color: #EBD496;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      font-weight: 600;
+    }
+
+    .side-item-icon {
+      font-size: 14px;
+      width: 16px;
+      text-align: center;
+    }
+
+    /* Dashboard Main Stage */
+    .dashboard-stage {
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: #15161E;
+      overflow: hidden;
+    }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .stage-title-group h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 3px;
+    }
+
+    .stage-title-group p {
+      font-size: 12.5px;
+      color: #8E95A5;
+    }
+
+    .date-pill {
+      font-size: 11px;
+      color: #B8A996;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 5px 11px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    /* Stats Cards Row */
+    .stage-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px;
+    }
+
+    .stat-box {
+      background: #1C1E28;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #D4AF37, transparent);
+    }
+
+    .stat-label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #8C94A6;
+      font-weight: 600;
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .stat-meta {
+      font-size: 10.5px;
+      color: #34D399;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 2-Column Module Breakdown */
+    .stage-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card-panel {
+      background: #1C1E28;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 9px;
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .panel-badge {
+      font-size: 9.5px;
+      color: #D4AF37;
+      background: rgba(212, 175, 55, 0.1);
+      padding: 3px 6px;
+      border-radius: 5px;
+    }
+
+    /* Progress Items */
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: #C5CBD8;
+    }
+
+    .progress-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #D4AF37, #EBD496);
+    }
+
+    /* RSVP List items */
+    .rsvp-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .rsvp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 9px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .rsvp-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #D0D5E0;
+    }
+
+    .rsvp-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .rsvp-val {
+      font-weight: 700;
+      font-family: 'Space Grotesk', monospace;
+      color: #FFFFFF;
+      font-size: 12px;
+    }
+
+    /* Bottom Feature Highlights Bar */
+    .bottom-features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .feature-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 9px;
+      padding: 9px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .chip-icon {
+      font-size: 15px;
+    }
+
+    .chip-text h4 {
+      font-size: 10.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .chip-text p {
+      font-size: 9px;
+      color: #8C94A6;
+      margin-top: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Backdrop -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid-mesh"></div>
+
+  <!-- Top-Left Branding Pill Badge (Positioned at x=600px, width=730px) -->
+  <div class="top-badge">
+    <div class="badge-left">
+      <div class="badge-icon-box">
+        <!-- Seradia Gold Interlocking Rings Logo -->
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <circle cx="16" cy="20" r="11" fill="none" stroke="#D4AF37" stroke-width="2.6" opacity="0.95"/>
+          <circle cx="24" cy="20" r="11" fill="none" stroke="#D4AF37" stroke-width="2.6" opacity="0.95"/>
+        </svg>
+      </div>
+      <div class="badge-title-group">
+        <div class="badge-brand-name">SERADIA</div>
+        <div class="badge-brand-sub">Wedding Management Platform</div>
+      </div>
+    </div>
+    <div class="badge-pill-tag">Landing & Platform</div>
+  </div>
+
+  <!-- PRIMARY LEFT MOCKUP (Browser Window showing Hero Landing Page) -->
+  <div class="mockup-left">
+    <!-- Browser Window Bar -->
+    <div class="browser-bar">
+      <div class="window-dots">
+        <div class="window-dot dot-red"></div>
+        <div class="window-dot dot-yellow"></div>
+        <div class="window-dot dot-green"></div>
+      </div>
+      <div class="browser-nav-icons">
+        <span>‹</span>
+        <span>›</span>
+        <span>↻</span>
+      </div>
+      <div class="browser-address">
+        <span class="protocol">https://</span>seradia.vercel.app
+      </div>
+      <div class="browser-nav-icons" style="margin-right: 4px;">
+        <span>+</span>
+      </div>
+    </div>
+
+    <!-- Web Content Viewport -->
+    <div class="web-content">
+      <!-- Top Nav -->
+      <div class="seradia-nav">
+        <div class="nav-brand">
+          <svg width="22" height="22" viewBox="0 0 40 40">
+            <circle cx="16" cy="20" r="10" fill="none" stroke="#261E19" stroke-width="2.5"/>
+            <circle cx="24" cy="20" r="10" fill="none" stroke="#261E19" stroke-width="2.5"/>
+          </svg>
+          <div>
+            <div class="nav-brand-title">Seradia</div>
+            <div class="nav-brand-subtitle">Wedding Planner</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <span>Fitur</span>
+          <span>Cara Kerja</span>
+          <span>Testimoni</span>
+        </div>
+
+        <div class="nav-actions">
+          <span class="btn-login">Masuk</span>
+          <span class="btn-cta-nav">Mulai Gratis</span>
+        </div>
+      </div>
+
+      <!-- Hero View -->
+      <div class="hero-view">
+        <div class="hero-badge-pill">✦ Wedding Management Platform</div>
+        
+        <h1 class="hero-headline">
+          Rencanakan Hari <br/>
+          <span class="italic-gold">Paling Bahagia</span> <br/>
+          dalam Hidupmu
+        </h1>
+
+        <p class="hero-lead">
+          Seradia membantu kamu mengatur budget, daftar tamu, vendor, checklist, dan undangan digital dalam satu platform yang elegan dan mudah digunakan.
+        </p>
+
+        <div class="hero-cta-group">
+          <div class="btn-hero-primary">Mulai Merencanakan — Gratis</div>
+          <div class="btn-hero-secondary">Sudah punya akun? Masuk</div>
+        </div>
+
+        <!-- Mini Dashboard Teaser -->
+        <div class="mini-dashboard-teaser">
+          <div class="teaser-bar">
+            <span class="teaser-title">✦ Integrated Wedding Dashboard</span>
+            <span style="font-size: 10px; color: #8A7A6C; font-weight: 600;">seradia.app/dashboard</span>
+          </div>
+          <div class="teaser-metrics">
+            <div class="teaser-card">
+              <div class="teaser-card-label">Total Anggaran</div>
+              <div class="teaser-card-val">Rp 150 jt</div>
+            </div>
+            <div class="teaser-card">
+              <div class="teaser-card-label">Terpakai</div>
+              <div class="teaser-card-val" style="color: #9E7D38;">Rp 87 jt</div>
+            </div>
+            <div class="teaser-card">
+              <div class="teaser-card-label">Tamu Hadir</div>
+              <div class="teaser-card-val">87 Tamu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECONDARY RIGHT SCREEN (Dashboard & Operations Platform) -->
+  <div class="mockup-right">
+    <div class="right-header-bar">
+      <div class="right-tab">
+        <span>⚡</span>
+        <span>seradia.app/dashboard/budget</span>
+      </div>
+      <div class="right-live-badge">
+        <div class="pulse-dot"></div>
+        <span>Live System • Wedding Operations</span>
+      </div>
+    </div>
+
+    <div class="dashboard-body">
+      <!-- Sidebar -->
+      <div class="dashboard-sidebar">
+        <div class="side-brand">
+          <svg width="24" height="24" viewBox="0 0 40 40">
+            <circle cx="16" cy="20" r="10" fill="none" stroke="#D4AF37" stroke-width="2.5"/>
+            <circle cx="24" cy="20" r="10" fill="none" stroke="#D4AF37" stroke-width="2.5"/>
+          </svg>
+          <div class="side-brand-text">Seradia</div>
+        </div>
+
+        <div class="side-menu">
+          <div class="side-item active">
+            <span class="side-item-icon">📊</span>
+            <span>Dashboard</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">💰</span>
+            <span>Budget Tracker</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">✓</span>
+            <span>Checklist & Rundown</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">🎁</span>
+            <span>Seserahan Manager</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">👥</span>
+            <span>Tamu & RSVP</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">🏪</span>
+            <span>Vendor Directory</span>
+          </div>
+          <div class="side-item">
+            <span class="side-item-icon">💌</span>
+            <span>Undangan Digital</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Stage -->
+      <div class="dashboard-stage">
+        <div class="stage-header">
+          <div class="stage-title-group">
+            <h2>Wedding Control Center</h2>
+            <p>Ikhtisar persiapan, alokasi pengeluaran, dan RSVP</p>
+          </div>
+          <div class="date-pill">H-45 Days to Wedding</div>
+        </div>
+
+        <!-- Stats Overview Cards -->
+        <div class="stage-stats-row">
+          <div class="stat-box">
+            <span class="stat-label">Total Alokasi Budget</span>
+            <span class="stat-number">Rp 150 jt</span>
+            <span class="stat-meta">100% Target</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Pengeluaran Terbayar</span>
+            <span class="stat-number" style="color: #EBD496;">Rp 87,5 jt</span>
+            <span class="stat-meta">58.3% Anggaran</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Konfirmasi RSVP</span>
+            <span class="stat-number">87 Hadir</span>
+            <span class="stat-meta">142 Undangan</span>
+          </div>
+        </div>
+
+        <!-- 2 Column Panels -->
+        <div class="stage-split">
+          <!-- Progress Persiapan -->
+          <div class="card-panel">
+            <div class="panel-header">
+              <span class="panel-title">Progress Persiapan</span>
+              <span class="panel-badge">72% Completed</span>
+            </div>
+            <div class="progress-list">
+              <div class="progress-item">
+                <div class="progress-labels">
+                  <span>Lamaran & Seserahan</span>
+                  <span style="color: #D4AF37; font-weight: 600;">85%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 85%;"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-labels">
+                  <span>Venue, Katering & Dekorasi</span>
+                  <span style="color: #D4AF37; font-weight: 600;">65%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 65%;"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-labels">
+                  <span>Busana, Make Up & Foto</span>
+                  <span style="color: #D4AF37; font-weight: 600;">45%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 45%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RSVP Tamu -->
+          <div class="card-panel">
+            <div class="panel-header">
+              <span class="panel-title">Status RSVP Tamu</span>
+              <span class="panel-badge" style="color: #34D399; background: rgba(52,211,153,0.1);">Real-time</span>
+            </div>
+            <div class="rsvp-stats">
+              <div class="rsvp-row">
+                <div class="rsvp-left">
+                  <div class="rsvp-dot" style="background: #34D399; box-shadow: 0 0 6px #34D399;"></div>
+                  <span>Hadir Pasti</span>
+                </div>
+                <span class="rsvp-val" style="color: #34D399;">87 Tamu</span>
+              </div>
+              <div class="rsvp-row">
+                <div class="rsvp-left">
+                  <div class="rsvp-dot" style="background: #F59E0B; box-shadow: 0 0 6px #F59E0B;"></div>
+                  <span>Menunggu RSVP</span>
+                </div>
+                <span class="rsvp-val" style="color: #F59E0B;">43 Tamu</span>
+              </div>
+              <div class="rsvp-row">
+                <div class="rsvp-left">
+                  <div class="rsvp-dot" style="background: #EF4444; box-shadow: 0 0 6px #EF4444;"></div>
+                  <span>Berhalangan</span>
+                </div>
+                <span class="rsvp-val" style="color: #EF4444;">12 Tamu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Feature Chips -->
+        <div class="bottom-features-grid">
+          <div class="feature-chip">
+            <span class="chip-icon">💰</span>
+            <div class="chip-text">
+              <h4>Smart Budget</h4>
+              <p>Otomasi kalkulasi biaya</p>
+            </div>
+          </div>
+          <div class="feature-chip">
+            <span class="chip-icon">💌</span>
+            <div class="chip-text">
+              <h4>Undangan Digital</h4>
+              <p>Editor luxury interaktif</p>
+            </div>
+          </div>
+          <div class="feature-chip">
+            <span class="chip-icon">📋</span>
+            <div class="chip-text">
+              <h4>Timeline & Rundown</h4>
+              <p>Checklist terstruktur</p>
+            </div>
+          </div>
+          <div class="feature-chip">
+            <span class="chip-icon">🤝</span>
+            <div class="chip-text">
+              <h4>Vendor Directory</h4>
+              <p>Kolaborasi terkurasi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
