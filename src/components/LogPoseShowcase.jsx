@@ -4,7 +4,6 @@ const LOG_POSE_ITEMS = [
   {
     id: 'hrkita',
     num: '01',
-    badge: '01 / Flagship Mission',
     title: 'HRKita Platform',
     desc: 'Human Capital Information System & Enterprise Payroll Dashboard.',
     thumb: '/assets/hrkita_thumb.png',
@@ -13,7 +12,6 @@ const LOG_POSE_ITEMS = [
   {
     id: 'seradia',
     num: '02',
-    badge: '02 / Flagship Mission',
     title: 'Seradia Platform',
     desc: 'All-in-One Wedding Management Platform & Digital Invitation.',
     thumb: '/assets/thumb_seradia.png',
@@ -134,9 +132,6 @@ export default function LogPoseShowcase({ onSelectCaseStudy }) {
 
             {/* Top Bar: Clean & Minimalist */}
             <div className="card-content-top">
-              <span className="card-clean-tag">
-                <span className="nav-brand-dot" /> {LOG_POSE_ITEMS[0].badge}
-              </span>
               <span className="card-arrow-pill">
                 Explore Case Study ↗
               </span>
@@ -172,9 +167,6 @@ export default function LogPoseShowcase({ onSelectCaseStudy }) {
 
             {/* Top Bar: Clean & Minimalist */}
             <div className="card-content-top">
-              <span className="card-clean-tag tag-gold">
-                <span className="nav-brand-dot dot-gold" /> {LOG_POSE_ITEMS[1].badge}
-              </span>
               <span className="card-arrow-pill pill-gold">
                 Explore Case Study ↗
               </span>
