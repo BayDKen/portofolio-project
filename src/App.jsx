@@ -7,18 +7,19 @@ import ArticlesSection from './components/ArticlesSection';
 import ArticlesPage from './components/ArticlesPage';
 import ArticleDetail from './components/ArticleDetail';
 import YoutubePage from './components/YoutubePage';
+import LogPoseShowcase from './components/LogPoseShowcase';
+import CaseStudyDetail from './components/CaseStudyDetail';
 import { getArticleBySlug } from './data/articles';
+import { getCaseStudyById } from './data/caseStudies';
 import './index.css';
 
 // --- Assets & Media ---
 const PROFILE_PIC = '/profile.png';
-const IMG_HRKITA = '/assets/hrkita_thumb.png';
 const ONE_PIECE_LOGO = '/assets/one_piece_logo.svg';
 
 const IMG_IMAGIFY = '/assets/thumb_imagify.png';
 const IMG_CLAY = '/assets/thumb_clay.png';
 const IMG_PACKMOCKUP = '/assets/thumb_packmockup.png';
-const IMG_SERADIA = '/assets/thumb_seradia.png';
 const IMG_LUMUTIJO = '/assets/thumb_lumutijo.png';
 
 const PROJECTS = [
@@ -87,12 +88,12 @@ const staggerContainer = {
 };
 
 export default function App() {
-  const [modalOpen, setModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Routing & Sub-page State: 'home' | 'articles' | 'article-detail'
+  // Routing & Sub-page State: 'home' | 'articles' | 'article-detail' | 'streams' | 'case-study-detail'
   const [currentView, setCurrentView] = useState('home');
   const [activeArticle, setActiveArticle] = useState(null);
+  const [activeCaseStudy, setActiveCaseStudy] = useState(null);
 
   // Hairline Scroll Progress Bar (Pure GPU via Framer Motion transforms)
   const { scrollYProgress } = useScroll();
@@ -109,7 +110,37 @@ export default function App() {
       const hash = window.location.hash;
       const params = new URLSearchParams(window.location.search);
       const articleParam = params.get('article');
+      const caseStudyParam = params.get('case-study') || params.get('casestudy');
 
+      // 1. Case Study Routes: /case-studies/:id or #case-studies/:id or #/case-studies/:id
+      if (path.startsWith('/case-studies/') || hash.startsWith('#/case-studies/') || hash.startsWith('#case-studies/')) {
+        const slug = path.startsWith('/case-studies/')
+          ? path.replace('/case-studies/', '')
+          : hash.startsWith('#/case-studies/')
+            ? hash.replace('#/case-studies/', '')
+            : hash.replace('#case-studies/', '');
+        const found = getCaseStudyById(slug);
+        if (found) {
+          setActiveCaseStudy(found);
+          setActiveArticle(null);
+          setCurrentView('case-study-detail');
+          window.scrollTo(0, 0);
+          return;
+        }
+      }
+
+      if (caseStudyParam) {
+        const found = getCaseStudyById(caseStudyParam);
+        if (found) {
+          setActiveCaseStudy(found);
+          setActiveArticle(null);
+          setCurrentView('case-study-detail');
+          window.scrollTo(0, 0);
+          return;
+        }
+      }
+
+      // 2. Article Routes
       if (path.startsWith('/articles/') || hash.startsWith('#/articles/')) {
         const slug = path.startsWith('/articles/') 
           ? path.replace('/articles/', '') 
@@ -117,6 +148,7 @@ export default function App() {
         const found = getArticleBySlug(slug);
         if (found) {
           setActiveArticle(found);
+          setActiveCaseStudy(null);
           setCurrentView('article-detail');
           window.scrollTo(0, 0);
           return;
@@ -127,6 +159,7 @@ export default function App() {
         const found = getArticleBySlug(articleParam);
         if (found) {
           setActiveArticle(found);
+          setActiveCaseStudy(null);
           setCurrentView('article-detail');
           window.scrollTo(0, 0);
           return;
@@ -136,6 +169,7 @@ export default function App() {
       if (path === '/articles' || hash === '#articles-page' || hash === '#/articles') {
         setCurrentView('articles');
         setActiveArticle(null);
+        setActiveCaseStudy(null);
         window.scrollTo(0, 0);
         return;
       }
@@ -143,12 +177,14 @@ export default function App() {
       if (path === '/streams' || path === '/youtube' || hash === '#streams' || hash === '#/streams' || hash === '#youtube') {
         setCurrentView('streams');
         setActiveArticle(null);
+        setActiveCaseStudy(null);
         window.scrollTo(0, 0);
         return;
       }
 
       setCurrentView('home');
       setActiveArticle(null);
+      setActiveCaseStudy(null);
     };
 
     handleLocationChange();
@@ -163,13 +199,14 @@ export default function App() {
   const navigateToHome = (targetAnchor = null) => {
     setCurrentView('home');
     setActiveArticle(null);
+    setActiveCaseStudy(null);
     setMobileMenuOpen(false);
-    window.history.pushState(null, '', '/');
+    window.history.pushState(null, '', targetAnchor ? targetAnchor : '/');
     if (targetAnchor) {
       setTimeout(() => {
         const el = document.querySelector(targetAnchor);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
+      }, 60);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -178,6 +215,7 @@ export default function App() {
   const navigateToArticles = () => {
     setCurrentView('articles');
     setActiveArticle(null);
+    setActiveCaseStudy(null);
     setMobileMenuOpen(false);
     window.history.pushState(null, '', '/articles');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -186,6 +224,7 @@ export default function App() {
   const navigateToStreams = () => {
     setCurrentView('streams');
     setActiveArticle(null);
+    setActiveCaseStudy(null);
     setMobileMenuOpen(false);
     window.history.pushState(null, '', '/streams');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -193,9 +232,23 @@ export default function App() {
 
   const navigateToArticleDetail = (article) => {
     setActiveArticle(article);
+    setActiveCaseStudy(null);
     setCurrentView('article-detail');
     setMobileMenuOpen(false);
     window.history.pushState(null, '', `/articles/${article.slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToCaseStudy = (idOrCaseStudy) => {
+    const found = typeof idOrCaseStudy === 'string'
+      ? getCaseStudyById(idOrCaseStudy)
+      : idOrCaseStudy;
+    if (!found) return;
+    setActiveCaseStudy(found);
+    setActiveArticle(null);
+    setCurrentView('case-study-detail');
+    setMobileMenuOpen(false);
+    window.history.pushState(null, '', `/#case-studies/${found.slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -419,7 +472,13 @@ export default function App() {
       </div>
 
       <main>
-        {currentView === 'article-detail' ? (
+        {currentView === 'case-study-detail' ? (
+          <CaseStudyDetail 
+            caseStudy={activeCaseStudy} 
+            onBack={() => navigateToHome('#case-studies')} 
+            onSelectCaseStudy={navigateToCaseStudy} 
+          />
+        ) : currentView === 'article-detail' ? (
           <ArticleDetail 
             article={activeArticle} 
             onBack={navigateToArticles} 
@@ -494,155 +553,8 @@ export default function App() {
           </div>
         </section>
 
-        {/* 4. Flagship Case Studies (The Log Pose) */}
-        <section id="case-studies">
-          <div className="container">
-            <div className="section-header-bar">
-              <div className="section-label-group">
-                <span className="section-tag">01 / Flagship Missions</span>
-                <h2>The Log Pose</h2>
-              </div>
-              <span className="section-meta-sub">Enterprise Systems & Bespoke Digital Platforms</span>
-            </div>
-
-            <div className="flagship-stack">
-              {/* Mission 01: HRKita */}
-              <motion.div 
-                className="flagship-card"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-                variants={fadeInUp}
-              >
-                <div className="flagship-visual">
-                  <img 
-                    src={IMG_HRKITA} 
-                    alt="HRKita HCIS Platform interface" 
-                    className="flagship-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-
-                <div className="flagship-details">
-                  <div className="flagship-meta-top">
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                      <span className="pill-badge">Case Study</span>
-                      <span className="pill-badge">Enterprise HCIS</span>
-                    </div>
-                    <h3>HRKita Platform</h3>
-                    <p>
-                      End-to-end design for an enterprise Human Capital Information System and executive payroll dashboard. Engineered scalable design tokens to reduce data fatigue across high-density workflows.
-                    </p>
-
-                    <div className="flagship-chip-grid">
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Role</span>
-                        <span className="meta-metric-val">Lead Product Designer</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Core Deliverable</span>
-                        <span className="meta-metric-val">Design System & Tokens</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Module Scope</span>
-                        <span className="meta-metric-val">Payroll, HCIS, Analytics</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">UX Metric</span>
-                        <span className="meta-metric-val">-40% Approval Time</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <button 
-                      type="button"
-                      className="footer-btn-primary" 
-                      style={{ width: '100%', padding: '12px 24px', cursor: 'pointer' }}
-                      onClick={() => setModalOpen(true)}
-                    >
-                      View System Case Study Details ↗
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Mission 02: Seradia */}
-              <motion.div 
-                className="flagship-card"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-                variants={fadeInUp}
-              >
-                <div className="flagship-visual">
-                  <img 
-                    src={IMG_SERADIA} 
-                    alt="Seradia Wedding Management Platform interface" 
-                    className="flagship-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-
-                <div className="flagship-details">
-                  <div className="flagship-meta-top">
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                      <span className="pill-badge">Flagship Platform</span>
-                      <span className="pill-badge">Wedding Management</span>
-                      <span className="pill-badge active-status"><span className="nav-brand-dot" /> Live Production</span>
-                    </div>
-                    <h3>Seradia — Wedding Management Platform</h3>
-                    <p>
-                      Platform manajemen pernikahan all-in-one yang dirancang untuk mempermudah calon pengantin dan wedding planner dalam merencanakan setiap detail pernikahan tanpa stres. Mengintegrasikan 5 modul esensial: kalkulator anggaran cerdas (Smart Budgeting), manajemen daftar tamu & konfirmasi kehadiran (Guest List & RSVP), direktori kolaborasi vendor terverifikasi, wedding checklist & timeline terstruktur, serta undangan digital interaktif bernuansa editorial luxury.
-                    </p>
-
-                    <div className="flagship-chip-grid">
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Role</span>
-                        <span className="meta-metric-val">Lead Product & UI/UX Designer</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Core Deliverable</span>
-                        <span className="meta-metric-val">End-to-End UX & Design System</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Key Modules</span>
-                        <span className="meta-metric-val">Budget, RSVP, Checklist, Vendor</span>
-                      </div>
-                      <div className="meta-metric-item">
-                        <span className="meta-metric-label">Design Aesthetic</span>
-                        <span className="meta-metric-val">Editorial Luxury & Warm Minimalism</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <a 
-                      href="https://seradia.vercel.app/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="footer-btn-primary" 
-                      style={{ 
-                        width: '100%', 
-                        padding: '12px 24px', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center', 
-                        gap: '8px',
-                        textDecoration: 'none'
-                      }}
-                    >
-                      <span>Kunjungi Website Seradia (seradia.vercel.app)</span>
-                      <span>↗</span>
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
+        {/* 4. Flagship Case Studies (The Log Pose) with Video Scroll Showcase */}
+        <LogPoseShowcase onSelectCaseStudy={navigateToCaseStudy} />
 
         {/* 5. Bounties (Bento Grid) */}
         <section id="bounties">
@@ -854,71 +766,6 @@ export default function App() {
       )}
       </main>
 
-      {/* 8. Accessible Clean Modal for HRKita Case Study */}
-      <AnimatePresence>
-        {modalOpen && (
-          <div 
-            className="modal-overlay" 
-            onClick={() => setModalOpen(false)}
-            role="dialog"
-            aria-modal="true"
-          >
-            <motion.div 
-              className="modal-card"
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                type="button"
-                className="modal-close-btn" 
-                onClick={() => setModalOpen(false)}
-                aria-label="Close modal"
-              >
-                ×
-              </button>
-
-              <img 
-                src={IMG_HRKITA} 
-                alt="HRKita Full Overview" 
-                style={{ width: '100%', borderRadius: '14px', aspectRatio: '16/9', objectFit: 'cover', marginBottom: '24px', border: '1px solid var(--border-subtle)' }} 
-              />
-
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
-                <span className="pill-badge">Enterprise Case Study</span>
-                <span className="pill-badge">HCIS & Payroll</span>
-              </div>
-
-              <h2 style={{ fontSize: '2rem', marginBottom: '16px' }}>HRKita (Human Capital System)</h2>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', color: 'var(--text-muted)', lineHeight: '1.7' }}>
-                <p>
-                  <strong style={{ color: 'var(--text-main)' }}>The Challenge:</strong> Enterprise payroll and human capital information workflows suffered from fragmented spreadsheets, repetitive data entry, and slow approval cycles.
-                </p>
-                <p>
-                  <strong style={{ color: 'var(--text-main)' }}>The Solution:</strong> Built a unified high-fidelity component system and responsive executive portal. Streamlined complex tax calculations and employee status changes into step-by-step modular workflows.
-                </p>
-                <p>
-                  <strong style={{ color: 'var(--text-main)' }}>Impact:</strong> Reduced time-to-completion for monthly payroll runs by approximately 40% while standardizing UI tokens for engineering handoff.
-                </p>
-              </div>
-
-              <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
-                <button 
-                  type="button"
-                  className="footer-btn-primary" 
-                  onClick={() => setModalOpen(false)}
-                  style={{ padding: '10px 24px', fontSize: '0.875rem' }}
-                >
-                  Close Case Study
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </>
   );
 }
