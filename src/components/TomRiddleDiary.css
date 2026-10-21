@@ -1,0 +1,989 @@
+/* ==========================================================================
+   TOM MARVOLO RIDDLE — 3D ENCHANTED DIARY
+   Inspired by potterhand.sonnylab.com, taubat.app/quran & Sketchfab 3D Diary
+   ========================================================================== */
+
+@property --riddle-board {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #16151a;
+}
+
+@property --riddle-board-edge {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0b0a0e;
+}
+
+@property --riddle-spine {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #9c7e44;
+}
+
+@property --riddle-leaf {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f5ecda;
+}
+
+@property --riddle-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #261a10;
+}
+
+.riddle-desk {
+  --riddle-board: #16151a;
+  --riddle-board-edge: #0c0b0f;
+  --riddle-spine: #a6864a;
+  --riddle-leaf: #f5ecda;
+  --riddle-leaf-alt: #efe3cb;
+  --riddle-ink: #261a10;
+  --riddle-ink-soft: #5c4935;
+  --riddle-ink-muted: #846f56;
+  --riddle-accent: #1d4d38;
+  --riddle-gold: #c9a45c;
+  --riddle-rule: rgba(110, 86, 56, 0.16);
+  --riddle-gutter-edge: rgba(42, 30, 18, 0.34);
+  --riddle-gutter-core: rgba(24, 16, 9, 0.64);
+  --riddle-gutter-cast: rgba(18, 11, 6, 0.48);
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  isolation: isolate;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #1b120c;
+  color: #f2e5cf;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+              color 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.riddle-desk[data-view="focus"] {
+  background: #eae0cc;
+  color: #2c2117;
+}
+
+.riddle-desk[data-view="dark"] {
+  --riddle-board: #0e1311;
+  --riddle-board-edge: #060908;
+  --riddle-spine: #5e7a68;
+  --riddle-leaf: #1f201d;
+  --riddle-leaf-alt: #191a17;
+  --riddle-ink: #dcd2be;
+  --riddle-ink-soft: #a89f8d;
+  --riddle-ink-muted: #787062;
+  --riddle-rule: rgba(201, 164, 92, 0.12);
+  background: #090d0b;
+  color: #d8ceba;
+}
+
+/* 3D WebGL Scene Container (Three.js) */
+.riddle-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  transition: opacity 0.82s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.riddle-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.riddle-desk[data-view="focus"] .riddle-scene {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   TOP HEADER & BOTTOM FOOTER (Taubat Reading Room Style)
+   ========================================================================== */
+.riddle-header,
+.riddle-footer {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.riddle-header > *,
+.riddle-footer > * {
+  pointer-events: auto;
+}
+
+.riddle-header {
+  top: max(env(safe-area-inset-top, 0px), 18px);
+}
+
+.riddle-footer {
+  bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+  min-height: 44px;
+}
+
+.riddle-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(20, 14, 10, 0.72);
+  border: 1px solid rgba(201, 164, 92, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #f3e6cf;
+  text-decoration: none;
+  font-size: 14px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.riddle-desk[data-view="focus"] .riddle-brand-group {
+  background: rgba(252, 248, 237, 0.88);
+  color: #2b1f14;
+  border-color: rgba(110, 86, 56, 0.22);
+}
+
+.riddle-brand-emblem {
+  color: #d4af63;
+  font-size: 16px;
+}
+
+.riddle-brand-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 13px;
+}
+
+.riddle-brand-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(234, 219, 199, 0.28);
+}
+
+.riddle-brand-sub {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.8;
+}
+
+.riddle-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.riddle-back-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Controls Pill (Taubat + Potterhand Toolbar) */
+.riddle-controls-pill {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(250, 244, 232, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 4px 20px rgba(18, 11, 6, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #3a2d20;
+}
+
+.riddle-desk[data-view="dark"] .riddle-controls-pill {
+  background: rgba(24, 28, 25, 0.88);
+  border-color: rgba(201, 164, 92, 0.22);
+  color: #ded4c1;
+}
+
+.riddle-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  min-height: 32px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: 500 11.5px 'Plus Jakarta Sans', system-ui, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
+}
+
+.riddle-pill-btn:hover:not(:disabled) {
+  background: rgba(102, 84, 49, 0.12);
+}
+
+.riddle-pill-btn[aria-pressed="true"],
+.riddle-pill-btn.active {
+  background: #2b2117;
+  color: #fff8ea;
+}
+
+.riddle-desk[data-view="dark"] .riddle-pill-btn[aria-pressed="true"],
+.riddle-desk[data-view="dark"] .riddle-pill-btn.active {
+  background: #c9a45c;
+  color: #121412;
+}
+
+.riddle-pill-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Closed Diary Target Button (Overlays 3D Closed Book on Desk) */
+.riddle-open-target {
+  position: absolute;
+  z-index: 15;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+}
+
+.riddle-open-target:hover {
+  box-shadow: 0 0 0 2px rgba(212, 175, 102, 0.45), 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.riddle-open-target:focus-visible {
+  outline: 2px solid #d4af63;
+  outline-offset: 6px;
+}
+
+.riddle-entry-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 76px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(20, 14, 10, 0.78);
+  border: 1px solid rgba(212, 175, 102, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #f5e8d0;
+  cursor: pointer;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  animation: riddlePulseFloat 3s ease-in-out infinite;
+}
+
+@keyframes riddlePulseFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.riddle-entry-prompt-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #e8c77b;
+}
+
+.riddle-entry-prompt-sub {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  opacity: 0.86;
+}
+
+/* ==========================================================================
+   THE OPEN 3D BOOK STAGE & SPREAD (Taubat Quran Mushaf Book Architecture)
+   ========================================================================== */
+.riddle-reader-wrap {
+  position: relative;
+  z-index: 10;
+  opacity: var(--reader-reveal, 0);
+  pointer-events: none;
+  transition: opacity 0.38s ease;
+}
+
+.riddle-desk[data-phase="reading"] .riddle-reader-wrap {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.riddle-book-stage {
+  --ratio: 0.715;
+  --frame: clamp(10px, 1.4vw, 18px);
+  --pad: clamp(12px, 2.4vw, 36px);
+  --leaf-h: min(
+    78dvh,
+    calc(100dvh - 150px - 2 * var(--frame)),
+    860px,
+    calc((92dvw - 2 * var(--frame) - 8px) / 2 / var(--ratio))
+  );
+  --leaf-w: calc(var(--leaf-h) * var(--ratio));
+  --turn-duration: 640ms;
+
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--pad);
+  perspective: 2200px;
+}
+
+/* Outer Leather Book Board & Brass Corners */
+.riddle-book-body {
+  position: relative;
+  padding: var(--frame);
+  border-radius: calc(var(--frame) * 0.65 + 6px);
+  background: linear-gradient(145deg, #211f26 0%, #121116 55%, #0a090d 100%);
+  box-shadow:
+    0 2px 0 1px var(--riddle-board-edge),
+    0 34px 75px -12px rgba(6, 3, 1, 0.78),
+    0 12px 28px -6px rgba(6, 3, 1, 0.55),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 2px rgba(201, 164, 92, 0.22);
+  transform-style: preserve-3d;
+}
+
+/* Antique Brass Corner Protectors on Open Book Board */
+.riddle-brass-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(135deg, #e5c478 0%, #9e7b36 55%, #6b501d 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 243, 204, 0.45), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.riddle-brass-corner.tl {
+  top: -2px;
+  left: -2px;
+  border-top-left-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.riddle-brass-corner.tr {
+  top: -2px;
+  right: -2px;
+  border-top-right-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+.riddle-brass-corner.bl {
+  bottom: -2px;
+  left: -2px;
+  border-bottom-left-radius: 8px;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.riddle-brass-corner.br {
+  bottom: -2px;
+  right: -2px;
+  border-bottom-right-radius: 8px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* Center Gold Spine Tab Top & Bottom */
+.riddle-book-body::before,
+.riddle-book-body::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: calc(var(--frame) * 0.72);
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6e5525, #cfa95c 50%, #6e5525);
+  z-index: 2;
+}
+.riddle-book-body::before { top: 2px; }
+.riddle-book-body::after { bottom: 2px; }
+
+/* 2-Page Spread Container */
+.riddle-spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--leaf-w) 4px var(--leaf-w);
+  height: var(--leaf-h);
+  perspective: 2400px;
+  transform-style: preserve-3d;
+}
+
+/* Multi-layered 3D Page Stacks on Left & Right Edges */
+.riddle-stack-left,
+.riddle-stack-right {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 10px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.riddle-stack-left {
+  left: -9px;
+  border-radius: 3px 0 0 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    #d8cbb0 0px,
+    #f3ead6 1.5px,
+    #bfb093 3px
+  );
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.riddle-stack-right {
+  right: -9px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #bfb093 0px,
+    #f3ead6 1.5px,
+    #d8cbb0 3px
+  );
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+/* Individual Parchment Leaf (Left & Right Pages) */
+.riddle-leaf {
+  position: relative;
+  width: var(--leaf-w);
+  height: var(--leaf-h);
+  background-color: var(--riddle-leaf);
+  background-image:
+    radial-gradient(circle at 50% 45%, rgba(255, 252, 242, 0.45) 0%, rgba(196, 166, 120, 0.22) 78%, rgba(142, 108, 66, 0.38) 100%),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 31px, var(--riddle-rule) 31px, var(--riddle-rule) 32px);
+  color: var(--riddle-ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--leaf-h) * 0.045) calc(var(--leaf-w) * 0.072);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.riddle-leaf-left {
+  border-radius: 5px 2px 2px 5px;
+  box-shadow:
+    inset -28px 0 42px -18px var(--riddle-gutter-edge),
+    inset 0 0 32px rgba(132, 98, 54, 0.16);
+}
+
+.riddle-leaf-right {
+  border-radius: 2px 5px 5px 2px;
+  box-shadow:
+    inset 28px 0 42px -18px var(--riddle-gutter-edge),
+    inset 0 0 32px rgba(132, 98, 54, 0.16);
+}
+
+/* Center Book Spine Gutter */
+.riddle-gutter {
+  position: relative;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--riddle-gutter-edge),
+    var(--riddle-gutter-core) 50%,
+    var(--riddle-gutter-edge)
+  );
+  box-shadow: 0 0 18px 3px var(--riddle-gutter-cast);
+  z-index: 6;
+}
+
+/* Weathered Ink & Parchment Texture Mask (modern-web-guidance: visually-texture-content) */
+.riddle-weathered-ink {
+  --weathered-gradient:
+    radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.94) 100%),
+    repeating-radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.98) 0px, rgba(0, 0, 0, 0.84) 2px, rgba(0, 0, 0, 0.98) 4px);
+  -webkit-mask-image: var(--weathered-gradient);
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 180px 180px;
+  mask-image: var(--weathered-gradient);
+  mask-repeat: repeat;
+  mask-size: 180px 180px;
+}
+
+@supports (not (mask-image: linear-gradient(#000, #000))) and (not (-webkit-mask-image: linear-gradient(#000, #000))) {
+  .riddle-weathered-ink {
+    opacity: 0.92;
+  }
+}
+
+/* ==========================================================================
+   3D PAGE TURNER ANIMATION (Taubat Quran rotateY preserve-3d Choreography)
+   ========================================================================== */
+.riddle-turner {
+  position: absolute;
+  top: 0;
+  width: var(--leaf-w);
+  height: var(--leaf-h);
+  transform-style: preserve-3d;
+  pointer-events: none;
+  z-index: 16;
+  animation-duration: var(--turn-duration);
+  animation-timing-function: cubic-bezier(0.42, 0, 0.32, 1);
+  animation-fill-mode: forwards;
+}
+
+.riddle-turner-next {
+  left: calc(var(--leaf-w) + 4px);
+  transform-origin: -2px center;
+  animation-name: riddleLeafNext;
+}
+
+.riddle-turner-prev {
+  left: 0;
+  transform-origin: calc(100% + 2px) center;
+  animation-name: riddleLeafPrev;
+}
+
+.riddle-turner-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: var(--riddle-leaf);
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 252, 242, 0.5), rgba(175, 140, 92, 0.35));
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.36);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.riddle-turner-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes riddleLeafNext {
+  0% { transform: rotateY(0deg); }
+  45% { transform: rotateY(-85deg) translateZ(8px); }
+  100% { transform: rotateY(-180deg); }
+}
+
+@keyframes riddleLeafPrev {
+  0% { transform: rotateY(0deg); }
+  45% { transform: rotateY(85deg) translateZ(8px); }
+  100% { transform: rotateY(180deg); }
+}
+
+/* ==========================================================================
+   PAGE CHROME, CHRONICLE (LEFT PAGE) & INTERACTIVE CANVAS (RIGHT PAGE)
+   ========================================================================== */
+.riddle-leaf-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--riddle-rule);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--riddle-ink-soft);
+  flex: none;
+}
+
+.riddle-leaf-content {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-block: 10px;
+}
+
+.riddle-leaf-foot {
+  flex: none;
+  padding-top: 8px;
+  border-top: 1px solid var(--riddle-rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 12px;
+  color: var(--riddle-ink-muted);
+}
+
+.riddle-page-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.riddle-page-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  padding: 0;
+  border: 0;
+  background: var(--riddle-ink-muted);
+  opacity: 0.35;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.riddle-page-dot.active {
+  opacity: 0.95;
+  transform: scale(1.35);
+  background: var(--riddle-ink);
+}
+
+/* Left Page: Tom Riddle's Chronicle & Quick Enchanted Prompts */
+.riddle-epigraph {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(12.5px, 1.15vw, 15px);
+  line-height: 1.5;
+  color: var(--riddle-ink-soft);
+  margin: 4px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--riddle-rule);
+}
+
+.riddle-chronicle-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(110, 86, 56, 0.25) transparent;
+}
+
+.riddle-memory-entry {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(138, 108, 66, 0.06);
+  border-left: 2px solid rgba(138, 108, 66, 0.32);
+  animation: riddleInkAppear 0.55s ease both;
+}
+
+.riddle-memory-you {
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--riddle-ink-soft);
+  opacity: 0.82;
+  margin-bottom: 3px;
+}
+
+.riddle-memory-tom {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.42;
+  color: var(--riddle-ink);
+}
+
+.riddle-prompts-box {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.riddle-prompts-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--riddle-ink-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.riddle-prompt-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.riddle-prompt-chip {
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(110, 86, 56, 0.2);
+  background: rgba(255, 251, 242, 0.45);
+  color: var(--riddle-ink);
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+}
+
+.riddle-desk[data-view="dark"] .riddle-prompt-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(201, 164, 92, 0.18);
+}
+
+.riddle-prompt-chip:hover:not(:disabled) {
+  background: rgba(196, 161, 92, 0.18);
+  border-color: rgba(196, 161, 92, 0.45);
+  transform: translateX(3px);
+}
+
+.riddle-prompt-chip:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Right Page: Potterhand Interactive Enchanted Parchment Canvas */
+.riddle-canvas-stage {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border-radius: 4px;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.riddle-drawing-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* Tom Riddle's Conjured Handwriting Layer */
+.riddle-conjured-overlay {
+  position: absolute;
+  inset: 14px 10px;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 4;
+}
+
+.riddle-transcribed-ghost {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(19px, 1.8vw, 24px);
+  color: var(--riddle-ink-soft);
+  opacity: 0.55;
+  margin-bottom: 12px;
+  line-height: 1.25;
+  transition: opacity 0.8s ease;
+}
+
+.riddle-tom-handwriting {
+  font-family: 'Caveat', 'IM Fell English', Georgia, cursive;
+  font-weight: 600;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.32;
+  color: var(--riddle-ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-shadow: 0 0 1px rgba(38, 26, 16, 0.28);
+}
+
+/* Animated 3D-Style Feather Quill Follower (Sketchfab tom-riddle-diary-animated!) */
+.riddle-quill-follower {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 220px;
+  pointer-events: none;
+  z-index: 25;
+  transform-origin: 12px 208px;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+/* Optional Keyboard Input Bar at Bottom of Right Page */
+.riddle-keyboard-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  background: rgba(110, 86, 56, 0.08);
+  border: 1px solid rgba(110, 86, 56, 0.22);
+  z-index: 8;
+}
+
+.riddle-keyboard-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--riddle-ink);
+  font-family: 'Caveat', Georgia, cursive;
+  font-size: 19px;
+  outline: none;
+}
+
+.riddle-keyboard-input::placeholder {
+  color: var(--riddle-ink-muted);
+  opacity: 0.75;
+}
+
+.riddle-keyboard-send {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--riddle-ink);
+  color: var(--riddle-leaf);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+/* Potterhand Translucent Parchment Hint Card at Bottom Center */
+.riddle-potterhand-banner {
+  position: absolute;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 64px);
+  transform: translateX(-50%);
+  width: min(90vw, 440px);
+  box-sizing: border-box;
+  text-align: center;
+  pointer-events: none;
+  z-index: 22;
+  font-family: Georgia, 'IM Fell English', serif;
+  font-style: italic;
+  color: #5b4c36;
+  background: rgba(250, 246, 236, 0.86);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(138, 123, 95, 0.24);
+  border-radius: 14px;
+  padding: 9px 15px;
+  box-shadow: 0 6px 22px rgba(28, 18, 10, 0.18);
+}
+
+.riddle-desk[data-view="dark"] .riddle-potterhand-banner {
+  background: rgba(24, 28, 25, 0.88);
+  color: #c9bfa8;
+  border-color: rgba(201, 164, 92, 0.22);
+}
+
+/* Page Turn Edge Buttons */
+.riddle-turn-btn {
+  border: 0;
+  background: transparent;
+  color: var(--riddle-ink-soft);
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.riddle-turn-btn:hover:not(:disabled) {
+  background: rgba(110, 86, 56, 0.12);
+  color: var(--riddle-ink);
+}
+
+.riddle-turn-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Sketchfab 3D Reference Modal */
+.riddle-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(8, 6, 4, 0.72);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.riddle-modal-card {
+  width: min(92vw, 760px);
+  border-radius: 20px;
+  background: #181410;
+  border: 1px solid rgba(201, 164, 92, 0.35);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+  color: #f3e6cf;
+}
+
+.riddle-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(201, 164, 92, 0.18);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 13px;
+}
+
+@keyframes riddleInkAppear {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Single-Page Layout on Mobile / Tablet Portrait */
+@media (max-width: 860px) {
+  .riddle-book-stage {
+    --leaf-h: min(74dvh, calc(100dvh - 165px));
+    --leaf-w: min(88dvw, calc(var(--leaf-h) * 0.74));
+  }
+
+  .riddle-spread {
+    grid-template-columns: var(--leaf-w);
+  }
+
+  .riddle-leaf-left,
+  .riddle-gutter,
+  .riddle-stack-left {
+    display: none;
+  }
+
+  .riddle-leaf-right {
+    border-radius: 5px;
+  }
+
+  .riddle-brand-sub,
+  .riddle-brand-divider {
+    display: none;
+  }
+
+  .riddle-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .riddle-potterhand-banner {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 58px);
+    padding: 7px 12px;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import SplashCursor from './components/SplashCursor';
 import TechText from './components/TechText';
@@ -13,16 +13,30 @@ import { getArticleBySlug } from './data/articles';
 import { getCaseStudyById } from './data/caseStudies';
 import './index.css';
 
+const TomRiddleDiary = lazy(() => import('./components/TomRiddleDiary'));
+
 // --- Assets & Media ---
 const PROFILE_PIC = '/profile.png';
 const ONE_PIECE_LOGO = '/assets/one_piece_logo.svg';
 
+const IMG_RIDDLE = '/assets/thumb_riddle.png';
 const IMG_IMAGIFY = '/assets/thumb_imagify.png';
 const IMG_CLAY = '/assets/thumb_clay.png';
 const IMG_PACKMOCKUP = '/assets/thumb_packmockup.png';
 const IMG_LUMUTIJO = '/assets/thumb_lumutijo.png';
 
 const PROJECTS = [
+  {
+    id: 'marfoloriddle',
+    title: "Tom Riddle's Enchanted Diary",
+    category: 'Interactive 3D & AI',
+    tag: '3D Enchanted Book',
+    description: 'Interactive 3D Hogwarts diary and feather quill where handwritten ink seeps into aged parchment and Tom Marvolo Riddle writes back from 1943.',
+    image: IMG_RIDDLE,
+    link: 'https://marfoloriddle.niskenadi.com',
+    span: 'bento-col-7',
+    tech: ['Three.js', 'Handwriting OCR', 'LLM Conjuration']
+  },
   {
     id: 'imagify',
     title: 'Imagify Tools',
@@ -31,7 +45,7 @@ const PROJECTS = [
     description: 'Client-side image manipulation and format optimization built for instant workflows.',
     image: IMG_IMAGIFY,
     link: 'https://imagify-tools.vercel.app/',
-    span: 'bento-col-7',
+    span: 'bento-col-5',
     tech: ['Next.js', 'Canvas API', 'UI System']
   },
   {
@@ -42,7 +56,7 @@ const PROJECTS = [
     description: 'A study in tactile dimensional design, featuring soft shadows and playful depth.',
     image: IMG_CLAY,
     link: 'https://claymorphisme.vercel.app/',
-    span: 'bento-col-5',
+    span: 'bento-col-4',
     tech: ['Figma Tokens', 'CSS 3D', 'Micro-interactions']
   },
   {
@@ -53,7 +67,7 @@ const PROJECTS = [
     description: 'In-browser 3D box visualizer enabling real-time packaging texture application.',
     image: IMG_PACKMOCKUP,
     link: 'https://packmockup.vercel.app/',
-    span: 'bento-col-6',
+    span: 'bento-col-4',
     tech: ['Three.js', 'React', 'Product Design']
   },
   {
@@ -64,7 +78,7 @@ const PROJECTS = [
     description: 'A serene nature-centric portal dedicated to ecosystem restoration initiatives.',
     image: IMG_LUMUTIJO,
     link: 'https://lumutijo.vercel.app/',
-    span: 'bento-col-6',
+    span: 'bento-col-4',
     tech: ['Visual Storytelling', 'Accessibility', 'Interaction']
   }
 ];
@@ -106,11 +120,30 @@ export default function App() {
   // Sync route with URL path / hash / query
   useEffect(() => {
     const handleLocationChange = () => {
+      const host = window.location.hostname.toLowerCase();
       const path = window.location.pathname;
       const hash = window.location.hash;
       const params = new URLSearchParams(window.location.search);
       const articleParam = params.get('article');
       const caseStudyParam = params.get('case-study') || params.get('casestudy');
+
+      // 0. Subdomain or Dedicated Route for Tom Marvolo Riddle's Enchanted 3D Diary
+      // Matches marfoloriddle.niskenadi.com, /marfoloriddle, /riddle, #marfoloriddle
+      if (
+        host.startsWith('marfoloriddle.') ||
+        host.includes('marfoloriddle') ||
+        path.startsWith('/marfoloriddle') ||
+        path.startsWith('/riddle') ||
+        hash === '#marfoloriddle' ||
+        hash === '#/marfoloriddle' ||
+        params.get('app') === 'marfoloriddle'
+      ) {
+        setCurrentView('riddle-diary');
+        setActiveArticle(null);
+        setActiveCaseStudy(null);
+        document.title = "Tom Riddle's Diary ✦ Enchanted 3D Book";
+        return;
+      }
 
       // 1. Case Study Routes: /case-studies/:id or #case-studies/:id or #/case-studies/:id
       if (path.startsWith('/case-studies/') || hash.startsWith('#/case-studies/') || hash.startsWith('#case-studies/')) {
@@ -256,13 +289,47 @@ export default function App() {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        setModalOpen(false);
         setMobileMenuOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  if (currentView === 'riddle-diary') {
+    const isSubdomain = window.location.hostname.toLowerCase().includes('marfoloriddle');
+    return (
+      <Suspense
+        fallback={
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: '#1a110b',
+              color: '#e8c77b',
+              display: 'grid',
+              placeItems: 'center',
+              fontFamily: 'Cinzel, Georgia, serif',
+              letterSpacing: '0.1em'
+            }}
+          >
+            ✦ CONJURING T. M. RIDDLE’S DIARY… ✦
+          </div>
+        }
+      >
+        <TomRiddleDiary
+          onBackToPortfolio={
+            isSubdomain
+              ? null
+              : () => {
+                  document.title = 'Niskenadi Trisna Bayu | UI/UX Designer';
+                  navigateToHome('#bounties');
+                }
+          }
+        />
+      </Suspense>
+    );
+  }
 
   return (
     <>
@@ -564,7 +631,7 @@ export default function App() {
                 <span className="section-tag">02 / Digital Bounties</span>
                 <h2>Crafted Experiments & Live Tools</h2>
               </div>
-              <span className="section-meta-sub">4 Live Web Applications & Systems</span>
+              <span className="section-meta-sub">5 Live Web Applications & Systems</span>
             </div>
 
             <motion.div 
