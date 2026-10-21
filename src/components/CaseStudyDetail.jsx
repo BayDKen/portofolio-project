@@ -3,10 +3,21 @@ import { getCaseStudyById, CASE_STUDIES } from '../data/caseStudies';
 
 export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }) {
   const [copied, setCopied] = useState(false);
+  const [activeLightboxImg, setActiveLightboxImg] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [caseStudy?.id]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && activeLightboxImg) {
+        setActiveLightboxImg(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeLightboxImg]);
 
   if (!caseStudy) return null;
 
@@ -208,9 +219,65 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
         </div>
       </section>
 
-      {/* 8. Deliverables & Technical Execution */}
+      {/* 8. System Artifacts & Visual Gallery (White Mode, Hokage Roster, 3D Tap Sensor) */}
+      {caseStudy.gallery && caseStudy.gallery.length > 0 && (
+        <section className="case-study-section">
+          <div className="section-subtitle-tag">05 / ARTIFACTS & VISUAL GALLERY</div>
+          <h2 className="section-heading-h2">Lampiran Antarmuka & Modul 3D</h2>
+          <p className="section-lead-p">
+            Dokumentasi visual implementasi nyata sistem: mulai dari bilik mandiri White Mode, sensor RFID 3D, profil kandidat ketua (Hokage Edition), hingga live TV scoreboard.
+          </p>
+
+          <div className="case-study-gallery-stack">
+            {caseStudy.gallery.map((group, gIdx) => (
+              <div key={gIdx} className="gallery-group-block">
+                <div className="gallery-group-header">
+                  <span className="gallery-cat-pill">{group.category}</span>
+                  <h3 className="gallery-group-title">{group.title}</h3>
+                  <p className="gallery-group-desc">{group.desc}</p>
+                </div>
+
+                <div className={`gallery-items-grid ${group.items.length === 3 ? 'grid-3-cols' : group.items.length === 4 ? 'grid-4-cols' : 'grid-2-cols'}`}>
+                  {group.items.map((item, itemIdx) => (
+                    <div 
+                      key={itemIdx} 
+                      className="gallery-item-card"
+                      onClick={() => setActiveLightboxImg(item)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter') setActiveLightboxImg(item); }}
+                      aria-label={`Lihat ${item.title}`}
+                    >
+                      <div className="gallery-img-wrap">
+                        <img 
+                          src={item.src} 
+                          alt={item.title} 
+                          className="gallery-thumb-img" 
+                          loading="lazy" 
+                        />
+                        <div className="gallery-zoom-overlay">
+                          <span className="gallery-zoom-pill">Perbesar ↗</span>
+                        </div>
+                      </div>
+                      <div className="gallery-item-info">
+                        <div className="gallery-item-tag-row">
+                          <span className="gallery-item-tag">{item.tag}</span>
+                        </div>
+                        <h4 className="gallery-item-title">{item.title}</h4>
+                        <p className="gallery-item-caption">{item.caption}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 9. Deliverables & Technical Execution */}
       <section className="case-study-section">
-        <div className="section-subtitle-tag">05 / CRAFT & EXECUTION</div>
+        <div className="section-subtitle-tag">{caseStudy.gallery ? '06' : '05'} / CRAFT & EXECUTION</div>
         <h2 className="section-heading-h2">Deliverables & System Hand-off</h2>
         
         <div className="deliverables-box">
@@ -229,7 +296,7 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
         </div>
       </section>
 
-      {/* 9. Next Project Companion Card */}
+      {/* 10. Next Project Companion Card */}
       {nextProject && (
         <section className="case-study-next-section">
           <div className="next-project-banner">
@@ -249,7 +316,7 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
         </section>
       )}
 
-      {/* 10. Bottom Navigation Bar */}
+      {/* 11. Bottom Navigation Bar */}
       <div className="case-study-bottom-nav">
         <button 
           type="button" 
@@ -269,6 +336,39 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
           </a>
         )}
       </div>
+
+      {/* Interactive Lightbox Modal */}
+      {activeLightboxImg && (
+        <div 
+          className="case-study-lightbox"
+          onClick={() => setActiveLightboxImg(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              type="button" 
+              className="lightbox-close-btn" 
+              onClick={() => setActiveLightboxImg(null)}
+              aria-label="Tutup pratinjau"
+            >
+              ✕
+            </button>
+            <div className="lightbox-img-stage">
+              <img 
+                src={activeLightboxImg.src} 
+                alt={activeLightboxImg.title} 
+                className="lightbox-img" 
+              />
+            </div>
+            <div className="lightbox-meta">
+              <span className="lightbox-tag">{activeLightboxImg.tag}</span>
+              <h3 className="lightbox-title">{activeLightboxImg.title}</h3>
+              <p className="lightbox-caption">{activeLightboxImg.caption}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   );
 }

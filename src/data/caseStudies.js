@@ -318,6 +318,83 @@ export const CASE_STUDIES = [
       }
     ],
     impact: 'Successfully deployed in enterprise cooperative elections, conducting rapid, tamper-evident voting with 100% data integrity, sub-3-second voter throughput, and seamless dual-station live synchronization.',
+    gallery: [
+      {
+        category: 'Bilik Kiosk & Sensor 3D',
+        title: 'Bilik Kiosk Mandiri (White Mode & 3D Sensor Tap)',
+        desc: 'Antarmuka bilik mandiri dalam White Mode dengan visualisasi kartu 3D melayang di atas sensor RFID USB-HID.',
+        items: [
+          {
+            title: 'Bilik Kiosk Mandiri (White Mode)',
+            caption: 'Tampilan standby bilik suara mandiri saat pemilih siap mendekatkan kartu RFID karyawan ke sensor reader. Dilengkapi jam sinkronisasi dan indikator status hardware.',
+            src: '/assets/evoting/kiosk_white_mode.png',
+            tag: 'White Mode Kiosk'
+          },
+          {
+            title: 'Simulasi Kartu Melayang 3D (Dark Mode)',
+            caption: 'Animasi visual 3D ID Card di atas sensor lingkaran pemindai kartu dengan status konektivitas perangkat keras USB-HID.',
+            src: '/assets/evoting/rfid_tap_3d_dark.png',
+            tag: '3D Tap Sensor'
+          }
+        ]
+      },
+      {
+        category: 'Kandidat Pemilihan (Hokage Edition)',
+        title: 'Kandidat Calon Ketua Koperasi',
+        desc: 'Profil kandidat edisi Hokage yang digunakan dalam demonstrasi dan simulasi pemilu koperasi karyawan.',
+        items: [
+          {
+            title: '01 • Hashirama Senju',
+            caption: 'Divisi: Operasional & Pengembangan. Visi: Membangun Koperasi yang kokoh dan mengayomi seluruh anggota layaknya pohon besar pelindung.',
+            src: '/assets/evoting/ketua_hashirama.jpg',
+            tag: 'Calon Ketua 01'
+          },
+          {
+            title: '02 • Tobirama Senju (Ketua Terpilih)',
+            caption: 'Divisi: Regulasi & Sistem Informasi. Visi: Menegakkan kedisiplinan finansial, tata kelola modern, dan otomatisasi digital.',
+            src: '/assets/evoting/ketua_tobirama.jpg',
+            tag: 'Ketua Terpilih #1'
+          },
+          {
+            title: '03 • Minato Namikaze',
+            caption: 'Divisi: Inovasi & Transformasi Teknologi. Visi: Kecepatan pelayanan anggota koperasi dengan ekosistem digital real-time.',
+            src: '/assets/evoting/ketua_minato.jpg',
+            tag: 'Calon Ketua 03'
+          }
+        ]
+      },
+      {
+        category: 'Scoreboard & Seremoni',
+        title: 'Live TV Scoreboard & Panggung Pengumuman',
+        desc: 'Penayangan hasil perolehan suara secara langsung di layar panggung aula dan seremoni pengumuman pemenang.',
+        items: [
+          {
+            title: 'Podium 3D Perolehan Suara',
+            caption: 'Klasemen 3D interaktif yang menyajikan perolehan suara kandidat secara real-time tanpa reload halaman.',
+            src: '/assets/evoting/scoreboard_podium_3d.png',
+            tag: 'Live 3D Standings'
+          },
+          {
+            title: 'Dashboard Partisipasi & Beban Kiosk',
+            caption: 'Monitoring lalu lintas pemilih di Kiosk Tablet TPS-01 dan TPS-02 beserta meter persentase kehadiran pemilih secara live stream.',
+            src: '/assets/evoting/live_turnout_dashboard.png',
+            tag: 'Turnout Analytics'
+          },
+          {
+            title: 'Panggung Pengumuman & Selebrasi Pemenang',
+            caption: 'Antarmuka seremoni buka amplop virtual (3-2-1) lengkap dengan selebrasi fanfare untuk ketua terpilih.',
+            src: '/assets/evoting/ceremony_winner.png',
+            tag: 'Seremoni Pemenang'
+          },
+          {
+            title: 'Segel Konfirmasi Suara (SHA-256)',
+            caption: 'Pemberitahuan suara berhasil disimpan dengan hitung mundur otomatis 3 detik untuk pemilih berikutnya.',
+            src: '/assets/evoting/ballot_success_seal.png',
+            tag: 'Konfirmasi Suara'
+          }
+        ]
+      }
+    ],
     nextProjectId: 'hrkita'
   }
 ];

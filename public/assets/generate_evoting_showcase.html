@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>UBS E-Voting Showcase Graphic</title>
+  <title>UBS E-Voting Showcase Graphic - White Mode & Hokage Roster</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -16,7 +16,7 @@
     body {
       width: 2560px;
       height: 1440px;
-      background: #070A11;
+      background: #080C14;
       font-family: 'Inter', -apple-system, sans-serif;
       overflow: hidden;
       position: relative;
@@ -24,14 +24,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient cyber-luxury glow backdrop matching HRKita & Seradia aesthetic */
+    /* Ambient cyber-luxury glow backdrop */
     .bg-gradient {
       position: absolute;
       inset: 0;
       background: 
-        radial-gradient(circle at 35% 35%, rgba(6, 182, 212, 0.16) 0%, rgba(14, 116, 144, 0.05) 35%, transparent 60%),
-        radial-gradient(circle at 75% 45%, rgba(245, 158, 11, 0.14) 0%, rgba(180, 83, 9, 0.04) 35%, transparent 55%),
-        radial-gradient(circle at 50% 50%, #0F172A 0%, #06080E 100%);
+        radial-gradient(circle at 25% 35%, rgba(14, 165, 233, 0.22) 0%, transparent 55%),
+        radial-gradient(circle at 82% 45%, rgba(245, 158, 11, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 50% 60%, rgba(30, 41, 59, 0.75) 0%, #06080E 100%);
       z-index: 0;
     }
 
@@ -39,28 +39,28 @@
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 56px 56px;
-      opacity: 0.8;
+      opacity: 0.7;
       z-index: 1;
     }
 
     /* Top Branding Pill Badge */
     .top-badge {
       position: absolute;
-      top: 60px;
-      left: 120px;
-      height: 110px;
+      top: 50px;
+      left: 80px;
+      height: 104px;
       width: 900px;
       background: rgba(15, 23, 42, 0.95);
       border: 1.5px solid rgba(255, 255, 255, 0.14);
-      border-radius: 55px;
-      padding: 12px 24px 12px 20px;
+      border-radius: 52px;
+      padding: 12px 28px 12px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(6, 182, 212, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(14, 165, 233, 0.15);
       z-index: 10;
       backdrop-filter: blur(20px);
     }
@@ -75,12 +75,12 @@
       width: 68px;
       height: 68px;
       border-radius: 50%;
-      background: radial-gradient(circle, #0891B2 0%, #0369A1 100%);
+      background: radial-gradient(circle, #0284C7 0%, #0369A1 100%);
       border: 2px solid rgba(56, 189, 248, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.35);
       font-size: 28px;
     }
 
@@ -99,620 +99,370 @@
       line-height: 1.1;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
 
-    .badge-brand-name span.chip {
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: #FBBF24;
+    .badge-brand-name span.highlight {
+      color: #38BDF8;
+    }
+
+    .badge-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #94A3B8;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-right-tag {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38BDF8;
+      font-family: 'Space Mono', monospace;
       font-size: 13px;
-      padding: 3px 10px;
+      font-weight: 700;
+      padding: 9px 20px;
+      border-radius: 30px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38BDF8;
+      box-shadow: 0 0 10px #38BDF8;
+    }
+
+    /* Main Showcase Canvas Layout */
+    .showcase-layout {
+      position: absolute;
+      top: 180px;
+      left: 80px;
+      right: 80px;
+      bottom: 50px;
+      display: grid;
+      grid-template-columns: 1480px 1fr;
+      gap: 40px;
+      z-index: 5;
+      align-items: center;
+    }
+
+    /* Left Stage: Real White Mode Kiosk Window */
+    .left-stage {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .browser-window {
+      background: #FFFFFF;
+      border-radius: 26px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        0 40px 90px -15px rgba(0, 0, 0, 0.9),
+        0 0 60px rgba(14, 165, 233, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 1120px;
+    }
+
+    .browser-titlebar {
+      height: 56px;
+      background: #F1F5F9;
+      border-bottom: 1.5px solid #E2E8F0;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .window-dots {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #FF5F56; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #27C93F; }
+
+    .window-address-bar {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 12px;
+      padding: 6px 26px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .address-icon {
+      color: #0284C7;
+      font-size: 13px;
+    }
+
+    .window-meta-pills {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill-mode {
+      background: #E0F2FE;
+      color: #0369A1;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 14px;
       border-radius: 12px;
       font-family: 'Space Mono', monospace;
       letter-spacing: 0.05em;
     }
 
-    .badge-brand-sub {
-      font-size: 14px;
-      color: #94A3B8;
-      font-weight: 500;
-    }
-
-    .badge-pill-tag {
+    .browser-viewport {
+      flex: 1;
       background: #FFFFFF;
-      color: #0F172A;
-      font-size: 16px;
-      font-weight: 800;
-      padding: 12px 24px;
-      border-radius: 30px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .badge-pill-tag::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10B981;
-    }
-
-    /* MAIN CONTAINER: TWO SHOWCASE DEVICES */
-    .showcase-stage {
-      position: absolute;
-      top: 200px;
-      left: 120px;
-      right: 120px;
-      bottom: 240px;
-      display: flex;
-      gap: 48px;
-      z-index: 5;
-    }
-
-    /* DEVICE 1: TABLET KIOSK BILIK SUARA (LEFT, 58%) */
-    .tablet-frame {
-      flex: 1.25;
-      background: #0B0F19;
-      border-radius: 36px;
-      border: 3.5px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 60px rgba(6, 182, 212, 0.15);
+      position: relative;
       overflow: hidden;
       display: flex;
-      flex-direction: column;
-      position: relative;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Tablet Bezel Camera Dot */
-    .tablet-bezel-top {
-      height: 48px;
-      background: #0F1420;
+    .real-program-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Right Side: Supplementary Artifacts Stack */
+    .right-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      height: 1120px;
+      justify-content: space-between;
+    }
+
+    /* Artifact Card 1: Hokage Candidates Roster */
+    .artifact-card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 24px 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .artifact-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px;
-      border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .artifact-label {
       font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: #94A3B8;
-    }
-
-    .camera-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #1E293B;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .tablet-status-pills {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .station-badge {
-      background: rgba(6, 182, 212, 0.15);
-      color: #38BDF8;
-      border: 1px solid rgba(6, 182, 212, 0.35);
-      padding: 4px 12px;
-      border-radius: 12px;
       font-size: 12px;
       font-weight: 700;
-    }
-
-    .rfid-status {
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F59E0B;
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #10B981;
-      font-weight: 600;
     }
 
-    .rfid-status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #10B981;
-      box-shadow: 0 0 8px #10B981;
-    }
-
-    /* Tablet Screen Content */
-    .tablet-screen {
-      flex: 1;
-      background: #07090E;
-      padding: 32px 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      position: relative;
-    }
-
-    .tablet-screen-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-
-    .step-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: #F59E0B;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .tablet-main-h2 {
-      font-size: 28px;
-      font-weight: 800;
-      color: #FFFFFF;
-      letter-spacing: -0.02em;
-      margin-top: 4px;
-    }
-
-    .session-timer {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #F87171;
-      font-family: 'Space Mono', monospace;
-      font-size: 14px;
+    .artifact-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 21px;
       font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
     }
 
-    /* Candidate Cards Grid (3 Candidates) */
-    .candidate-grid {
+    .candidates-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      flex: 1;
+      gap: 16px;
     }
 
-    .candidate-card {
-      background: #0E1422;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 20px;
+    .candidate-tile {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 14px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
+      gap: 10px;
       position: relative;
-      transition: all 0.3s ease;
     }
 
-    .candidate-card.active-selected {
-      border-color: #06B6D4;
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.12) 0%, rgba(14, 20, 34, 0.95) 100%);
-      box-shadow: 0 12px 35px rgba(6, 182, 212, 0.25);
-    }
-
-    .candidate-no-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #1E293B;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFFFFF;
-    }
-
-    .candidate-card.active-selected .candidate-no-badge {
-      background: #06B6D4;
-      border-color: #38BDF8;
-      color: #07090E;
+    .candidate-tile.winner {
+      border-color: #F59E0B;
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.18) 0%, rgba(30, 41, 59, 0.9) 100%);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.22);
     }
 
     .candidate-avatar {
-      width: 110px;
-      height: 110px;
+      width: 86px;
+      height: 86px;
       border-radius: 50%;
-      background: #1E293B;
-      border: 3px solid rgba(255, 255, 255, 0.15);
-      margin-top: 12px;
-      margin-bottom: 14px;
+      object-fit: cover;
+      border: 2.5px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+
+    .candidate-tile.winner .candidate-avatar {
+      border-color: #F59E0B;
+    }
+
+    .candidate-badge-num {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: #0284C7;
+      color: #FFFFFF;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 42px;
-      color: #94A3B8;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .candidate-card.active-selected .candidate-avatar {
-      border-color: #38BDF8;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
+    .candidate-tile.winner .candidate-badge-num {
+      background: #F59E0B;
+      color: #000000;
     }
 
     .candidate-name {
-      font-size: 20px;
-      font-weight: 700;
-      color: #FFFFFF;
-      margin-bottom: 4px;
-    }
-
-    .candidate-role {
-      font-size: 13px;
-      color: #94A3B8;
-      margin-bottom: 14px;
-    }
-
-    .candidate-vision {
-      font-size: 12.5px;
-      color: #CBD5E1;
-      line-height: 1.45;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 10px 14px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      width: 100%;
-    }
-
-    .vote-select-btn {
-      width: 100%;
-      padding: 12px 0;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 15px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-neutral {
-      background: rgba(255, 255, 255, 0.08);
-      color: #E2E8F0;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .btn-selected {
-      background: #06B6D4;
-      color: #07090E;
-      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.4);
-    }
-
-    /* Screen Bottom Footer */
-    .tablet-screen-footer {
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 16px;
-    }
-
-    .security-tag {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: #94A3B8;
-    }
-
-    .security-badge {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #34D399;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 11px;
-    }
-
-    .submit-final-btn {
-      background: linear-gradient(90deg, #06B6D4 0%, #3B82F6 100%);
-      color: #FFFFFF;
-      font-weight: 800;
-      font-size: 16px;
-      padding: 12px 32px;
-      border-radius: 14px;
-      border: none;
-      box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* DEVICE 2: MONITOR LIVE TV / 3D TURNOUT (RIGHT, 42%) */
-    .monitor-frame {
-      flex: 0.95;
-      background: #0F172A;
-      border-radius: 28px;
-      border: 2.5px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), 0 0 50px rgba(245, 158, 11, 0.12);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .monitor-bar {
-      height: 48px;
-      background: #172033;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .monitor-dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-    }
-
-    .dot-r { background: #EF4444; }
-    .dot-y { background: #F59E0B; }
-    .dot-g { background: #10B981; }
-
-    .monitor-title {
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: #CBD5E1;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .monitor-content {
-      flex: 1;
-      background: #0A0E18;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Top Stats Row */
-    .turnout-kpi-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .kpi-box {
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .kpi-box-lbl {
-      font-size: 12px;
-      color: #94A3B8;
-      font-family: 'Space Mono', monospace;
-      text-transform: uppercase;
-    }
-
-    .kpi-box-val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      color: #FFFFFF;
-      line-height: 1.1;
-    }
-
-    .val-cyan { color: #38BDF8; }
-    .val-amber { color: #FBBF24; }
-    .val-green { color: #34D399; }
-
-    /* Visual 3D Podium Chart Simulation */
-    .chart-podium-container {
-      flex: 1;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(9, 12, 20, 0.9) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 18px;
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chart-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #FFFFFF;
-    }
-
-    .chart-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      color: #10B981;
-      background: rgba(16, 185, 129, 0.1);
-      padding: 3px 10px;
-      border-radius: 10px;
-    }
-
-    /* Horizontal Bar Chart Bars */
-    .podium-bars-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin: 14px 0;
-    }
-
-    .podium-bar-item {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .bar-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13.5px;
-      font-weight: 600;
-    }
-
-    .bar-track {
-      height: 18px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 9px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .bar-fill {
-      height: 100%;
-      border-radius: 9px;
-    }
-
-    .fill-gold {
-      width: 58%;
-      background: linear-gradient(90deg, #F59E0B 0%, #FBBF24 100%);
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
-    }
-
-    .fill-cyan {
-      width: 27%;
-      background: linear-gradient(90deg, #06B6D4 0%, #38BDF8 100%);
-    }
-
-    .fill-gray {
-      width: 15%;
-      background: linear-gradient(90deg, #64748B 0%, #94A3B8 100%);
-    }
-
-    /* Doorprize & Hardware Banner */
-    .hardware-banner {
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .hardware-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .hardware-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-
-    .hardware-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .hardware-title {
       font-size: 14px;
       font-weight: 700;
       color: #FFFFFF;
+      line-height: 1.2;
     }
 
-    .hardware-sub {
+    .candidate-role {
       font-size: 12px;
       color: #94A3B8;
+      line-height: 1.2;
     }
 
-    .audit-chip {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 10px;
-    }
-
-    /* BOTTOM STATS STRIP (4 METRIC CARDS) */
-    .bottom-stats-bar {
-      position: absolute;
-      bottom: 50px;
-      left: 120px;
-      right: 120px;
-      height: 140px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      z-index: 10;
-    }
-
-    .metric-card-box {
-      background: rgba(15, 23, 42, 0.92);
+    /* Artifact Card 2: 3D Championship Podium & Live TV Scoreboard */
+    .preview-media-box {
+      width: 100%;
+      height: 260px;
+      border-radius: 16px;
+      overflow: hidden;
       border: 1.5px solid rgba(255, 255, 255, 0.12);
-      border-radius: 22px;
-      padding: 22px 28px;
+      position: relative;
+      background: #0B0F19;
+    }
+
+    .preview-media-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .media-overlay-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #38BDF8;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Artifact Card 3: 3D Tap Sensor Detail */
+    .tap-detail-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .tap-mini-img-box {
+      width: 160px;
+      height: 130px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1.5px solid rgba(245, 158, 11, 0.35);
+      background: #060912;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tap-mini-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .tap-detail-info {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(16px);
+      gap: 8px;
     }
 
-    .metric-card-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 32px;
-      font-weight: 800;
-      color: #06B6D4;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
-
-    .num-gold { color: #F59E0B; }
-    .num-green { color: #10B981; }
-    .num-sky { color: #38BDF8; }
-
-    .metric-card-title {
-      font-size: 15px;
+    .tap-detail-h4 {
+      font-size: 16px;
       font-weight: 700;
-      color: #FFFFFF;
+      color: #F59E0B;
     }
 
-    .metric-card-desc {
-      font-size: 12.5px;
+    .tap-detail-p {
+      font-size: 13px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+
+    .bottom-specs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Space Mono', monospace;
+      font-size: 11.5px;
       color: #94A3B8;
-      line-height: 1.35;
     }
   </style>
 </head>
@@ -726,207 +476,125 @@
       <div class="badge-icon-box">🗳️</div>
       <div class="badge-title-group">
         <div class="badge-brand-name">
-          <span>UBS E-Voting Platform</span>
-          <span class="chip">OFFLINE-READY KIOSK</span>
+          EVOTE<span class="highlight">UBS</span> PLATFORM
         </div>
-        <div class="badge-brand-sub">Sistem Pemilihan Elektronik Berbasis Kartu RFID & Bilik Suara Layar Sentuh</div>
+        <div class="badge-sub">Enterprise Cooperative E-Voting & Real-Time Sync Kiosk</div>
       </div>
     </div>
-    <div class="badge-pill-tag">
-      TPS-01 & TPS-02 Live Sync
+    <div class="badge-right-tag">
+      <span class="tag-pulse"></span>
+      <span>White Mode Kiosk • 3D Tap</span>
     </div>
   </div>
 
-  <!-- Main Stage: Tablet Kiosk (Left) & Live TV Dashboard (Right) -->
-  <div class="showcase-stage">
-    
-    <!-- LEFT: TABLET KIOSK BILIK SUARA -->
-    <div class="tablet-frame">
-      <div class="tablet-bezel-top">
-        <div class="camera-dot"></div>
-        <div class="tablet-status-pills">
-          <span class="station-badge">BILIK SUARA • TPS 01</span>
-          <span class="rfid-status">
-            <span class="rfid-status-dot"></span>
-            RFID READER READY
+  <!-- Showcase Layout -->
+  <div class="showcase-layout">
+    <!-- Left Stage: Actual White Mode Program Interface -->
+    <div class="left-stage">
+      <div class="browser-window">
+        <div class="browser-titlebar">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="window-address-bar">
+            <span class="address-icon">🔒</span>
+            <span>evoting-koperasi.local:8080/kiosk/tps-02 • Bilik Suara Mandiri</span>
+          </div>
+          <div class="window-meta-pills">
+            <span class="pill-mode">WHITE MODE ACTIVE</span>
+          </div>
+        </div>
+        <div class="browser-viewport">
+          <img 
+            src="evoting/kiosk_white_mode.png" 
+            alt="UBS E-Voting White Mode Kiosk Interface" 
+            class="real-program-img"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Stage: Supplementary Artifacts (Hokage Candidates & 3D Visuals) -->
+    <div class="right-stage">
+      <!-- 1. Hokage Candidates Roster -->
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-label">
+            <span>👑</span> Kandidat Calon Ketua
           </span>
+          <span style="font-family:'Space Mono', monospace; font-size:11px; color:#38BDF8;">HOKAGE ROSTER</span>
+        </div>
+        <div class="candidates-row">
+          <!-- 01: Hashirama -->
+          <div class="candidate-tile">
+            <span class="candidate-badge-num">01</span>
+            <img src="evoting/ketua_hashirama.jpg" alt="Hashirama Senju" class="candidate-avatar">
+            <span class="candidate-name">Hashirama S.</span>
+            <span class="candidate-role">Operasional</span>
+          </div>
+          <!-- 02: Tobirama (Winner) -->
+          <div class="candidate-tile winner">
+            <span class="candidate-badge-num">02</span>
+            <img src="evoting/ketua_tobirama.jpg" alt="Tobirama Senju" class="candidate-avatar">
+            <span class="candidate-name">Tobirama S.</span>
+            <span class="candidate-role">Ketua Terpilih</span>
+          </div>
+          <!-- 03: Minato -->
+          <div class="candidate-tile">
+            <span class="candidate-badge-num">03</span>
+            <img src="evoting/ketua_minato.jpg" alt="Minato Namikaze" class="candidate-avatar">
+            <span class="candidate-name">Minato N.</span>
+            <span class="candidate-role">Teknologi</span>
+          </div>
         </div>
       </div>
 
-      <div class="tablet-screen">
-        <div class="tablet-screen-header">
-          <div>
-            <div class="step-indicator">✦ TAHAP 1 DARI 2 • PEMILIHAN KETUA</div>
-            <h2 class="tablet-main-h2">Pilih Satu Calon Ketua Pilihan Anda</h2>
-          </div>
-          <div class="session-timer">
-            <span>⏱ Sesi Terkunci: 00:48</span>
-          </div>
+      <!-- 2. Live TV Scoreboard & 3D Podium -->
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-label">
+            <span>🏆</span> Live TV Scoreboard
+          </span>
+          <span style="font-family:'Space Mono', monospace; font-size:11px; color:#34D399;">3D PODIUM</span>
         </div>
-
-        <!-- 3 Candidate Cards -->
-        <div class="candidate-grid">
-          <!-- Candidate 01 -->
-          <div class="candidate-card active-selected">
-            <div class="candidate-no-badge">01</div>
-            <div class="candidate-avatar">👤</div>
-            <h3 class="candidate-name">Kandidat 01</h3>
-            <span class="candidate-role">Divisi Operasional & Manufaktur</span>
-            <p class="candidate-vision">"Mewujudkan tata kelola organisasi yang transparan, amanah, dan mengoptimalkan dividen anggota melalui digitalisasi."</p>
-            <button class="vote-select-btn btn-selected">
-              <span>✓ Pilihan Terpilih</span>
-            </button>
-          </div>
-
-          <!-- Candidate 02 -->
-          <div class="candidate-card">
-            <div class="candidate-no-badge">02</div>
-            <div class="candidate-avatar">👤</div>
-            <h3 class="candidate-name">Kandidat 02</h3>
-            <span class="candidate-role">Divisi Teknologi & Sistem Informasi</span>
-            <p class="candidate-vision">"Akselerasi layanan anggota berbasis mobile, efisiensi rantai pasok sembako, dan kesejahteraan terpadu."</p>
-            <button class="vote-select-btn btn-neutral">
-              <span>Pilih Kandidat Ini</span>
-            </button>
-          </div>
-
-          <!-- Candidate 03 -->
-          <div class="candidate-card">
-            <div class="candidate-no-badge">03</div>
-            <div class="candidate-avatar">👤</div>
-            <h3 class="candidate-name">Kandidat 03</h3>
-            <span class="candidate-role">Divisi Finansial & Akuntansi</span>
-            <p class="candidate-vision">"Penguatan permodalan anggota, transparansi audit berkala, dan perluasan program pinjaman lunak terpercaya."</p>
-            <button class="vote-select-btn btn-neutral">
-              <span>Pilih Kandidat Ini</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Tablet Footer -->
-        <div class="tablet-screen-footer">
-          <div class="security-tag">
-            <span class="security-badge">ANONYMOUS BALLOT</span>
-            <span>Enkripsi Kriptografis SHA-256 • Kerahasiaan Suara 100% Terjamin</span>
-          </div>
-          <button class="submit-final-btn">
-            <span>Lanjut ke Pemilihan Pengawas ➔</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT: LIVE TV SCOREBOARD & AUDIT MONITOR -->
-    <div class="monitor-frame">
-      <div class="monitor-bar">
-        <div class="monitor-dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-        </div>
-        <div class="monitor-title">
-          <span>LIVE TURNOUT SCOREBOARD (TV MONITOR)</span>
-        </div>
-        <div style="font-family: 'Space Mono', monospace; font-size: 12px; color: #34D399;">● LIVE 60FPS</div>
-      </div>
-
-      <div class="monitor-content">
-        <!-- Turnout KPI -->
-        <div class="turnout-kpi-row">
-          <div class="kpi-box">
-            <span class="kpi-box-lbl">Partisipasi DPT</span>
-            <span class="kpi-box-val val-cyan">84.6%</span>
-          </div>
-          <div class="kpi-box">
-            <span class="kpi-box-lbl">Suara Masuk</span>
-            <span class="kpi-box-val val-green">3,595</span>
-          </div>
-          <div class="kpi-box">
-            <span class="kpi-box-lbl">DPT Terdaftar</span>
-            <span class="kpi-box-val val-amber">4,250</span>
-          </div>
-        </div>
-
-        <!-- 3D Podium Bar Chart -->
-        <div class="chart-podium-container">
-          <div class="chart-header">
-            <span class="chart-title">Rekapitulasi Suara Sementara (Quick Count)</span>
-            <span class="chart-tag">Multi-TPS Synced</span>
-          </div>
-
-          <div class="podium-bars-stack">
-            <!-- Bar 01 -->
-            <div class="podium-bar-item">
-              <div class="bar-meta">
-                <span>01 — Kandidat 01 (Calon Ketua)</span>
-                <span style="color: #FBBF24;">58.4% (2,100 Suara)</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill fill-gold"></div>
-              </div>
-            </div>
-
-            <!-- Bar 02 -->
-            <div class="podium-bar-item">
-              <div class="bar-meta">
-                <span>02 — Kandidat 02 (Calon Ketua)</span>
-                <span style="color: #38BDF8;">26.6% (956 Suara)</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill fill-cyan"></div>
-              </div>
-            </div>
-
-            <!-- Bar 03 -->
-            <div class="podium-bar-item">
-              <div class="bar-meta">
-                <span>03 — Kandidat 03 (Calon Ketua)</span>
-                <span style="color: #94A3B8;">15.0% (539 Suara)</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill fill-gray"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Hardware & Audit Strip -->
-          <div class="hardware-banner">
-            <div class="hardware-info">
-              <div class="hardware-icon">🎰</div>
-              <div class="hardware-text">
-                <span class="hardware-title">3D Lottery Globe Doorprize Engine</span>
-                <span class="hardware-sub">Undian 3D Real-time untuk Peserta Hadir</span>
-              </div>
-            </div>
-            <span class="audit-chip">AUDIT PASSED ✓</span>
+        <div class="preview-media-box">
+          <img 
+            src="evoting/scoreboard_podium_3d.png" 
+            alt="3D Podium Standings TV Scoreboard" 
+            class="preview-media-img"
+          />
+          <div class="media-overlay-tag">
+            PODIUM SUARA KANDIDAT 3D
           </div>
         </div>
       </div>
-    </div>
 
-  </div>
-
-  <!-- Bottom 4 Core Metric Cards -->
-  <div class="bottom-stats-bar">
-    <div class="metric-card-box">
-      <div class="metric-card-num">100%</div>
-      <div class="metric-card-title">Offline-Ready Architecture</div>
-      <div class="metric-card-desc">Bebas risiko kendala internet; seluruh engine, database, dan 3D canvas berjalan lokal.</div>
-    </div>
-    <div class="metric-card-box">
-      <div class="metric-card-num num-gold">0 Error</div>
-      <div class="metric-card-title">Anti-Double Voting Protection</div>
-      <div class="metric-card-desc">Validasi RFID real-time lintas bilik TPS-01 & TPS-02 memastikan 1 orang 1 suara mutlak.</div>
-    </div>
-    <div class="metric-card-box">
-      <div class="metric-card-num num-green">SHA-256</div>
-      <div class="metric-card-title">Cryptographic Ballot Seal</div>
-      <div class="metric-card-desc">Pemisahan data pemilih & suara suara anonim terverifikasi audit trail bebas sengketa.</div>
-    </div>
-    <div class="metric-card-box">
-      <div class="metric-card-num num-sky">&lt; 45 Detik</div>
-      <div class="metric-card-title">Rata-rata Waktu Memilih</div>
-      <div class="metric-card-desc">Alur sentuh ramah pengguna gaptek mempercepat pemungutan suara ribuan karyawan.</div>
+      <!-- 3. 3D RFID Card Tap Sensor -->
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-label">
+            <span>💳</span> Hardware Integration
+          </span>
+          <span style="font-family:'Space Mono', monospace; font-size:11px; color:#F59E0B;">USB-HID TAP</span>
+        </div>
+        <div class="tap-detail-row">
+          <div class="tap-mini-img-box">
+            <img src="evoting/rfid_tap_3d_dark.png" alt="3D RFID Tap Sensor" class="tap-mini-img">
+          </div>
+          <div class="tap-detail-info">
+            <div class="tap-detail-h4">Interactive 3D Card Tap</div>
+            <p class="tap-detail-p">
+              Simulasi kartu 3D melayang di atas sensor RFID USB-HID dengan deteksi instan (&lt;3 detik) &amp; token 1x pakai.
+            </p>
+          </div>
+        </div>
+        <div class="bottom-specs-bar">
+          <span>DUAL-TPS SYNC: ACTIVE</span>
+          <span>SHA-256 SEALED</span>
+        </div>
+      </div>
     </div>
   </div>
 </body>
