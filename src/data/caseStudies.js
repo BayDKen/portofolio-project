@@ -2,6 +2,7 @@
  * Comprehensive Case Study Data for Flagship Log Pose Projects:
  * 1. HRKita (Enterprise Human Capital Information System & Payroll)
  * 2. Seradia (All-in-One Wedding Management Platform)
+ * 3. UBS E-Voting (Enterprise Cooperative E-Voting Platform & Real-Time Sync)
  */
 
 export const CASE_STUDIES = [
@@ -214,6 +215,109 @@ export const CASE_STUDIES = [
       }
     ],
     impact: 'Seradia is live in production at seradia.vercel.app, empowering modern couples and wedding organizers with a serene, stress-free planning workflow. It serves as both a high-functioning SaaS tool and a bespoke digital keepsake.',
+    nextProjectId: 'evoting'
+  },
+  {
+    id: 'evoting',
+    slug: 'evoting',
+    num: '03',
+    badge: 'Enterprise Platform',
+    title: 'UBS E-Voting Platform',
+    headline: 'High-Concurrency Enterprise Cooperative E-Voting System & Real-Time Tally Engine',
+    tagline: 'Empowering on-premise cooperative elections with instant RFID authentication, dual-TPS offline sync, and SHA-256 cryptographic audit trails.',
+    category: 'Enterprise Election & Hardware Integration',
+    role: 'Lead Product & System Architect / UI/UX',
+    timeline: '4 Months • On-Premise Production Deployment',
+    deliverables: [
+      'Touch-Optimized Kiosk Tap-to-Vote UX',
+      'Dual-TPS Real-Time Sync & Conflict Resolution',
+      'SHA-256 Cryptographic Ballot Seal Architecture',
+      'Live Television Scoreboard & 3D Doorprize Globe',
+      'Hardware Integration (USB-HID RFID Readers & Thermal Slips)'
+    ],
+    videoUrl: null,
+    posterUrl: '/assets/thumb_evoting.png',
+    liveUrl: null,
+    metrics: [
+      {
+        value: '99.99%',
+        label: 'System Uptime & Stability',
+        detail: 'Zero downtime or ballot loss during peak concurrent voting periods across all polling station kiosks.'
+      },
+      {
+        value: '< 3 Sec',
+        label: 'Rapid Voter Verification',
+        detail: 'Instant tap-and-verify workflow with USB-HID RFID badges, replacing slow manual paper roster lookups.'
+      },
+      {
+        value: '100%',
+        label: 'Cryptographic Auditability',
+        detail: 'Every single ballot sealed with SHA-256 cryptographic hash and indexed into an immutable local audit trail.'
+      },
+      {
+        value: '2 TPS',
+        label: 'Real-Time Bidirectional Sync',
+        detail: 'Dual polling stations synchronized continuously with zero single point of failure and automated offline recovery.'
+      }
+    ],
+    clientOverview: 'The UBS E-Voting Platform is an enterprise-grade cooperative election system engineered for on-premise execution with zero dependency on external public internet. Designed to handle high-turnout corporate elections transparently, securely, and with zero voter friction.',
+    theChallenge: {
+      summary: 'High voter concurrency, manual roster verification bottlenecks, and the critical need for zero-trust cryptographic transparency.',
+      points: [
+        {
+          title: 'Manual Roster Lookup Bottlenecks',
+          description: 'Traditional paper rosters caused voter queue congestion, human lookup errors, and potential duplicate voting vulnerabilities.'
+        },
+        {
+          title: 'On-Premise Network Unpredictability',
+          description: 'Relying on public cloud servers risked connection drops during critical voting windows, demanding a fully self-contained offline-first local network architecture.'
+        },
+        {
+          title: 'Electoral Integrity & Audit Transparency',
+          description: 'Ballot counting needed to be 100% tamper-evident, cryptographically verifiable, and presented live to participants without delay.'
+        }
+      ]
+    },
+    theSolution: {
+      summary: 'An offline-ready kiosk architecture pairing instant RFID authentication with real-time TPS replication and cryptographic ballot verification.',
+      points: [
+        {
+          title: 'Instant RFID Tap-to-Vote Experience',
+          description: 'Voters simply tap their corporate RFID badge on the kiosk reader. The system validates voting eligibility, unlocks the digital ballot, and securely consumes the one-time token immediately upon submission.'
+        },
+        {
+          title: 'Dual-TPS Offline Sync & Resilience',
+          description: 'Engineered an offline-first bidirectional replication protocol between Polling Stations (TPS-01 and TPS-02) that resolves conflicts and resumes syncing instantly if a cable or switch is disrupted.'
+        },
+        {
+          title: 'SHA-256 Tamper-Evident Ballot Sealing',
+          description: 'Each submitted vote is cryptographically sealed with a SHA-256 digital hash, generating an immutable audit ledger and live television scoreboard broadcasts.'
+        }
+      ]
+    },
+    modules: [
+      {
+        name: 'Kiosk Tap-to-Vote Terminal',
+        desc: 'Ergonomic touch-first voting interface with instant USB-HID RFID identification, candidate comparison sheets, and confirmation safeguards.',
+        tag: 'Voter Terminal'
+      },
+      {
+        name: 'Dual-TPS Synchronization Engine',
+        desc: 'High-availability bidirectional sync keeping multiple polling station databases synchronized in real time with local offline resilience.',
+        tag: 'Sync Protocol'
+      },
+      {
+        name: 'Cryptographic Ballot Guardian',
+        desc: 'SHA-256 digital ballot seals, immutable audit trail generation, and tamper-detection safeguards to guarantee electoral integrity.',
+        tag: 'Security & Audit'
+      },
+      {
+        name: 'Live TV Scoreboard & 3D Doorprize Globe',
+        desc: 'Dynamic real-time scoreboard for stage displays and an interactive 3D lottery sphere for post-election doorprize drawings.',
+        tag: 'Broadcast Experience'
+      }
+    ],
+    impact: 'Successfully deployed in enterprise cooperative elections, conducting rapid, tamper-evident voting with 100% data integrity, sub-3-second voter throughput, and seamless dual-station live synchronization.',
     nextProjectId: 'hrkita'
   }
 ];

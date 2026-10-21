@@ -4022,13 +4022,13 @@ section {
 }
 
 /* ==========================================================================
-   THE LOG POSE: STICKY VIDEO SCROLL SHOWCASE (Inspired by librani.org)
+   THE LOG POSE: STICKY STACKED SCROLL SHOWCASE (Inspired by librani.org)
    ========================================================================== */
 
 .logpose-scroll-track {
   position: relative;
   width: 100%;
-  min-height: 220vh;
+  min-height: 300vh;
   margin-top: 10px;
   margin-bottom: 80px;
 }
@@ -4070,7 +4070,7 @@ section {
   font-weight: 700;
   color: var(--text-main);
   line-height: 1.1;
-  margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .logpose-nav-pills {
@@ -4095,14 +4095,13 @@ section {
   padding: 6px 14px;
   color: var(--text-muted);
   font-size: 0.78rem;
+  font-family: var(--font-mono);
   font-weight: 500;
-  cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
   transition: all 0.2s ease;
-  scale: 1;
-  translate: 0 0;
 }
 
 .logpose-nav-pill-btn:hover {
@@ -4149,33 +4148,24 @@ section {
   overflow: hidden;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   will-change: transform;
   transition: box-shadow 0.3s ease;
   scale: 1;
   translate: 0 0;
+  background: #080B12;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.card-media-shell {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+.card-01 {
+  background: radial-gradient(circle at 15% 25%, rgba(52, 211, 153, 0.07) 0%, #080B12 60%);
 }
 
-.card-bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform 0.6s var(--ease-spring);
+.card-02 {
+  background: radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.07) 0%, #0E0C09 60%);
 }
 
-.logpose-card:hover .card-bg-img {
-  transform: scale(1.02);
+.card-03 {
+  background: radial-gradient(circle at 15% 25%, rgba(96, 165, 250, 0.07) 0%, #080C14 60%);
 }
 
 .card-dim-overlay {
@@ -4184,144 +4174,194 @@ section {
   background: #000000;
   pointer-events: none;
   transition: opacity 0.1s linear;
+  z-index: 10;
 }
 
-.card-gradient-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 10, 15, 0.72) 0%,
-    rgba(8, 10, 15, 0.05) 30%,
-    rgba(8, 10, 15, 0.6) 65%,
-    rgba(6, 8, 12, 0.95) 100%
-  );
-  pointer-events: none;
-}
-
-.scrim-gold {
-  background: linear-gradient(
-    180deg,
-    rgba(14, 11, 8, 0.72) 0%,
-    rgba(14, 11, 8, 0.05) 30%,
-    rgba(14, 11, 8, 0.6) 65%,
-    rgba(10, 8, 6, 0.95) 100%
-  );
-}
-
-/* Card Top Bar - Ultra Clean */
-.card-content-top {
+/* Side-by-Side Split: Picture Aside Description */
+.card-split-layout {
   position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 44% 56%;
+  padding: 36px 42px;
+  gap: 32px;
+  box-sizing: border-box;
+  align-items: center;
   z-index: 2;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
-.card-clean-tag {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #34D399;
-  background: rgba(14, 18, 26, 0.85);
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.tag-gold {
-  color: #E6CA65;
-  border-color: rgba(212, 175, 55, 0.4);
-}
-
-.dot-gold {
-  background-color: #D4AF37 !important;
-  box-shadow: 0 0 8px #D4AF37 !important;
-}
-
-.card-arrow-pill {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 6px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.card-arrow-pill.pill-gold {
-  border-color: rgba(212, 175, 55, 0.35);
-}
-
-.logpose-card:hover .card-arrow-pill {
-  background: #FFFFFF;
-  color: #07090E;
-  border-color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.logpose-card:hover .card-arrow-pill.pill-gold {
-  background: #F5DEB3;
-  color: #07090E;
-  border-color: #F5DEB3;
-}
-
-/* Card Bottom Content - Minimalist & Punchy */
-.card-content-bottom {
-  position: relative;
-  z-index: 2;
-  padding: 24px 36px 36px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.card-info-main {
+.card-col-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  max-width: 780px;
+  justify-content: space-between;
+  height: 100%;
+  min-width: 0;
+  padding-right: 12px;
+  box-sizing: border-box;
 }
 
-.card-title {
+.card-info-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-mission-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.card-mission-num {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.card-mission-divider {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.card-mission-tag {
+  letter-spacing: 0.06em;
+}
+
+.card-split-title {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-size: clamp(2rem, 2.5vw, 2.7rem);
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.15;
   letter-spacing: -0.025em;
-  margin: 0;
+  margin: 0 0 12px 0;
 }
 
-.card-description {
-  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
-  color: rgba(226, 232, 240, 0.88);
-  line-height: 1.5;
-  margin: 0;
+.card-split-desc {
+  font-size: clamp(0.95rem, 1.1vw, 1.06rem);
+  color: rgba(226, 232, 240, 0.85);
+  line-height: 1.55;
+  margin: 0 0 16px 0;
   font-weight: 400;
 }
 
-/* Case study detail showcase image */
-.case-study-showcase-img {
+.card-info-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  color: rgba(240, 243, 246, 0.85);
+  letter-spacing: 0.02em;
+}
+
+.feat-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.card-cta-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.card-split-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s var(--ease-spring);
+}
+
+.btn-arrow {
+  transition: transform 0.25s ease;
+  font-size: 0.95rem;
+}
+
+.logpose-card:hover .card-split-btn {
+  background: #FFFFFF;
+  color: #07090E;
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.logpose-card:hover .btn-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Picture Column: Framed Showcase Aside */
+.card-col-visual {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.card-visual-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: calc(100% - 6px);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #06080D;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-showcase-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.logpose-card:hover .card-showcase-thumb {
+  transform: scale(1.03);
+}
+
+.card-visual-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.8;
 }
 
 /* Scroll progress track */
@@ -4338,9 +4378,8 @@ section {
 
 .logpose-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #34D399 0%, #D4AF37 100%);
   border-radius: 2px;
-  transition: width 0.1s linear;
+  transition: width 0.1s linear, background 0.3s ease;
 }
 
 /* Responsive adjustments for Log Pose */
@@ -4350,19 +4389,28 @@ section {
   }
   .logpose-cards-arena {
     border-radius: 20px;
-    min-height: 440px;
+    min-height: 480px;
   }
-  .card-content-top {
-    padding: 16px 20px;
+  .card-split-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 16px;
+    padding: 22px 24px;
   }
-  .card-content-bottom {
-    padding: 16px 20px 24px;
+  .card-col-info {
+    padding-right: 0;
   }
-  .card-title {
-    font-size: 1.7rem;
+  .card-split-title {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
   }
-  .card-description {
-    font-size: 0.9rem;
+  .card-split-desc {
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+  }
+  .card-visual-frame {
+    height: 220px;
+    max-height: 220px;
   }
 }
 
@@ -4381,13 +4429,35 @@ section {
   .logpose-nav-pills {
     width: 100%;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 6px;
   }
-  .card-content-top {
-    padding: 14px 16px;
+  .logpose-cards-arena {
+    min-height: 440px;
+    max-height: calc(100vh - 165px);
+    border-radius: 20px;
   }
-  .card-content-bottom {
-    padding: 14px 16px 20px;
+  .card-split-layout {
+    padding: 16px 16px 18px;
+    gap: 12px;
+  }
+  .card-visual-frame {
+    height: 180px;
+    max-height: 180px;
+    border-radius: 14px;
+  }
+  .card-split-title {
+    font-size: 1.35rem;
+  }
+  .card-feature-pills {
+    gap: 6px;
+  }
+  .card-feature-pill {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+  }
+  .card-split-btn {
+    padding: 7px 14px;
+    font-size: 0.76rem;
   }
 }
 

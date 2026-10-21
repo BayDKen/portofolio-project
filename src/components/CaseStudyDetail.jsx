@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCaseStudyById } from '../data/caseStudies';
+import { getCaseStudyById, CASE_STUDIES } from '../data/caseStudies';
 
 export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }) {
   const [copied, setCopied] = useState(false);
@@ -10,6 +10,7 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
 
   if (!caseStudy) return null;
 
+  const totalMissions = CASE_STUDIES.length.toString().padStart(2, '0');
   const nextProject = caseStudy.nextProjectId 
     ? getCaseStudyById(caseStudy.nextProjectId)
     : null;
@@ -41,7 +42,7 @@ export default function CaseStudyDetail({ caseStudy, onBack, onSelectCaseStudy }
 
           <div className="case-study-topbar-meta">
             <span className="pill-badge">
-              Mission {caseStudy.num} / 02
+              Mission {caseStudy.num} / {totalMissions}
             </span>
             <span className="pill-badge">
               {caseStudy.category}
