@@ -25,7 +25,10 @@ export default function YoutubePage({ onBackToHome }) {
   }, []);
 
   const filteredVideos = YOUTUBE_VIDEOS.filter(video => {
-    const matchesCategory = selectedCategory === 'Semua' || video.category === selectedCategory;
+    const matchesCategory = 
+      selectedCategory === 'Semua' || 
+      video.category === selectedCategory ||
+      (Array.isArray(video.categories) && video.categories.includes(selectedCategory));
     const q = searchQuery.toLowerCase();
     const matchesSearch = 
       video.title.toLowerCase().includes(q) ||
@@ -69,7 +72,16 @@ export default function YoutubePage({ onBackToHome }) {
           <div className="channel-hero-content">
             <div className="channel-avatar-box">
               <div className="channel-avatar-circle">
-                <span className="channel-avatar-icon">▶</span>
+                <img 
+                  src={YOUTUBE_CHANNEL.avatar || YOUTUBE_CHANNEL.avatarFallback} 
+                  alt={YOUTUBE_CHANNEL.name}
+                  className="channel-avatar-img"
+                  onError={(e) => {
+                    if (e.currentTarget.src !== YOUTUBE_CHANNEL.avatarFallback) {
+                      e.currentTarget.src = YOUTUBE_CHANNEL.avatarFallback;
+                    }
+                  }}
+                />
               </div>
               <span className="live-status-dot" title="Channel Active" />
             </div>
@@ -80,6 +92,8 @@ export default function YoutubePage({ onBackToHome }) {
                   <span className="nav-brand-dot" /> YouTube Channel
                 </span>
                 <span className="pill-badge">{YOUTUBE_CHANNEL.badge}</span>
+                <span className="pill-badge font-mono">👥 {YOUTUBE_CHANNEL.subscribers}</span>
+                <span className="pill-badge font-mono">🎬 {YOUTUBE_CHANNEL.videoCount}</span>
                 <span className="pill-badge font-mono">ID: {YOUTUBE_CHANNEL.handle}</span>
               </div>
 
@@ -166,6 +180,16 @@ export default function YoutubePage({ onBackToHome }) {
                 <div className="spotlight-meta-row">
                   <span className="game-badge">{featuredVideo.game}</span>
                   <span className="date-badge font-mono">{featuredVideo.date}</span>
+                  {featuredVideo.duration && (
+                    <span className="font-mono text-muted" style={{ fontSize: '0.78rem' }}>
+                      ⏱ {featuredVideo.duration}
+                    </span>
+                  )}
+                  {featuredVideo.views && (
+                    <span className="font-mono text-muted" style={{ fontSize: '0.78rem' }}>
+                      👁 {featuredVideo.views}
+                    </span>
+                  )}
                 </div>
 
                 <h2 className="spotlight-title">{featuredVideo.title}</h2>
@@ -293,6 +317,11 @@ export default function YoutubePage({ onBackToHome }) {
                   <div className="yt-card-meta">
                     <span className="yt-cat-label">{video.category}</span>
                     <span className="font-mono text-muted" style={{ fontSize: '0.75rem' }}>{video.date}</span>
+                    {video.views && (
+                      <span className="font-mono text-muted" style={{ fontSize: '0.72rem', marginLeft: 'auto' }}>
+                        {video.views}
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="yt-card-title" title={video.title}>
